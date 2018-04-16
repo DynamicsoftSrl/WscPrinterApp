@@ -6,7 +6,7 @@
   </ion-navbar>
 </ion-header>
 <ion-content padding id="page1">
-  <form id="wscPrinterApp-form2">
+  <form [formGroup]="loginFormGroup" (ngSubmit)="onLogin()">
     <h1 id="wscPrinterApp-heading1" style="color:#000000;">
       Login
     </h1>
@@ -15,22 +15,53 @@
       <ion-label floating>
         Username
       </ion-label>
-      <ion-input type="text" placeholder=""></ion-input>
+      <ion-input type="text" name="Username" [(ngModel)]="model.Username" formControlName="Username"></ion-input>
     </ion-item>
+    <!-- validation of username input field -->
+    <ng-container *ngIf="username.invalid && (username.dirty || username.touched)">
+      <ion-card>
+        <ion-card-content>
+          <div *ngIf="username.errors.required" text-center margin-top class="color-red">
+            Name is required!
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </ng-container>
     <ion-item id="wscPrinterApp-input4">
       <ion-label floating>
         Password
       </ion-label>
-      <ion-input type="password" placeholder=""></ion-input>
+      <ion-input type="password" placeholder="" name="Password" [(ngModel)]="model.Password" formControlName="Password"></ion-input>
     </ion-item>
+    <!-- validation of username input field -->
+    <ng-container *ngIf="password.invalid && (password.dirty || password.touched)">
+      <ion-card>
+        <ion-card-content>
+          <div *ngIf="password.errors.required" text-center margin-top class="color-red">
+            Password is required!
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </ng-container>
     <ion-item id="wscPrinterApp-input7">
       <ion-label floating>
         Domain
       </ion-label>
-      <ion-input type="text" placeholder=""></ion-input>
+      <ion-input type="text" placeholder="" name="Domain" [(ngModel)]="model.Domain" formControlName="Domain"></ion-input>
     </ion-item>
+    <!-- validation of username input field -->
+    <ng-container *ngIf="domain.invalid && (domain.dirty || domain.touched)">
+      <ion-card>
+        <ion-card-content>
+          <div *ngIf="domain.errors.required" text-center margin-top class="color-red">
+            Domain is required!
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </ng-container>
+
+    <button id="wscPrinterApp-button1" type="submit" ion-button margin-top color="positive" block [disabled]="!loginFormGroup.valid">
+      Submit
+    </button>
   </form>
-  <button id="wscPrinterApp-button1" ion-button color="positive" block (click)="goToHomepage()">
-    Submit
-  </button>
 </ion-content>
