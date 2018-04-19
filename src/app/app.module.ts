@@ -8,6 +8,10 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { LoginComponent } from '../pages/login/login';
 import { HomePage } from '../pages/home/home';
 import { FormsModule } from '@angular/forms';
+import { AuthProvider } from '../providers/auth/auth';
+import { HttpClientModule } from '@angular/common/http';
+import { ApiRoutesProvider } from '../providers/api-routes/api-routes';
+import { LocalStorageProvider } from '../providers/local-storage/local-storage';
 
 @NgModule({
   declarations: [
@@ -18,7 +22,8 @@ import { FormsModule } from '@angular/forms';
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
-    FormsModule    
+    FormsModule,
+    HttpClientModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -29,7 +34,11 @@ import { FormsModule } from '@angular/forms';
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    { provide: ErrorHandler, useClass: IonicErrorHandler },
+    AuthProvider,
+    HttpClientModule,
+    ApiRoutesProvider,
+    LocalStorageProvider
   ]
 })
-export class AppModule {}
+export class AppModule { }

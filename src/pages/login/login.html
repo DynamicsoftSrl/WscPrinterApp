@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-navbar>
+  <ion-navbar hideBackButton>
     <ion-title>
       WscPrinterApp
     </ion-title>
@@ -15,13 +15,14 @@
       <ion-label floating>
         Username
       </ion-label>
-      <ion-input type="text" name="Username" [(ngModel)]="model.Username" formControlName="Username"></ion-input>
+      <ion-input type="text" name="Username" [(ngModel)]="model.Email" formControlName="Email"></ion-input>
     </ion-item>
     <!-- validation of username input field -->
-    <ng-container *ngIf="username.invalid && (username.dirty || username.touched)">
+    <ng-container *ngIf="email.invalid && (email.dirty || email.touched)">
       <ion-card>
         <ion-card-content>
-          <div *ngIf="username.errors.required" text-center margin-top class="color-red">
+          <!-- *ngIf="username.errors.required" will also work but it will show compile errors in editor -->
+          <div *ngIf="email.errors['required']" text-center margin-top class="color-red">
             Name is required!
           </div>
         </ion-card-content>
@@ -33,11 +34,11 @@
       </ion-label>
       <ion-input type="password" placeholder="" name="Password" [(ngModel)]="model.Password" formControlName="Password"></ion-input>
     </ion-item>
-    <!-- validation of username input field -->
+    <!-- validation of password input field -->
     <ng-container *ngIf="password.invalid && (password.dirty || password.touched)">
       <ion-card>
         <ion-card-content>
-          <div *ngIf="password.errors.required" text-center margin-top class="color-red">
+          <div *ngIf="password.errors['required']" text-center margin-top class="color-red">
             Password is required!
           </div>
         </ion-card-content>
@@ -49,16 +50,24 @@
       </ion-label>
       <ion-input type="text" placeholder="" name="Domain" [(ngModel)]="model.Domain" formControlName="Domain"></ion-input>
     </ion-item>
-    <!-- validation of username input field -->
+    <!-- validation of domain input field -->
     <ng-container *ngIf="domain.invalid && (domain.dirty || domain.touched)">
       <ion-card>
         <ion-card-content>
-          <div *ngIf="domain.errors.required" text-center margin-top class="color-red">
+          <div *ngIf="domain.errors['required']" text-center margin-top class="color-red">
             Domain is required!
           </div>
         </ion-card-content>
       </ion-card>
     </ng-container>
+
+    <ion-card *ngIf="isLoginError">
+      <ion-card-content>
+        <div text-center margin-top class="color-red">
+          UserName or Password are not valid. Please enter correct credentials.
+        </div>
+      </ion-card-content>
+    </ion-card>
 
     <button id="wscPrinterApp-button1" type="submit" ion-button margin-top color="positive" block [disabled]="!loginFormGroup.valid">
       Submit

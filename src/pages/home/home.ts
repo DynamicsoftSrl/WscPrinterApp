@@ -1,6 +1,8 @@
+import { LoginComponent } from './../login/login';
 import { Component, OnInit } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { AlertController } from 'ionic-angular';
+import { AuthProvider } from './../../providers/auth/auth';
 
 @Component({
   selector: 'page-home',
@@ -11,8 +13,8 @@ export class HomePage implements OnInit {
 
   constructor(public navCtrl: NavController,
     private navParams: NavParams,
-    private alertCtrl: AlertController) {
-
+    private alertCtrl: AlertController,
+    private authProvider: AuthProvider) {
   }
 
   public showSpinner: boolean = true;
@@ -22,6 +24,12 @@ export class HomePage implements OnInit {
     console.log(loginFormData);
 
     this.presentConfirm();
+  }
+
+  logout() {
+    this.authProvider.logout();
+
+    this.navCtrl.push(LoginComponent)
   }
 
   showBubbles() {

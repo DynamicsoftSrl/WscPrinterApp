@@ -1,5 +1,5 @@
 export class LoginForm{
-    Username: string;
+    Email: string;
     Password: string;
     Domain: string;
 }
