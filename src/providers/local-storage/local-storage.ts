@@ -10,6 +10,7 @@ export class LocalStorageProvider {
   //localStorage variables(keys)
   readonly tokenNameInLocalStorage: string = 'token';
   readonly domainNameInLocalStorage: string = 'domain';
+  readonly loggedUserLocalStorage: string = 'loggedUser';
   // **************************************************
 
   saveToLocalStorage(name: string, value: string): void {

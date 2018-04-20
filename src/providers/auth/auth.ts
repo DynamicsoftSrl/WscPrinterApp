@@ -34,13 +34,15 @@ export class AuthProvider {
 
   logout(): void {
     this.localStorage.removeItemFromLocalStorage(this.localStorage.tokenNameInLocalStorage);
+    this.localStorage.removeItemFromLocalStorage(this.localStorage.loggedUserLocalStorage);
   }
 
   isUserAuthentificated(): boolean {
     let isAuthentificated: boolean = true;
     let token = this.localStorage.getItemFromLocalStorage(this.localStorage.tokenNameInLocalStorage);
+    let user = this.localStorage.getItemFromLocalStorage(this.localStorage.loggedUserLocalStorage);
 
-    if (!token) {
+    if (!token || !user) {
       isAuthentificated = false;
     }
 

@@ -1,12 +1,13 @@
-import { LocalStorageProvider } from './../local-storage/local-storage';
+// import { LocalStorageProvider } from './../local-storage/local-storage';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 @Injectable()
 export class ApiRoutesProvider {
 
-  constructor(public http: HttpClient,
-    private localStorage: LocalStorageProvider) {
+  constructor(public http: HttpClient
+    // private localStorage: LocalStorageProvider
+  ) {
   }
 
   // //getting domain from local storage, because it is dynamically, and it is inserted during the logging into application

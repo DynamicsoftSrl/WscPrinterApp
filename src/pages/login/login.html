@@ -15,7 +15,7 @@
       <ion-label floating>
         Username
       </ion-label>
-      <ion-input type="text" name="Username" [(ngModel)]="model.Email" formControlName="Email"></ion-input>
+      <ion-input type="text" name="Username" [(ngModel)]="model.Email" formControlName="Email" (keyup)="removeValidators()"></ion-input>
     </ion-item>
     <!-- validation of username input field -->
     <ng-container *ngIf="email.invalid && (email.dirty || email.touched)">
@@ -32,7 +32,7 @@
       <ion-label floating>
         Password
       </ion-label>
-      <ion-input type="password" placeholder="" name="Password" [(ngModel)]="model.Password" formControlName="Password"></ion-input>
+      <ion-input type="password" placeholder="" name="Password" [(ngModel)]="model.Password" formControlName="Password" (keyup)="removeValidators()"></ion-input>
     </ion-item>
     <!-- validation of password input field -->
     <ng-container *ngIf="password.invalid && (password.dirty || password.touched)">
@@ -48,7 +48,7 @@
       <ion-label floating>
         Domain
       </ion-label>
-      <ion-input type="text" placeholder="" name="Domain" [(ngModel)]="model.Domain" formControlName="Domain"></ion-input>
+      <ion-input type="text" placeholder="" name="Domain" [(ngModel)]="model.Domain" formControlName="Domain" (keyup)="removeValidators()"></ion-input>
     </ion-item>
     <!-- validation of domain input field -->
     <ng-container *ngIf="domain.invalid && (domain.dirty || domain.touched)">

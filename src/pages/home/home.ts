@@ -20,8 +20,8 @@ export class HomePage implements OnInit {
   public showSpinner: boolean = true;
 
   ngOnInit(): void {
-    let loginFormData = this.navParams.get('loginFormData');
-    console.log(loginFormData);
+    let UserDetails = this.navParams.get('loginFormData');
+    console.log(UserDetails);
 
     this.presentConfirm();
   }
