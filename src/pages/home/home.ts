@@ -2,7 +2,7 @@ import { LocalStorageProvider } from './../../providers/local-storage/local-stor
 import { User } from './../../models/user-model';
 import { LoginComponent } from './../login/login';
 import { Component, OnInit } from '@angular/core';
-import { NavController,  } from 'ionic-angular';
+import { NavController, } from 'ionic-angular';
 import { AuthProvider } from './../../providers/auth/auth';
 
 @Component({
@@ -19,12 +19,13 @@ export class HomePage implements OnInit {
 
   public showSpinner: boolean = true;
 
-  public loggedInUser: User;
+  public loggedInUser: User = new User();
 
   ngOnInit(): void {
-    let user = this.localStorage.getItemFromLocalStorage(this.localStorage.loggedUserLocalStorage);
-
-    this.loggedInUser = JSON.parse(user);
+    this.localStorage.getItemFromLocalStorage(this.localStorage.loggedUserLocalStorage)
+      .then(user => {
+        this.loggedInUser = JSON.parse(user);
+      });
   }
 
   logout() {

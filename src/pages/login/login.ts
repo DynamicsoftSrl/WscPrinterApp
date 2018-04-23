@@ -45,12 +45,23 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   //Nav Guard which is controlling login page, if user is logged in, he can't enter the login page until he logout
   ionViewCanEnter(): boolean {
-    this.isAuthentificated = this.authProvider.isUserAuthentificated();
+    this.authProvider.isUserAuthentificated().then(userIsAuthentificated => {
+      this.isAuthentificated = userIsAuthentificated;
+    });
 
-    if (this.isAuthentificated)
-      this.navCtrl.setRoot(HomePage);
-
+    // let isAuth = this.isAuthentificated();
     return true;
+  }
+
+  isUserAuthetificated(): boolean {
+    let isAuth: boolean = false;
+
+    if (this.isAuthentificated) {
+      this.navCtrl.setRoot(HomePage);
+      isAuth = true;
+    }
+    
+    return isAuth;
   }
 
   //validation part getters for username, password and domain
@@ -67,44 +78,48 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   onLogin() {
-    if (!this.localStorage.getItemFromLocalStorage(this.localStorage.tokenNameInLocalStorage)) {
-      this.getTokenAndLogin();
+    this.localStorage.getItemFromLocalStorage(this.localStorage.tokenNameInLocalStorage).then(tokenStorage => {
+      if (tokenStorage == (null || undefined)) {
+        this.getTokenAndLogin();
+      }
+      else {
+        this.login();
+      }
     }
-    else {
-      this.login();
-    }
+    )
   }
 
   getTokenAndLogin() {
-    this.authProvider.getTokenFromServer(this.model.Domain)
-      .subscribe((token: TokenModel) => {
-        this.localStorage.saveToLocalStorage(this.localStorage.tokenNameInLocalStorage, token.access_token);
-        this.apiRoutes.setDomain(this.model.Domain);
+    this.authProvider.getTokenFromServer(this.model.Domain).then((response) => {
+      response.subscribe((token: TokenModel) => {
+        this.localStorage.saveToLocalStorage(this.localStorage.tokenNameInLocalStorage, token.access_token).then(token => {
+          this.apiRoutes.setDomain(this.model.Domain);
 
-        this.login();
-      }),
-      (err: HttpErrorResponse) => {
-        this.handleError(err);
-      }
+          this.login();
+        })
+      })
+    })
   }
 
   login() {
-    this.authProvider.login(this.model).subscribe((response: User) => {
-      if (response != null) {
-        this.isLoginError = false;
+    this.authProvider.login(this.model).then(login => {
+      login.subscribe((response: User) => {
+        if (response != null) {
+          this.isLoginError = false;
 
-        let stringAdminUserObject = JSON.stringify(response);
-        this.localStorage.saveToLocalStorage(this.localStorage.loggedUserLocalStorage, stringAdminUserObject);
-
-        this.navigateToHomepage(response);
-      }
-      else {
-        this.isLoginError = true;
-      }
-    }),
-      (err: HttpErrorResponse) => {
-        this.handleError(err);
-      }
+          let stringAdminUserObject = JSON.stringify(response);
+          this.localStorage.saveToLocalStorage(this.localStorage.loggedUserLocalStorage, stringAdminUserObject).then(user => {
+            this.navigateToHomepage(response);
+          });
+        }
+        else {
+          this.isLoginError = true;
+        }
+      }),
+        (err: HttpErrorResponse) => {
+          this.handleError(err);
+        }
+    })
   }
 
   private handleError(err: HttpErrorResponse) {

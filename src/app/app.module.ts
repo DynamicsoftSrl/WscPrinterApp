@@ -13,6 +13,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { ApiRoutesProvider } from '../providers/api-routes/api-routes';
 import { LocalStorageProvider } from '../providers/local-storage/local-storage';
 
+import { IonicStorageModule } from '@ionic/storage';
+
 @NgModule({
   declarations: [
     MyApp,
@@ -22,6 +24,7 @@ import { LocalStorageProvider } from '../providers/local-storage/local-storage';
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
+    IonicStorageModule.forRoot(),
     FormsModule,
     HttpClientModule
   ],
