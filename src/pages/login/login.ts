@@ -120,7 +120,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       });
   }
 
-  removeValidators(){
+  removeValidators() {
     this.isLoginError = false;
   }
 

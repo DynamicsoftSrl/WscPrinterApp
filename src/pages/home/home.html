@@ -1,22 +1,56 @@
 <ion-header>
   <ion-navbar hideBackButton>
-    <ion-title>
-      Homepage
-    </ion-title>
-    <button id="wscPrinterApp-button1" ion-button color="positive" block (click)="logout()">
-      Logout
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
     </button>
+    <ion-title>
+      Impostazioni
+    </ion-title>
   </ion-navbar>
 </ion-header>
-<ion-content padding>
-  The world is your oyster.
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will be your guide.
-  </p>
+<ion-content padding id="page2">
+  <h4 id="impostazioni-heading2" style="color:#000000;">
+    Informazioni account
+  </h4>
+  <form id="impostazioni-form3">
+    <ion-item id="impostazioni-input7">
+      <ion-label>
+        Nome
+      </ion-label>
+      <ion-input type="text" placeholder="" [value]="loggedInUser.Name"></ion-input>
+    </ion-item>
+    <ion-item id="impostazioni-input8">
+      <ion-label>
+        Email
+      </ion-label>
+      <ion-input type="email" placeholder="" [value]="loggedInUser.Email"></ion-input>
+    </ion-item>
+    <ion-item id="impostazioni-toggle6">
+      <ion-label>
+        Attiva notifiche email
+      </ion-label>
+      <ion-toggle color="positive" checked="false"></ion-toggle>
+    </ion-item>
+  </form>
+  <h4 id="impostazioni-heading3" style="color:#000000;">
+    Modifica password
+  </h4>
+  <form id="impostazioni-form4">
+    <ion-item id="impostazioni-input10">
+      <ion-label></ion-label>
+      <ion-input type="password" placeholder="Password in uso"></ion-input>
+    </ion-item>
+    <ion-item id="impostazioni-input11">
+      <ion-label></ion-label>
+      <ion-input type="text" placeholder="Nuova password"></ion-input>
+    </ion-item>
+    <ion-item id="impostazioni-input12">
+      <ion-label></ion-label>
+      <ion-input type="password" placeholder="Conferma password "></ion-input>
+    </ion-item>
+  </form>
 
-   <button id="wscPrinterApp-button1" ion-button color="positive" block (click)="showBubbles()">
-    Show bubble spinner
+  <button id="login-button1" ion-button color="dark" block on-click="logout()">
+    Logout
   </button>
-
-  <ion-spinner *ngIf="showSpinner" name="bubbles"></ion-spinner>
 </ion-content>

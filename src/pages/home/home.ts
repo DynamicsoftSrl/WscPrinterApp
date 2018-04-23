@@ -1,7 +1,8 @@
+import { LocalStorageProvider } from './../../providers/local-storage/local-storage';
+import { User } from './../../models/user-model';
 import { LoginComponent } from './../login/login';
 import { Component, OnInit } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
-import { AlertController } from 'ionic-angular';
+import { NavController,  } from 'ionic-angular';
 import { AuthProvider } from './../../providers/auth/auth';
 
 @Component({
@@ -12,50 +13,23 @@ export class HomePage implements OnInit {
 
 
   constructor(public navCtrl: NavController,
-    private navParams: NavParams,
-    private alertCtrl: AlertController,
-    private authProvider: AuthProvider) {
+    private authProvider: AuthProvider,
+    private localStorage: LocalStorageProvider) {
   }
 
   public showSpinner: boolean = true;
 
-  ngOnInit(): void {
-    let UserDetails = this.navParams.get('loginFormData');
-    console.log(UserDetails);
+  public loggedInUser: User;
 
-    this.presentConfirm();
+  ngOnInit(): void {
+    let user = this.localStorage.getItemFromLocalStorage(this.localStorage.loggedUserLocalStorage);
+
+    this.loggedInUser = JSON.parse(user);
   }
 
   logout() {
     this.authProvider.logout();
 
     this.navCtrl.push(LoginComponent)
-  }
-
-  showBubbles() {
-    this.showSpinner = !this.showSpinner;
-  }
-
-  presentConfirm() {
-    let alert = this.alertCtrl.create({
-      title: 'Confirm purchase',
-      message: 'Do you want to buy this book?',
-      buttons: [
-        {
-          text: 'Cancel',
-          role: 'cancel',
-          handler: () => {
-            console.log('Cancel clicked');
-          }
-        },
-        {
-          text: 'Buy',
-          handler: () => {
-            console.log('Buy clicked');
-          }
-        }
-      ]
-    });
-    alert.present();
   }
 }
