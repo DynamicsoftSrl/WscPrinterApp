@@ -32,7 +32,6 @@ export class LoginComponent implements OnInit, OnDestroy {
   public loginFormGroup: FormGroup;
   public model: LoginForm = new LoginForm();
   public isLoginError: boolean = false;
-  private isAuthentificated: boolean = false;
 
   ngOnInit(): void {
     //validation of login form via FormBuilder
@@ -44,24 +43,17 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   //Nav Guard which is controlling login page, if user is logged in, he can't enter the login page until he logout
-  ionViewCanEnter(): boolean {
-    this.authProvider.isUserAuthentificated().then(userIsAuthentificated => {
-      this.isAuthentificated = userIsAuthentificated;
+  ionViewCanEnter() {
+    let isAuth = this.authProvider.isUserAuthentificated().then(userIsAuthentificated => {
+      //if user is logged in, we should redirect him to homepage, so in ionVIewCanEnter we should return false
+      return !userIsAuthentificated;
     });
 
-    // let isAuth = this.isAuthentificated();
-    return true;
-  }
-
-  isUserAuthetificated(): boolean {
-    let isAuth: boolean = false;
-
-    if (this.isAuthentificated) {
-      this.navCtrl.setRoot(HomePage);
-      isAuth = true;
-    }
-    
-    return isAuth;
+    return isAuth.then(value => {
+      if (value == false) {
+        this.navCtrl.setRoot(HomePage);
+      }
+    });
   }
 
   //validation part getters for username, password and domain

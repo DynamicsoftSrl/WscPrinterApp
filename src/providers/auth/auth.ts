@@ -43,15 +43,17 @@ export class AuthProvider {
 
   isUserAuthentificated() {
     let isAuth = this.localStorage.getItemFromLocalStorage(this.localStorage.tokenNameInLocalStorage).then(token => {
-      if (token != undefined && null) {
-        this.localStorage.getItemFromLocalStorage(this.localStorage.loggedUserLocalStorage).then(user => {
-          if (user != undefined && null) {
+      if (token != (undefined && null)) {
+        let isUser = this.localStorage.getItemFromLocalStorage(this.localStorage.loggedUserLocalStorage).then(user => {
+          if (user != (undefined && null)) {
             return true;
           }
           else {
             return false;
           }
         });
+
+        return isUser;
       }
       else {
         return false;
