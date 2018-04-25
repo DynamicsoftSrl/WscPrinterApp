@@ -1,3 +1,4 @@
+import { TabsMenuComponent } from './../../components/tabs-menu/tabs-menu';
 import { User } from './../../models/user-model';
 import { ApiRoutesProvider } from './../../providers/api-routes/api-routes';
 import { LocalStorageProvider } from './../../providers/local-storage/local-storage';
@@ -5,7 +6,6 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 
-import { HomePage } from './../home/home';
 import { LoginForm } from '../../models/login-form';
 import { AuthProvider } from '../../providers/auth/auth';
 import { TokenModel } from '../../models/token-model';
@@ -45,13 +45,13 @@ export class LoginComponent implements OnInit, OnDestroy {
   //Nav Guard which is controlling login page, if user is logged in, he can't enter the login page until he logout
   ionViewCanEnter() {
     let isAuth = this.authProvider.isUserAuthentificated().then(userIsAuthentificated => {
-      //if user is logged in, we should redirect him to homepage, so in ionVIewCanEnter we should return false
-      return !userIsAuthentificated;
+      return userIsAuthentificated;
     });
 
     return isAuth.then(value => {
-      if (value == false) {
-        this.navCtrl.setRoot(HomePage);
+      if (value == true) {
+        //if user is logged in, we should redirect him to homepage
+        this.navCtrl.setRoot(TabsMenuComponent);
       }
     });
   }
@@ -78,7 +78,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.login();
       }
     }
-    )
+    ).catch(e => { console.log(e) })
   }
 
   getTokenAndLogin() {
@@ -90,6 +90,9 @@ export class LoginComponent implements OnInit, OnDestroy {
           this.login();
         })
       })
+    }).catch(err => {
+      //for example, if domain url is not well formated
+      console.log(err);
     })
   }
 
@@ -107,11 +110,15 @@ export class LoginComponent implements OnInit, OnDestroy {
         else {
           this.isLoginError = true;
         }
-      }),
-        (err: HttpErrorResponse) => {
-          this.handleError(err);
-        }
-    })
+      }), err => {
+        console.log(err);
+      }
+    }).catch(e => {
+      console.log(e);
+
+      this.handleError(e);
+    }
+    )
   }
 
   private handleError(err: HttpErrorResponse) {
@@ -120,11 +127,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   navigateToHomepage(userDetails: User) {
-    this.navCtrl.push(HomePage, { UserDetails: userDetails })
-      .then(x => {
-        //removing option to return back to login page if user is already logged in
-        this.navCtrl.remove(0, this.navCtrl.getActive().index);
-      });
+    this.navCtrl.setRoot(TabsMenuComponent);
   }
 
   removeValidators() {
