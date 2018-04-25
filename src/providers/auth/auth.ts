@@ -14,22 +14,26 @@ export class AuthProvider {
 
 
   login(loginModel: LoginForm) {
-    let domain = this.localStorage.getItemFromLocalStorage(this.localStorage.domainNameInLocalStorage);
+    let response = this.localStorage.getItemFromLocalStorage(this.localStorage.domainNameInLocalStorage).then(domain => {
+      let url = domain + this.apiRoutes.post_login;
 
-    let url = domain + this.apiRoutes.post_login;
+      let token = this.localStorage.getItemFromLocalStorage(this.localStorage.tokenNameInLocalStorage).then(token => {
+        const httpOptions = {
+          headers: new HttpHeaders({
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+          })
+        };
 
-    let token = 'Bearer ' + this.localStorage.getItemFromLocalStorage(this.localStorage.tokenNameInLocalStorage);
+        loginModel.Password = btoa(loginModel.Password);
 
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Authorization': token
-      })
-    };
+        return this.http.post(url, loginModel, httpOptions);
+      });
 
-    loginModel.Password = btoa(loginModel.Password);
+      return token;
+    });
 
-    return this.http.post(url, loginModel, httpOptions);
+    return response;
   }
 
   logout(): void {
@@ -37,16 +41,26 @@ export class AuthProvider {
     this.localStorage.removeItemFromLocalStorage(this.localStorage.loggedUserLocalStorage);
   }
 
-  isUserAuthentificated(): boolean {
-    let isAuthentificated: boolean = true;
-    let token = this.localStorage.getItemFromLocalStorage(this.localStorage.tokenNameInLocalStorage);
-    let user = this.localStorage.getItemFromLocalStorage(this.localStorage.loggedUserLocalStorage);
+  isUserAuthentificated() {
+    let isAuth = this.localStorage.getItemFromLocalStorage(this.localStorage.tokenNameInLocalStorage).then(token => {
+      if (token != (undefined && null)) {
+        let isUser = this.localStorage.getItemFromLocalStorage(this.localStorage.loggedUserLocalStorage).then(user => {
+          if (user != (undefined && null)) {
+            return true;
+          }
+          else {
+            return false;
+          }
+        });
 
-    if (!token || !user) {
-      isAuthentificated = false;
-    }
+        return isUser;
+      }
+      else {
+        return false;
+      }
+    });
 
-    return isAuthentificated;
+    return isAuth;
   }
 
   getTokenFromServer(domain: string) {
@@ -57,8 +71,10 @@ export class AuthProvider {
     let reqHeaders = new HttpHeaders({ 'content-type': 'application/x-www-form-urlencoded' });
 
     //saving domain in local storage, so later we can reuse it for other requests
-    this.localStorage.saveToLocalStorage(this.localStorage.domainNameInLocalStorage, domain);
+    let response = this.localStorage.saveToLocalStorage(this.localStorage.domainNameInLocalStorage, domain).then(domainName => {
+      return this.http.post(domain + this.apiRoutes.token, data, { headers: reqHeaders });
+    });
 
-    return this.http.post(domain + this.apiRoutes.token, data, { headers: reqHeaders });
+    return response;
   }
 }

@@ -1,10 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
+import { Storage } from '@ionic/storage';
+
 @Injectable()
 export class LocalStorageProvider {
 
-  constructor(public http: HttpClient) {
+  constructor(public http: HttpClient,
+    private storage: Storage) {
   }
 
   //localStorage variables(keys)
@@ -13,15 +16,15 @@ export class LocalStorageProvider {
   readonly loggedUserLocalStorage: string = 'loggedUser';
   // **************************************************
 
-  saveToLocalStorage(name: string, value: string): void {
-    localStorage.setItem(name, value);
+  saveToLocalStorage(name: string, value: string) {
+    return this.storage.set(name, value);
   }
 
-  removeItemFromLocalStorage(name: string): void {
-    localStorage.removeItem(name);
+  removeItemFromLocalStorage(name: string) {
+    return this.storage.remove(name);
   }
 
-  getItemFromLocalStorage(name: string): string {
-    return localStorage.getItem(name);
+  getItemFromLocalStorage(name: string) {
+    return this.storage.get(name);
   }
 }
