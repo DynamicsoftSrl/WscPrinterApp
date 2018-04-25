@@ -16,6 +16,9 @@ import { LocalStorageProvider } from '../providers/local-storage/local-storage';
 import { IonicStorageModule } from '@ionic/storage';
 import { ComponentsModule } from '../components/components.module';
 
+import { BarcodeScanner } from '@ionic-native/barcode-scanner';
+import { BarcodeScannerPageModule } from '../pages/barcode-scanner/barcode-scanner.module';
+
 @NgModule({
   declarations: [
     MyApp,
@@ -28,7 +31,8 @@ import { ComponentsModule } from '../components/components.module';
     IonicStorageModule.forRoot(),
     FormsModule,
     HttpClientModule,
-    ComponentsModule
+    ComponentsModule,
+    BarcodeScannerPageModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -43,7 +47,8 @@ import { ComponentsModule } from '../components/components.module';
     AuthProvider,
     HttpClientModule,
     ApiRoutesProvider,
-    LocalStorageProvider
+    LocalStorageProvider,
+    BarcodeScanner
   ]
 })
 export class AppModule { }

@@ -5,6 +5,7 @@ import { Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { TabsMenuComponent } from './../components/tabs-menu/tabs-menu';
+import { BarcodeScannerPage } from '../pages/barcode-scanner/barcode-scanner';
 
 @Component({
   templateUrl: 'app.html'
@@ -13,7 +14,7 @@ export class
   MyApp implements OnInit {
 
 
-  rootPage: any;
+  rootPage = BarcodeScannerPage;
 
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, private auth: AuthProvider) {
     platform.ready().then(() => {
@@ -25,13 +26,13 @@ export class
   }
 
   ngOnInit(): void {
-    this.auth.isUserAuthentificated().then(isAuth => {
-      if (isAuth) {
-        this.rootPage = TabsMenuComponent;
-      }
-      else {
-        this.rootPage = LoginComponent;
-      }
-    })
+    // this.auth.isUserAuthentificated().then(isAuth => {
+    //   if (isAuth) {
+    //     this.rootPage = TabsMenuComponent;
+    //   }
+    //   else {
+    //     this.rootPage = LoginComponent;
+    //   }
+    // })
   }
 }

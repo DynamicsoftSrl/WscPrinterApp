@@ -8,7 +8,7 @@
         <h2>{{loggedInUser.Name}}</h2>
         <p>{{loggedInUser.Email}}</p>
       </ion-item>
-      <ion-item>Item</ion-item>
+      <ion-item (click)="NavigateToBarcodeScanner()">Barcode scanner</ion-item>
       <ion-item>Item</ion-item>
       <ion-item (click)="closeMenu()" class="cursor-pointer" text-right>
         <ion-icon name="close-circle"> Close</ion-icon>
