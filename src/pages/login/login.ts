@@ -71,12 +71,14 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   onLogin() {
     this.localStorage.getItemFromLocalStorage(this.localStorage.tokenNameInLocalStorage).then(tokenStorage => {
-      if (tokenStorage == (null || undefined)) {
-        this.getTokenAndLogin();
-      }
-      else {
-        this.login();
-      }
+      this.localStorage.saveToLocalStorage(this.localStorage.domainNameInLocalStorage, this.model.Domain).then(res => {
+        if (tokenStorage == (null || undefined)) {
+          this.getTokenAndLogin();
+        }
+        else {
+          this.login();
+        }
+      })
     }
     ).catch(e => { console.log(e) })
   }

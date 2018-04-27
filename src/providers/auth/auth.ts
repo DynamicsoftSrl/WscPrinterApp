@@ -71,7 +71,7 @@ export class AuthProvider {
     let reqHeaders = new HttpHeaders({ 'content-type': 'application/x-www-form-urlencoded' });
 
     //saving domain in local storage, so later we can reuse it for other requests
-    let response = this.localStorage.saveToLocalStorage(this.localStorage.domainNameInLocalStorage, domain).then(domainName => {
+    let response = this.localStorage.getItemFromLocalStorage(this.localStorage.domainNameInLocalStorage).then(domainName => {
       return this.http.post(domain + this.apiRoutes.token, data, { headers: reqHeaders });
     });
 

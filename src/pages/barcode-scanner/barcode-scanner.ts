@@ -14,14 +14,35 @@ export class BarcodeScannerPage {
     private barcodeScanner: BarcodeScanner) {
   }
 
+  public isScanned: boolean = false;
+
   ionViewDidLoad() {
   }
 
   public scanBarcode() {
-    this.barcodeScanner.scan().then(barcodeData => {
-      console.log('Barcode data', barcodeData);
-    }).catch(err => {
-      console.log('Error', err);
-    });
+    this.barcodeScanner.scan()
+      .then(barcodeData => {
+        console.log('Barcode data', barcodeData);
+        this.encodeBarcode(barcodeData);
+      })
+      .catch(err => {
+        console.log(err);
+        const id = { id: "123" };
+        this.encodeBarcode(id);
+      });
+  }
+
+  encodeBarcode(data) {
+    this.barcodeScanner
+      .encode(this.barcodeScanner.Encode.TEXT_TYPE, data)
+      .then(res => {
+        console.log(res);
+        this.isScanned = true;
+      })
+      .catch(err => {
+        this.isScanned = true;
+
+        console.log(err);
+      });
   }
 }
