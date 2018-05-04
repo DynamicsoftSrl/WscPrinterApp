@@ -1,21 +1,21 @@
-import { ApiRoutesProvider } from './../api-routes/api-routes';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { LoginForm } from '../../models/login-form';
 import { LocalStorageProvider } from '../local-storage/local-storage';
+import { MappingProvider } from '../mapping/mapping';
 
 @Injectable()
 export class AuthProvider {
 
   constructor(public http: HttpClient,
     private localStorage: LocalStorageProvider,
-    private apiRoutes: ApiRoutesProvider) {
+    private mapping: MappingProvider) {
   }
 
 
   login(loginModel: LoginForm) {
     let response = this.localStorage.getItemFromLocalStorage(this.localStorage.domainNameInLocalStorage).then(domain => {
-      let url = domain + this.apiRoutes.post_login;
+      let url = domain + this.mapping.post_login;
 
       let token = this.localStorage.getItemFromLocalStorage(this.localStorage.tokenNameInLocalStorage).then(token => {
         const httpOptions = {
@@ -37,8 +37,9 @@ export class AuthProvider {
   }
 
   logout(): void {
-    this.localStorage.removeItemFromLocalStorage(this.localStorage.tokenNameInLocalStorage);
-    this.localStorage.removeItemFromLocalStorage(this.localStorage.loggedUserLocalStorage);
+    // this.localStorage.removeItemFromLocalStorage(this.localStorage.tokenNameInLocalStorage);
+    // this.localStorage.removeItemFromLocalStorage(this.localStorage.loggedUserLocalStorage);
+    this.localStorage.clearLocalStorage();
   }
 
   isUserAuthentificated() {
@@ -63,16 +64,16 @@ export class AuthProvider {
     return isAuth;
   }
 
-  getTokenFromServer(domain: string) {
-    let username = "Dynamicsoft";
-    let password = "Dynamicsoft2016";
+  getTokenFromServer(username: string, password: string,domain: string) {
+    // let username = "Dynamicsoft";
+    // let password = "Dynamicsoft2016";
 
     let data = "username=" + username + "&password=" + password + "&grant_type=password";
     let reqHeaders = new HttpHeaders({ 'content-type': 'application/x-www-form-urlencoded' });
 
     //saving domain in local storage, so later we can reuse it for other requests
     let response = this.localStorage.getItemFromLocalStorage(this.localStorage.domainNameInLocalStorage).then(domainName => {
-      return this.http.post(domain + this.apiRoutes.token, data, { headers: reqHeaders });
+      return this.http.post(domain + this.mapping.token, data, { headers: reqHeaders });
     });
 
     return response;

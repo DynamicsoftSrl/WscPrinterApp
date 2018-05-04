@@ -29,8 +29,4 @@ export class SideMenuComponent implements OnInit {
     this.navCtrl.push(BarcodeScannerPage);
   }
 
-  closeMenu() {
-    this.menuCtrl.close();
-  }
-
 }

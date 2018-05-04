@@ -59,11 +59,28 @@
         </ion-card-content>
       </ion-card>
     </ng-container>
+    <ng-container *ngIf="isDomainError">
+      <ion-card>
+        <ion-card-content>
+          <div text-center margin-top class="color-red">
+            Domain doesn't exists! Please enter correct domain!
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </ng-container>
   </form>
   <ion-card *ngIf="isLoginError">
     <ion-card-content>
       <div text-center margin-top class="color-red">
         Username or Password are not valid. Please enter correct credentials.
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card *ngIf="isTokenCredentialsError">
+    <ion-card-content>
+      <div text-center margin-top class="color-red">
+        Token credentials from json file are not valid. Please eneter correct credentials.
       </div>
     </ion-card-content>
   </ion-card>

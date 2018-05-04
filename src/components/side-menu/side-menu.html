@@ -1,17 +1,16 @@
 <ion-menu [content]="content" class="side-menu">
   <ion-content class="background-img">
-    <ion-list>
-      <ion-item>
-        <ion-avatar item-start>
-          <img src="../../assets/icon/favicon.ico">
+    <ion-list id="menu-list1">
+      <ion-item color="none" id="menu-list-item1">
+        <ion-avatar item-left>
+          <img src="assets/icon/favicon.ico" />
         </ion-avatar>
         <h2>{{loggedInUser.Name}}</h2>
         <p>{{loggedInUser.Email}}</p>
       </ion-item>
-      <ion-item (click)="NavigateToBarcodeScanner()">Barcode scanner</ion-item>
-      <ion-item>Item</ion-item>
-      <ion-item (click)="closeMenu()" class="cursor-pointer" text-right>
-        <ion-icon name="close-circle"> Close</ion-icon>
+      <ion-item color="none" (click)="NavigateToBarcodeScanner()" id="menu-list-item6">
+        <ion-icon name="barcode" item-left></ion-icon>
+        Spedizioni barcode scanner
       </ion-item>
     </ion-list>
   </ion-content>

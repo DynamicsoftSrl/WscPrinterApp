@@ -5,3 +5,11 @@
 .cursor-pointer:hover {
   cursor: pointer;
 }
+
+#menu-list-item1>.item-inner {
+  border-bottom: 0 !important;
+}
+
+#menu-list-item1 {
+  border-bottom: 1px solid #dedede !important;
+}

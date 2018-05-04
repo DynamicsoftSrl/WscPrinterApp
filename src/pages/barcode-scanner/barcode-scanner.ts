@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController } from 'ionic-angular';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
+import { ShipmentProvider } from '../../providers/shipment/shipment';
+import { ShipmentDetailsModel } from '../../models/shipment-details-model';
 
 @IonicPage()
 @Component({
@@ -10,11 +12,12 @@ import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 export class BarcodeScannerPage {
 
   constructor(public navCtrl: NavController,
-    public navParams: NavParams,
-    private barcodeScanner: BarcodeScanner) {
+    private barcodeScanner: BarcodeScanner,
+    private shipment: ShipmentProvider) {
   }
 
   public isScanned: boolean = false;
+  public model: ShipmentDetailsModel = new ShipmentDetailsModel();
 
   ionViewDidLoad() {
   }
@@ -36,13 +39,30 @@ export class BarcodeScannerPage {
     this.barcodeScanner
       .encode(this.barcodeScanner.Encode.TEXT_TYPE, data)
       .then(res => {
-        console.log(res);
         this.isScanned = true;
+
+        let id = res;
+
+        this.shipment.getShipmentDetails(id)
+          .then(response => {
+            response.subscribe((shipmentDetails: ShipmentDetailsModel) => {
+              console.log(shipmentDetails);
+              this.model = shipmentDetails;
+            })
+          })
       })
       .catch(err => {
         this.isScanned = true;
 
-        console.log(err);
+        // let id = '6';
+        // this.shipment.getShipmentDetails(id)
+        //   .then(response => {
+        //     response.subscribe((shipmentDetails: ShipmentDetailsModel) => {
+        //       console.log(shipmentDetails);
+        //       this.model = shipmentDetails;
+        //     })
+        //   })
+        // console.log(err);
       });
   }
 }

@@ -10,7 +10,7 @@ import { HomePage } from '../pages/home/home';
 import { FormsModule } from '@angular/forms';
 import { AuthProvider } from '../providers/auth/auth';
 import { HttpClientModule } from '@angular/common/http';
-import { ApiRoutesProvider } from '../providers/api-routes/api-routes';
+
 import { LocalStorageProvider } from '../providers/local-storage/local-storage';
 
 import { IonicStorageModule } from '@ionic/storage';
@@ -18,6 +18,10 @@ import { ComponentsModule } from '../components/components.module';
 
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { BarcodeScannerPageModule } from '../pages/barcode-scanner/barcode-scanner.module';
+import { MappingProvider } from '../providers/mapping/mapping';
+import { ApiProvider } from '../providers/api/api';
+import { ShipmentProvider } from '../providers/shipment/shipment';
+import { LoadingSpinnerProvider } from '../providers/loading-spinner/loading-spinner';
 
 @NgModule({
   declarations: [
@@ -46,9 +50,12 @@ import { BarcodeScannerPageModule } from '../pages/barcode-scanner/barcode-scann
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     AuthProvider,
     HttpClientModule,
-    ApiRoutesProvider,
+    MappingProvider,
     LocalStorageProvider,
-    BarcodeScanner
+    BarcodeScanner,
+    ApiProvider,
+    ShipmentProvider,
+    LoadingSpinnerProvider
   ]
 })
 export class AppModule { }
