@@ -142,19 +142,20 @@ export class LoginComponent implements OnInit, OnDestroy {
         else {
           this.isLoginError = true;
         }
-      }), err => {
-        this.handleError(err)
-      }
-    }).catch(e => {
-      this.handleError(e);
-    }
-    )
+      }, (err: HttpErrorResponse) => {
+        //handle if token has expired
+        if (err.status == 401) {
+          console.log(err.message);
+          this.getTokenAndLogin();
+        }
+      })
+    }, err => { console.log(err) });
   }
 
   private handleError(err: HttpErrorResponse) {
     this.isLoginError = true;
     this.hideSpinnerLoader()
-    console.log(err.error.error_description);
+    console.log(err.message);
   }
 
 

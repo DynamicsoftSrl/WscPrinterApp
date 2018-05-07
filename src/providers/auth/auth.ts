@@ -25,9 +25,13 @@ export class AuthProvider {
           })
         };
 
-        loginModel.Password = btoa(loginModel.Password);
+        let postLogin = new LoginForm();
+        
+        postLogin.Domain = loginModel.Domain;
+        postLogin.Email = loginModel.Email;
+        postLogin.Password = btoa(loginModel.Password);
 
-        return this.http.post(url, loginModel, httpOptions);
+        return this.http.post(url, postLogin, httpOptions);
       });
 
       return token;
