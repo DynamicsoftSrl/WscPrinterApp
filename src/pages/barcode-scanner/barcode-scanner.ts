@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Subscription } from 'rxjs/Subscription';
+import { Component, OnDestroy } from '@angular/core';
 import { IonicPage, NavController } from 'ionic-angular';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { ShipmentProvider } from '../../providers/shipment/shipment';
@@ -9,7 +10,7 @@ import { ShipmentDetailsModel } from '../../models/shipment-details-model';
   selector: 'page-barcode-scanner',
   templateUrl: 'barcode-scanner.html',
 })
-export class BarcodeScannerPage {
+export class BarcodeScannerPage implements OnDestroy {
 
   constructor(public navCtrl: NavController,
     private barcodeScanner: BarcodeScanner,
@@ -18,6 +19,8 @@ export class BarcodeScannerPage {
 
   public isScanned: boolean = false;
   public model: ShipmentDetailsModel = new ShipmentDetailsModel();
+
+  private sub: Subscription = new Subscription();
 
   ionViewDidLoad() {
   }
@@ -45,24 +48,30 @@ export class BarcodeScannerPage {
 
         this.shipment.getShipmentDetails(id)
           .then(response => {
-            response.subscribe((shipmentDetails: ShipmentDetailsModel) => {
+            let shipmentDetailsSub = response.subscribe((shipmentDetails: ShipmentDetailsModel) => {
               console.log(shipmentDetails);
               this.model = shipmentDetails;
             })
+
+            this.sub.add(shipmentDetailsSub);
           })
       })
       .catch(err => {
         this.isScanned = true;
 
-        // let id = '6';
-        // this.shipment.getShipmentDetails(id)
-        //   .then(response => {
-        //     response.subscribe((shipmentDetails: ShipmentDetailsModel) => {
-        //       console.log(shipmentDetails);
-        //       this.model = shipmentDetails;
-        //     })
-        //   })
-        // console.log(err);
+        let id = '6';
+        this.shipment.getShipmentDetails(id)
+          .then(response => {
+            response.subscribe((shipmentDetails: ShipmentDetailsModel) => {
+              console.log(shipmentDetails);
+              this.model = shipmentDetails;
+            })
+          })
+        console.log(err);
       });
+  }
+
+  ngOnDestroy(): void {
+    this.sub.unsubscribe();
   }
 }

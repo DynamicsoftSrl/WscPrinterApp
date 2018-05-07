@@ -93,7 +93,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   getTokenAndLogin() {
-    this.localStorage.getTokenCredentialsFromJson()
+    let tokenCredentialsSub = this.localStorage.getTokenCredentialsFromJson()
       .subscribe(res => {
         let credentials = (res["credentials"]);
 
@@ -102,7 +102,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
         this.authProvider.getTokenFromServer(username, password, this.model.Domain)
           .then((response) => {
-            response.subscribe((token: TokenModel) => {
+            let tokenSub = response.subscribe((token: TokenModel) => {
               this.localStorage.saveToLocalStorage(this.localStorage.tokenNameInLocalStorage, token.access_token)
                 .then(token => {
                   this.login();
@@ -118,17 +118,21 @@ export class LoginComponent implements OnInit, OnDestroy {
                 console.log("Wrong domain");
               }
 
+              this.sub.add(tokenSub);
+
               this.hideSpinnerLoader();
             })
           })
       }, (err) => {
         this.handleError(err);
       })
+
+      this.sub.add(tokenCredentialsSub);
   }
 
   login() {
     this.authProvider.login(this.model).then(login => {
-      login.subscribe((response: User) => {
+      let userSub = login.subscribe((response: User) => {
         this.hideSpinnerLoader();
 
         if (response != null) {
@@ -149,6 +153,8 @@ export class LoginComponent implements OnInit, OnDestroy {
           this.getTokenAndLogin();
         }
       })
+
+      this.sub.add(userSub);
     }, err => { console.log(err) });
   }
 
