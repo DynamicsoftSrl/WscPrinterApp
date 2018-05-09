@@ -1,12 +1,15 @@
 .side-menu {
-    min-height:800px;
+  min-height: 800px;
 }
 
-.cursor-pointer:hover{
-    cursor: pointer;
+.cursor-pointer:hover {
+  cursor: pointer;
 }
 
-.side-menu-background{
-    background: url(https://s3.amazonaws.com/ionic-io-static/plyKGOrrTLGzJH7t8RH8_wscprinter.png) no-repeat center;
-    background-size:cover;
+#menu-list-item1>.item-inner {
+  border-bottom: 0 !important;
+}
+
+#menu-list-item1 {
+  border-bottom: 1px solid #dedede !important;
 }

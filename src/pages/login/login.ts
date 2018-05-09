@@ -1,6 +1,6 @@
+import { LoadingSpinnerProvider } from './../../providers/loading-spinner/loading-spinner';
 import { TabsMenuComponent } from './../../components/tabs-menu/tabs-menu';
 import { User } from './../../models/user-model';
-import { ApiRoutesProvider } from './../../providers/api-routes/api-routes';
 import { LocalStorageProvider } from './../../providers/local-storage/local-storage';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
@@ -12,6 +12,7 @@ import { TokenModel } from '../../models/token-model';
 import { Subscription } from 'rxjs/Subscription';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NavController } from 'ionic-angular';
+import { MappingProvider } from '../../providers/mapping/mapping';
 
 @Component({
   selector: 'login',
@@ -23,7 +24,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder,
     private authProvider: AuthProvider,
     private localStorage: LocalStorageProvider,
-    private apiRoutes: ApiRoutesProvider
+    private mapping: MappingProvider,
+    private spinner: LoadingSpinnerProvider
   ) {
   }
 
@@ -32,13 +34,15 @@ export class LoginComponent implements OnInit, OnDestroy {
   public loginFormGroup: FormGroup;
   public model: LoginForm = new LoginForm();
   public isLoginError: boolean = false;
+  public isDomainError: boolean = false;
+  public isTokenCredentialsError: boolean = false;
 
   ngOnInit(): void {
     //validation of login form via FormBuilder
     this.loginFormGroup = this.formBuilder.group({
       Email: ['', Validators.required],
       Password: ['', Validators.required],
-      Domain: ['http://localhost:54171', Validators.required]
+      Domain: ['http://cms.wscprinter.it/', Validators.required]
     });
   }
 
@@ -70,35 +74,67 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   onLogin() {
+    this.showSpinnerLoader();
+
     this.localStorage.getItemFromLocalStorage(this.localStorage.tokenNameInLocalStorage).then(tokenStorage => {
-      if (tokenStorage == (null || undefined)) {
-        this.getTokenAndLogin();
-      }
-      else {
-        this.login();
-      }
+      this.localStorage.saveToLocalStorage(this.localStorage.domainNameInLocalStorage, this.model.Domain).then(res => {
+
+        this.mapping.setDomain();
+
+        if (tokenStorage == (null || undefined)) {
+          this.getTokenAndLogin();
+        }
+        else {
+          this.login();
+        }
+      })
     }
     ).catch(e => { console.log(e) })
   }
 
   getTokenAndLogin() {
-    this.authProvider.getTokenFromServer(this.model.Domain).then((response) => {
-      response.subscribe((token: TokenModel) => {
-        this.localStorage.saveToLocalStorage(this.localStorage.tokenNameInLocalStorage, token.access_token).then(token => {
-          this.apiRoutes.setDomain(this.model.Domain);
+    let tokenCredentialsSub = this.localStorage.getTokenCredentialsFromJson()
+      .subscribe(res => {
+        let credentials = (res["credentials"]);
 
-          this.login();
-        })
+        let username = credentials.username;
+        let password = credentials.password;
+
+        this.authProvider.getTokenFromServer(username, password, this.model.Domain)
+          .then((response) => {
+            let tokenSub = response.subscribe((token: TokenModel) => {
+              this.localStorage.saveToLocalStorage(this.localStorage.tokenNameInLocalStorage, token.access_token)
+                .then(token => {
+                  this.login();
+                })
+            }, (err: HttpErrorResponse ) => {
+              console.log(err.message);
+              if (err.status == 400) {
+                this.isTokenCredentialsError = true;
+                console.log("Wrong credentials");
+              }
+              else if (err.status == 0) {
+                this.isDomainError = true;
+                console.log("Wrong domain");
+              }
+
+              this.sub.add(tokenSub);
+
+              this.hideSpinnerLoader();
+            })
+          })
+      }, (err) => {
+        this.handleError(err);
       })
-    }).catch(err => {
-      //for example, if domain url is not well formated
-      console.log(err);
-    })
+
+      this.sub.add(tokenCredentialsSub);
   }
 
   login() {
     this.authProvider.login(this.model).then(login => {
-      login.subscribe((response: User) => {
+      let userSub = login.subscribe((response: User) => {
+        this.hideSpinnerLoader();
+
         if (response != null) {
           this.isLoginError = false;
 
@@ -110,20 +146,31 @@ export class LoginComponent implements OnInit, OnDestroy {
         else {
           this.isLoginError = true;
         }
-      }), err => {
-        console.log(err);
-      }
-    }).catch(e => {
-      console.log(e);
+      }, (err: HttpErrorResponse) => {
+        //handle if token has expired
+        if (err.status == 401) {
+          console.log(err.message);
+          this.getTokenAndLogin();
+        }
+      })
 
-      this.handleError(e);
-    }
-    )
+      this.sub.add(userSub);
+    }, err => { console.log(err) });
   }
 
   private handleError(err: HttpErrorResponse) {
     this.isLoginError = true;
-    console.log(err.error.error_description);
+    this.hideSpinnerLoader()
+    console.log(err.message);
+  }
+
+
+  showSpinnerLoader(contentText?: string, spinnerType?: string) {
+    this.spinner.showLoadingSpinner(contentText, spinnerType);
+  }
+
+  hideSpinnerLoader() {
+    this.spinner.hideLoadingSpinner()
   }
 
   navigateToHomepage(userDetails: User) {
@@ -132,6 +179,8 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   removeValidators() {
     this.isLoginError = false;
+    this.isDomainError = false;
+    this.isTokenCredentialsError = false;
   }
 
   ngOnDestroy(): void {

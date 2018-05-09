@@ -1,7 +1,8 @@
 import { User } from './../../models/user-model';
 import { LocalStorageProvider } from './../../providers/local-storage/local-storage';
 import { Component, Input, OnInit } from '@angular/core';
-import { MenuController } from 'ionic-angular';
+import { MenuController, NavController } from 'ionic-angular';
+import { BarcodeScannerPage } from '../../pages/barcode-scanner/barcode-scanner';
 
 @Component({
   selector: 'side-menu',
@@ -13,7 +14,8 @@ export class SideMenuComponent implements OnInit {
   public loggedInUser: User = new User();
 
   constructor(private localStorage: LocalStorageProvider,
-    public menuCtrl: MenuController) {
+    public menuCtrl: MenuController,
+    private navCtrl: NavController) {
   }
 
   ngOnInit(): void {
@@ -23,8 +25,8 @@ export class SideMenuComponent implements OnInit {
       });
   }
 
-  closeMenu() {
-    this.menuCtrl.close();
+  NavigateToBarcodeScanner() {
+    this.navCtrl.push(BarcodeScannerPage);
   }
 
 }

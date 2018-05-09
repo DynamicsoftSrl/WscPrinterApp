@@ -24,7 +24,19 @@ export class LocalStorageProvider {
     return this.storage.remove(name);
   }
 
+  clearLocalStorage() {
+    return this.storage.clear();
+  }
+
   getItemFromLocalStorage(name: string) {
     return this.storage.get(name);
+  }
+
+  getDomain(): Promise<string> {
+    return this.getItemFromLocalStorage(this.domainNameInLocalStorage);
+  }
+
+  getTokenCredentialsFromJson() {
+    return this.http.get("assets/data/token-credentials.json")
   }
 }
