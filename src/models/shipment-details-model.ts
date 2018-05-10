@@ -10,4 +10,6 @@ export class ShipmentDetailsModel {
     public TipologiaSpedizione: string;
     public StatoSpedizione?: number;
     public NoteSpedizione: string;
+    public UserId: string;
+    public UserFirstName: string;
 }

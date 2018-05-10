@@ -21,11 +21,19 @@ export class ApiProvider {
   private token: string;
 
   //get request with authorization token inside headers
-  getAuth(url: string, data?: any) {
+  getAuth(url: string) {
 
     let httpOptions = this.appendHttpOptions();
 
     return this.http.get(url, httpOptions);
+  }
+
+  //get request with authorization token inside headers
+  postAuth(url: string, data: any) {
+
+    let httpOptions = this.appendHttpOptions();
+
+    return this.http.post(url, data, httpOptions);
   }
 
 

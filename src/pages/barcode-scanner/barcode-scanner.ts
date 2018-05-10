@@ -1,8 +1,9 @@
+import { LocalStorageProvider } from './../../providers/local-storage/local-storage';
 import { AuthProvider } from './../../providers/auth/auth';
 import { LoadingSpinnerProvider } from './../../providers/loading-spinner/loading-spinner';
 import { Subscription } from 'rxjs/Subscription';
 import { Component, OnDestroy } from '@angular/core';
-import { IonicPage, NavController } from 'ionic-angular';
+import { IonicPage, NavController, App } from 'ionic-angular';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { ShipmentProvider } from '../../providers/shipment/shipment';
 import { ShipmentDetailsModel } from '../../models/shipment-details-model';
@@ -21,7 +22,9 @@ export class BarcodeScannerPage implements OnDestroy {
     private shipment: ShipmentProvider,
     private spinner: LoadingSpinnerProvider,
     private authProvider: AuthProvider,
-    public alertCtrl: AlertController) {
+    public alertCtrl: AlertController,
+    public app: App,
+    private localStorage: LocalStorageProvider) {
   }
 
   public isScanned: boolean = false;
@@ -97,6 +100,11 @@ export class BarcodeScannerPage implements OnDestroy {
     }
   }
 
+  deliverToCourier() {
+    this.deliverConfirmationAlert()
+  }
+
+  //if user token has expire, show alert and logout
   showAlertAuthorization() {
     let alert = this.alertCtrl.create({
       title: 'Authorization error!',
@@ -106,16 +114,53 @@ export class BarcodeScannerPage implements OnDestroy {
           text: 'OK',
           handler: () => {
             this.authProvider.logout();
-            this.navCtrl.push(LoginComponent)
+            //redirect to login page and remove tabs menu
+            this.app.getRootNav().push(LoginComponent);
           }
         }
       ]
     });
+
     alert.present();
   }
 
-  deliver() {
 
+  deliverConfirmationAlert() {
+    let alert = this.alertCtrl.create({
+      title: 'Are you sure you want to delivery order?',
+      buttons: [
+        {
+          text: 'Cancel'
+        },
+        {
+          text: 'Ok',
+          handler: () => {
+            this.setShipmentInfo();
+          }
+        }
+      ]
+    });
+
+    alert.present();
+  }
+
+  async setShipmentInfo() {
+    let user = await this.localStorage.getItemFromLocalStorage(this.localStorage.loggedUserLocalStorage);
+    user = JSON.parse(user);
+
+    let shipmentDetails = new ShipmentDetailsModel();
+
+    shipmentDetails = this.model;
+
+    shipmentDetails.UserId = user.UserId;
+    shipmentDetails.UserFirstName = user.Name;
+    shipmentDetails.NoteSpedizione = this.model.NoteSpedizione;
+
+    this.shipment.setShipmentDetails(shipmentDetails).then(response => {
+      response.subscribe(res => {
+        console.log(res);
+      })
+    });
   }
 
   ngOnDestroy(): void {

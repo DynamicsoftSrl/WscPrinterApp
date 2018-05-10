@@ -87,10 +87,10 @@
         </ion-item>
 
         <ion-item color="none" id="spedizioneBarcodeScannerInfo-list-item36">
-          <ion-textarea placeholder="Enter a description" [value]="model.NoteSpedizione"></ion-textarea>
+          <ion-textarea placeholder="Enter a description" [(ngModel)]="model.NoteSpedizione"></ion-textarea>
         </ion-item>
       </ion-list>
-      <button id="spedizioneBarcodeScannerInfo-button8" ion-button color="balanced" block icon-left (click)="deliver()">
+      <button id="spedizioneBarcodeScannerInfo-button8" ion-button color="balanced" block icon-left (click)="deliverToCourier()">
         <ion-icon name="checkmark"></ion-icon>
         Consegnato al corriere
       </button>
