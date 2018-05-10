@@ -40,24 +40,21 @@ export class LoginComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     //validation of login form via FormBuilder
     this.loginFormGroup = this.formBuilder.group({
-      Email: ['', Validators.required],
-      Password: ['', Validators.required],
+      Email: ['admin_dynamicsoft', Validators.required],
+      Password: ['DYNAMIC#1#', Validators.required],
       Domain: ['http://cms.wscprinter.it/', Validators.required]
     });
   }
 
   //Nav Guard which is controlling login page, if user is logged in, he can't enter the login page until he logout
-  ionViewCanEnter() {
-    let isAuth = this.authProvider.isUserAuthentificated().then(userIsAuthentificated => {
-      return userIsAuthentificated;
-    });
+  async ionViewCanEnter() {
+    let isAuth = await this.authProvider.isUserAuthentificated()
 
-    return isAuth.then(value => {
-      if (value == true) {
-        //if user is logged in, we should redirect him to homepage
-        this.navCtrl.setRoot(TabsMenuComponent);
-      }
-    });
+    if (isAuth) {
+      this.navCtrl.setRoot(TabsMenuComponent);
+    }
+
+    return !isAuth;
   }
 
   //validation part getters for username, password and domain
@@ -127,7 +124,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.handleError(err);
       })
 
-      this.sub.add(tokenCredentialsSub);
+    this.sub.add(tokenCredentialsSub);
   }
 
   login() {

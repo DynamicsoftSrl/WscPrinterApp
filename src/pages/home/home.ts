@@ -23,14 +23,11 @@ export class HomePage implements OnInit {
 
 
   //Nav Guard which is controlling login page, if user is logged in, he can't enter the login page until he logout
-  ionViewCanEnter() {
-    let isAuth = this.authProvider.isUserAuthentificated().then(userIsAuthentificated => {
-      return userIsAuthentificated;
-    });
+  async ionViewCanEnter() {
+    let isAuth = await this.authProvider.isUserAuthentificated()
 
     return isAuth;
   }
-
 
   ngOnInit(): void {
     this.localStorage.getItemFromLocalStorage(this.localStorage.loggedUserLocalStorage)
