@@ -114,6 +114,10 @@ export class LoginComponent implements OnInit, OnDestroy {
                 this.isDomainError = true;
                 console.log("Wrong domain");
               }
+              else {
+                this.isDomainError = true;
+                console.log("Wrong domain test");
+              }
 
               this.sub.add(tokenSub);
 
