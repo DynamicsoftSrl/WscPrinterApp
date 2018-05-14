@@ -98,7 +98,7 @@
     <!-- </ng-template> -->
   </ng-template>
     
-  <div class="alert" *ngIf="shipmentStatusChanged && changingStateError" text-center margin padding>
+  <div class="alert" *ngIf="changingStateError" text-center margin padding>
     <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
     <strong>Some error occured. Please try later!</strong>
   </div>
