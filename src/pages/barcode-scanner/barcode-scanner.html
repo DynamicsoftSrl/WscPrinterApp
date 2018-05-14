@@ -69,34 +69,39 @@
             </ng-container>
           </ng-template>
         </ion-item>
-        <ion-item color="none" id="spedizioneBarcodeScannerInfo-list-item33">
+        <ion-item color="none" id="spedizioneBarcodeScannerInfo-list-item33" *ngIf="!shipmentStatusChanged">
           N.Colli
           <ion-note item-right *ngIf="model.NColli">{{model.NColli}} di 5</ion-note>
         </ion-item>
-        <ion-item color="none" id="spedizioneBarcodeScannerInfo-list-item34">
+        <ion-item color="none" id="spedizioneBarcodeScannerInfo-list-item34" *ngIf="!shipmentStatusChanged">
           N. spedizione
           <ion-note item-right>{{model.NumSpedizione}}</ion-note>
         </ion-item>
-        <ion-item color="none" id="spedizioneBarcodeScannerInfo-list-item35">
+        <ion-item color="none" id="spedizioneBarcodeScannerInfo-list-item35" *ngIf="!shipmentStatusChanged">
           Corriere
           <ion-note item-right>{{model.TipologiaSpedizione}}</ion-note>
         </ion-item>
-        <ion-item color="none" id="spedizioneBarcodeScannerInfo-list-item36">
+        <ion-item color="none" id="spedizioneBarcodeScannerInfo-list-item36" *ngIf="!shipmentStatusChanged">
           Data scadenza
           <ion-note item-right>{{model.DataScadenzaSpedizione | date:'dd/MM/yyyy'}}</ion-note>
         </ion-item>
 
-        <ion-item color="none" id="spedizioneBarcodeScannerInfo-list-item36">
+        <ion-item color="none" id="spedizioneBarcodeScannerInfo-list-item36" *ngIf="!shipmentStatusChanged">
           <ion-textarea placeholder="Enter a description" [(ngModel)]="model.NoteSpedizione"></ion-textarea>
         </ion-item>
       </ion-list>
-      <button id="spedizioneBarcodeScannerInfo-button8" ion-button color="balanced" block icon-left (click)="deliverToCourier()">
+      <button id="spedizioneBarcodeScannerInfo-button8" ion-button color="balanced" block icon-left (click)="deliverToCourier()" *ngIf="!shipmentStatusChanged">
         <ion-icon name="checkmark"></ion-icon>
         Consegnato al corriere
       </button>
     </ng-container>
     <!-- </ng-template> -->
   </ng-template>
+    
+  <div class="alert" *ngIf="shipmentStatusChanged && changingStateError" text-center margin padding>
+    <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+    <strong>Some error occured. Please try later!</strong>
+  </div>
 
   <ng-container *ngIf="scanError">
     <div class="alert" text-center padding>

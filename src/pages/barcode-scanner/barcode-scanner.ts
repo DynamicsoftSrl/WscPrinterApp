@@ -29,6 +29,8 @@ export class BarcodeScannerPage implements OnDestroy {
 
   public isScanned: boolean = false;
   public scanError: boolean = false;
+  public shipmentStatusChanged: boolean = false;
+  public changingStateError: boolean = false;
   public model: ShipmentDetailsModel = new ShipmentDetailsModel();
 
   private sub: Subscription = new Subscription();
@@ -41,6 +43,9 @@ export class BarcodeScannerPage implements OnDestroy {
   }
 
   public scanBarcode() {
+    this.shipmentStatusChanged = false;
+    this.changingStateError = false;
+
     this.spinner.showLoadingSpinner();
 
     this.barcodeScanner.scan()
@@ -145,6 +150,8 @@ export class BarcodeScannerPage implements OnDestroy {
   }
 
   async setShipmentInfo() {
+    this.spinner.showLoadingSpinner();
+
     let user = await this.localStorage.getItemFromLocalStorage(this.localStorage.loggedUserLocalStorage);
     user = JSON.parse(user);
 
@@ -157,10 +164,17 @@ export class BarcodeScannerPage implements OnDestroy {
     shipmentDetails.NoteSpedizione = this.model.NoteSpedizione;
 
     this.shipment.setShipmentDetails(shipmentDetails).then(response => {
-      response.subscribe(res => {
-        console.log(res);
+      response.subscribe((res: ShipmentDetailsModel) => {
+        this.model = res;
+
+        this.shipmentStatusChanged = true;
+        this.spinner.hideLoadingSpinner();
       })
-    });
+    },
+      err => {
+        this.changingStateError = true;
+        this.spinner.hideLoadingSpinner();
+      });
   }
 
   ngOnDestroy(): void {
