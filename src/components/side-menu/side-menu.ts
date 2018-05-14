@@ -1,7 +1,7 @@
 import { User } from './../../models/user-model';
 import { LocalStorageProvider } from './../../providers/local-storage/local-storage';
 import { Component, Input, OnInit } from '@angular/core';
-import { MenuController, NavController } from 'ionic-angular';
+import { NavController } from 'ionic-angular';
 import { BarcodeScannerPage } from '../../pages/barcode-scanner/barcode-scanner';
 
 @Component({
@@ -14,7 +14,6 @@ export class SideMenuComponent implements OnInit {
   public loggedInUser: User = new User();
 
   constructor(private localStorage: LocalStorageProvider,
-    public menuCtrl: MenuController,
     private navCtrl: NavController) {
   }
 

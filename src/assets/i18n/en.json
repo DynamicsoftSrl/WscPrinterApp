@@ -1,0 +1,22 @@
+{
+  "account_info": "Account info",
+  "name": "Name",
+  "email": "Email",
+  "activate_email_notifications": "Activate email notifications",
+  "edit_password": "Edit password",
+  "shipment_barcode_scanner": "Shipment barcode scanner",
+  "username": "Username",
+  "password": "Password",
+  "domain" : "Domain",
+  "login": "Login",
+  "single_shipment_barcode_scanner": "Shipment barcode scanner",
+  "shipment_barcode_info": "Shipment info",
+  "scan_barcode": "Scan barcode",
+  "scan_new_barcode": "Scan new barcode",
+  "order_number": "Order number",
+  "shipment_state": "Shipment state",
+  "shipment_number": "Shipment number",
+  "courier": "Courier",
+  "deadline_date": "Deadline",
+  "deliver_to_the_courier": "Deliver to the courier"  
+}

@@ -9,7 +9,7 @@ import { LoginComponent } from '../pages/login/login';
 import { HomePage } from '../pages/home/home';
 import { FormsModule } from '@angular/forms';
 import { AuthProvider } from '../providers/auth/auth';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
 
 import { LocalStorageProvider } from '../providers/local-storage/local-storage';
 
@@ -22,6 +22,16 @@ import { MappingProvider } from '../providers/mapping/mapping';
 import { ApiProvider } from '../providers/api/api';
 import { ShipmentProvider } from '../providers/shipment/shipment';
 import { LoadingSpinnerProvider } from '../providers/loading-spinner/loading-spinner';
+
+//ngx translate
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+
+
+// AoT requires an exported function for factories
+export function createTranslateLoader(http: HttpClient) {
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+}
 
 @NgModule({
   declarations: [
@@ -36,7 +46,14 @@ import { LoadingSpinnerProvider } from '../providers/loading-spinner/loading-spi
     FormsModule,
     HttpClientModule,
     ComponentsModule,
-    BarcodeScannerPageModule
+    BarcodeScannerPageModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: (createTranslateLoader),
+        deps: [HttpClient]
+      }
+    })
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -56,6 +73,10 @@ import { LoadingSpinnerProvider } from '../providers/loading-spinner/loading-spi
     ApiProvider,
     ShipmentProvider,
     LoadingSpinnerProvider
+  ],
+  exports: [
+    //exported because of using of translation service in other modules 
+    TranslateModule
   ]
 })
 export class AppModule { }

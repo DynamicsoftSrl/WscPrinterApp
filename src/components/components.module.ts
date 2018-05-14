@@ -5,17 +5,19 @@ import { TabsMenuComponent } from './tabs-menu/tabs-menu';
 
 //it must be imported in every module
 import { IonicModule } from 'ionic-angular';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
 	declarations:
 		[
 			SideMenuComponent,
-			TabsMenuComponent
+			TabsMenuComponent,
 		],
 	imports:
 		[
 			CommonModule,
-			IonicModule
+			IonicModule,
+			TranslateModule
 		],
 	exports:
 		[

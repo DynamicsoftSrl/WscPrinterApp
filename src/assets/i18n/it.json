@@ -1,0 +1,22 @@
+{
+  "account_info": "Informazioni account",
+  "name": "Nome",
+  "email": "Email",
+  "activate_email_notifications": "Attiva notifiche email",
+  "edit_password": "Modifica password",
+  "shipment_barcode_scanner": "Spedizioni barcode scanner",
+  "username": "Username",
+  "password": "Password",
+  "domain": "Dominio",
+  "login": "Login",
+  "single_shipment_barcode_scanner": "Spedizione barcode scanner",
+  "shipment_barcode_info": "Spedizione barcode scanner info",
+  "scan_barcode": "Scan barcode",
+  "scan_new_barcode": "Scan nuovo barcode",
+  "order_number": "N.Ordine",
+  "shipment_state": "Stato Spedizione",
+  "shipment_number": "N. spedizione",
+  "courier": "Corriere",
+  "deadline_date": "Data scadenza",
+  "deliver_to_the_courier": "Consegnato al corriere"
+}
