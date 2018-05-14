@@ -169,7 +169,11 @@ export class BarcodeScannerPage implements OnDestroy {
 
         this.shipmentStatusChanged = true;
         this.spinner.hideLoadingSpinner();
-      })
+      },
+        err => {
+          this.changingStateError = true;
+          this.spinner.hideLoadingSpinner();
+        })
     },
       err => {
         this.changingStateError = true;
