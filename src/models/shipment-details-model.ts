@@ -6,6 +6,10 @@ export class ShipmentDetailsModel {
     public NColli?: number;
     public NumSpedizione: string;
     public RichiestaCorriere?: boolean;
-    public DataConsegnaSpedizione?: DateTime;
+    public DataScadenzaSpedizione?: DateTime;
     public TipologiaSpedizione: string;
+    public StatoSpedizione?: number;
+    public NoteSpedizione: string;
+    public UserId: string;
+    public UserFirstName: string;
 }

@@ -3,7 +3,7 @@ import { LocalStorageProvider } from './../local-storage/local-storage';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { MappingProvider } from './../mapping/mapping';
-import { Observable } from 'rxjs/Observable';
+import { ShipmentDetailsModel } from '../../models/shipment-details-model';
 
 @Injectable()
 export class ShipmentProvider {
@@ -14,17 +14,20 @@ export class ShipmentProvider {
     private api: ApiProvider) {
   }
 
-  getShipmentDetails(id: string): Promise<Observable<any>> {
-    let shipmentDetails = this.localStorage.getDomain()
-      .then(domain => {
-        let url = domain + this.mapping.get_shipment_details.replace('{id}', id);
+  async getShipmentDetails(id: string) {
+    let domain = await this.localStorage.getDomain();
 
-        return this.api.getAuth(url)
-      }).catch(err => {
-        return err;
-      });
+    let url = domain + this.mapping.get_shipment_details.replace('{id}', id);
 
-    return shipmentDetails;
+    return this.api.getAuth(url)
+  }
+
+  async setShipmentDetails(shipmentDetails: ShipmentDetailsModel) {
+    let domain = await this.localStorage.getDomain();
+
+    let url = domain + this.mapping.set_shipment_details;
+
+    return this.api.postAuth(url, shipmentDetails);
   }
 
 }

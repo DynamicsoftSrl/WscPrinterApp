@@ -30,41 +30,83 @@
   </ng-container>
 
   <ng-template #scannerInfo>
+
     <button id="spedizioneBarcodeScannerInfo-button7" ion-button color="dark" block (click)="scanBarcode()">
       Scan nuovo barcode
     </button>
-    <ion-list id="spedizioneBarcodeScannerInfo-list6">
-      <ion-item color="none" id="spedizioneBarcodeScannerInfo-list-item31">
-        <ion-icon name="information-circle" item-left></ion-icon>
-        N.Ordine
-        <ion-note item-right>{{model.OrderNumber}}</ion-note>
-      </ion-item>
-    </ion-list>
-    <ion-list id="spedizioneBarcodeScannerInfo-list7">
-      <ion-item color="none" id="spedizioneBarcodeScannerInfo-list-item32">
-        Identificativo collo
-        <ion-note item-right>{{model.RowId}}</ion-note>
-      </ion-item>
-      <ion-item color="none" id="spedizioneBarcodeScannerInfo-list-item33">
-        N.Colli
-        <ion-note item-right>{{model.NColli}} di 5</ion-note>
-      </ion-item>
-      <ion-item color="none" id="spedizioneBarcodeScannerInfo-list-item34">
-        N. spedizione
-        <ion-note item-right>{{model.NumSpedizione}}</ion-note>
-      </ion-item>
-      <ion-item color="none" id="spedizioneBarcodeScannerInfo-list-item35">
-        Corriere
-        <ion-note item-right>{{model.TipologiaSpedizione}}</ion-note>
-      </ion-item>
-      <ion-item color="none" id="spedizioneBarcodeScannerInfo-list-item36">
-        Data consegna
-        <ion-note item-right>{{model.DataConsegnaSpedizione | date:'dd/MM/yyyy'}}</ion-note>
-      </ion-item>
-    </ion-list>
-    <button id="spedizioneBarcodeScannerInfo-button8" ion-button color="balanced" block icon-left>
-      <ion-icon name="checkmark"></ion-icon>
-      Consegnato al corriere
-    </button>
+    <ng-container #noScanError *ngIf="!scanError && model">
+      <ion-list id="spedizioneBarcodeScannerInfo-list6">
+        <ion-item color="none" id="spedizioneBarcodeScannerInfo-list-item31">
+          <ion-icon name="information-circle" item-left></ion-icon>
+          N.Ordine
+          <ion-note item-right>{{model.OrderNumber}}</ion-note>
+        </ion-item>
+      </ion-list>
+      <ion-list id="spedizioneBarcodeScannerInfo-list7">
+        <ion-item color="none" id="spedizioneBarcodeScannerInfo-list-itemstato">
+          Stato Spedizione
+          <ng-container *ngIf="model.StatoSpedizione === 0;else inPreparazione">
+            <ion-note item-right class="fl-right">In coda</ion-note>
+          </ng-container>
+          <ng-template #inPreparazione>
+            <ng-container *ngIf="model.StatoSpedizione === 1;else inAttesa">
+              <ion-note item-right class="fl-right">In preparazione</ion-note>
+            </ng-container>
+          </ng-template>
+          <ng-template #inAttesa>
+            <ng-container *ngIf="model.StatoSpedizione === 2;else inTransito">
+              <ion-note item-right class="fl-right">In attesa</ion-note>
+            </ng-container>
+          </ng-template>
+          <ng-template #inTransito>
+            <ng-container *ngIf="model.StatoSpedizione === 3;else consegnato">
+              <ion-note item-right class="fl-right">In transito</ion-note>
+            </ng-container>
+          </ng-template>
+          <ng-template #consegnato>
+            <ng-container *ngIf="model.StatoSpedizione === 4">
+              <ion-note item-right class="fl-right">Consegnato</ion-note>
+            </ng-container>
+          </ng-template>
+        </ion-item>
+        <ion-item color="none" id="spedizioneBarcodeScannerInfo-list-item33" *ngIf="!shipmentStatusChanged">
+          N.Colli
+          <ion-note item-right *ngIf="model.NColli">{{model.NColli}} di 5</ion-note>
+        </ion-item>
+        <ion-item color="none" id="spedizioneBarcodeScannerInfo-list-item34" *ngIf="!shipmentStatusChanged">
+          N. spedizione
+          <ion-note item-right>{{model.NumSpedizione}}</ion-note>
+        </ion-item>
+        <ion-item color="none" id="spedizioneBarcodeScannerInfo-list-item35" *ngIf="!shipmentStatusChanged">
+          Corriere
+          <ion-note item-right>{{model.TipologiaSpedizione}}</ion-note>
+        </ion-item>
+        <ion-item color="none" id="spedizioneBarcodeScannerInfo-list-item36" *ngIf="!shipmentStatusChanged">
+          Data scadenza
+          <ion-note item-right>{{model.DataScadenzaSpedizione | date:'dd/MM/yyyy'}}</ion-note>
+        </ion-item>
+
+        <ion-item color="none" id="spedizioneBarcodeScannerInfo-list-item36" *ngIf="!shipmentStatusChanged">
+          <ion-textarea placeholder="Enter a description" [(ngModel)]="model.NoteSpedizione"></ion-textarea>
+        </ion-item>
+      </ion-list>
+      <button id="spedizioneBarcodeScannerInfo-button8" ion-button color="balanced" block icon-left (click)="deliverToCourier()" *ngIf="!shipmentStatusChanged">
+        <ion-icon name="checkmark"></ion-icon>
+        Consegnato al corriere
+      </button>
+    </ng-container>
+    <!-- </ng-template> -->
   </ng-template>
+    
+  <div class="alert" *ngIf="changingStateError" text-center margin padding>
+    <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+    <strong>Some error occured. Please try later!</strong>
+  </div>
+
+  <ng-container *ngIf="scanError">
+    <div class="alert" text-center padding>
+      <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+      <strong>Barcode id is not recognized. Please try again!</strong>
+    </div>
+  </ng-container>
 </ion-content>
