@@ -17,6 +17,8 @@
   "shipment_state": "Shipment state",
   "shipment_number": "Shipment number",
   "courier": "Courier",
+  "order_date": "Ordered",  
   "deadline_date": "Deadline",
-  "deliver_to_the_courier": "Deliver to the courier"  
+  "deliver_to_the_courier": "Deliver to the courier",
+  "shipment_operator": "Shipment operator"  
 }

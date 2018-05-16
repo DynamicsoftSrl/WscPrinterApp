@@ -141,7 +141,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
           let stringAdminUserObject = JSON.stringify(response);
           this.localStorage.saveToLocalStorage(this.localStorage.loggedUserLocalStorage, stringAdminUserObject).then(user => {
-            this.navigateToHomepage(response);
+            this.navigateToCorrespondingPage(response);
           });
         }
         else {
@@ -174,7 +174,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.spinner.hideLoadingSpinner()
   }
 
-  navigateToHomepage(userDetails: User) {
+  navigateToCorrespondingPage(userDetails: User) {
     this.navCtrl.setRoot(TabsMenuComponent);
   }
 

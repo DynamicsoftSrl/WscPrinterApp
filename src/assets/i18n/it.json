@@ -17,6 +17,8 @@
   "shipment_state": "Stato Spedizione",
   "shipment_number": "N. spedizione",
   "courier": "Corriere",
-  "deadline_date": "Data scadenza",
-  "deliver_to_the_courier": "Consegnato al corriere"
+  "order_date": "Data scadenza",  
+  "deadline_date": "Data consegna",
+  "deliver_to_the_courier": "Consegnato al corriere",
+  "shipment_operator": "Operatore sped."
 }

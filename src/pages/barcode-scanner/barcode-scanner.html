@@ -36,7 +36,7 @@
 
     </button>
     <ng-container #noScanError *ngIf="!scanError && model">
-      <ion-list id="spedizioneBarcodeScannerInfo-list6">
+      <ion-list id="spedizioneBarcodeScannerInfo-list6" class="mt16">
         <ion-item color="none" id="spedizioneBarcodeScannerInfo-list-item31">
           <ion-icon name="information-circle" item-left></ion-icon>
           {{'order_number' | translate}}
@@ -83,8 +83,18 @@
           <ion-note item-right>{{model.TipologiaSpedizione}}</ion-note>
         </ion-item>
         <ion-item color="none" id="spedizioneBarcodeScannerInfo-list-item36" *ngIf="!shipmentStatusChanged">
-          {{'deadline_date' | translate}}
+          {{'order_date' | translate}}
           <ion-note item-right>{{model.DataScadenzaSpedizione | date:'dd/MM/yyyy'}}</ion-note>
+        </ion-item>
+
+        <ion-item color="none" id="spedizioneBarcodeScannerInfo-list-item36" *ngIf="shipmentStatusChanged">
+          {{'deadline_date' | translate}}
+          <ion-note item-right>{{model.DataConsegnaSpedizione | date:'dd/MM/yyyy'}}</ion-note>
+        </ion-item>
+
+        <ion-item color="none" id="spedizioneBarcodeScannerInfo-list-item36" *ngIf="shipmentStatusChanged">
+          {{'shipment_operator' | translate}}
+          <ion-note item-right>{{model.ShipmentOperator}}</ion-note>
         </ion-item>
 
         <ion-item color="none" id="spedizioneBarcodeScannerInfo-list-item36" *ngIf="!shipmentStatusChanged">
@@ -92,12 +102,11 @@
         </ion-item>
       </ion-list>
       <button id="spedizioneBarcodeScannerInfo-button8" ion-button color="balanced" block icon-left (click)="deliverToCourier()"
-        *ngIf="!shipmentStatusChanged">
+        *ngIf="!shipmentStatusChanged && !hideCourierButton">
         <ion-icon name="checkmark"></ion-icon>
         {{'deliver_to_the_courier' | translate}}
       </button>
     </ng-container>
-    <!-- </ng-template> -->
   </ng-template>
 
   <div class="alert" *ngIf="changingStateError" text-center margin padding>
