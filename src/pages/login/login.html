@@ -1,0 +1,68 @@
+<ion-content padding class="background-img" id="page5">
+  <img src="assets/img/wscprinter-logo.png" style="display:block;width:50%;height:auto;margin-left:auto;margin-right:auto;"
+  />
+  <div class="spacer" style="width:300px;height:39px;" id="login-spacer1"></div>
+  <form id="login-form2" [formGroup]="loginFormGroup">
+    <ion-item id="login-input3">
+      <ion-label>
+        {{ 'username' | translate}}
+      </ion-label>
+      <ion-input type="text" placeholder="" name="Username" [(ngModel)]="model.Email" formControlName="Email" (keyup)="removeValidators()"></ion-input>
+    </ion-item>
+    <!-- validation of username input field -->
+    <div class="alert" *ngIf="email.invalid && (email.dirty || email.touched)" text-center margin padding>
+      <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+      <!-- *ngIf="username.errors.required" will also work but it will show compile errors in editor -->
+      <!-- <div *ngIf="email.errors['required']" text-center margin-top class="color-red">
+        Name is required!
+      </div> -->
+      <strong>Username is required!</strong>
+    </div>
+
+    <ion-item id="login-input4">
+      <ion-label>
+        {{ 'password' | translate}}
+      </ion-label>
+      <ion-input type="password" placeholder="" name="Password" [(ngModel)]="model.Password" formControlName="Password" (keyup)="removeValidators()"></ion-input>
+    </ion-item>
+    <div class="alert" *ngIf="password.invalid && (password.dirty || password.touched)" text-center margin padding>
+      <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+      <strong>Password is required!</strong>
+    </div>
+
+    <ion-item id="login-input5">
+      <ion-label>
+        {{ 'domain' | translate}}
+      </ion-label>
+      <ion-input type="text" placeholder="" name="Domain" [(ngModel)]="model.Domain" formControlName="Domain" (keyup)="removeValidators()"></ion-input>
+    </ion-item>
+
+    <div class="alert" *ngIf="domain.invalid && (domain.dirty || domain.touched)" text-center margin padding>
+      <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+      <strong>Domain is required!</strong>
+    </div>
+
+    <div class="alert" *ngIf="isDomainError" text-center margin padding>
+      <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+      <strong>Domain doesn't exists! Please enter correct domain!</strong>
+    </div>
+  </form>
+
+  <div class="alert" *ngIf="isLoginError" text-center margin padding>
+    <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+    <strong>Username or Password are not valid. Please enter correct credentials.</strong>
+  </div>
+
+  <div class="alert" *ngIf="isTokenCredentialsError" text-center margin padding>
+    <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+    <strong>Token credentials are not valid. Please enter correct credentials.</strong>
+  </div>
+
+  <button id="login-button1" ion-button color="dark" block (click)="onLogin()" [disabled]="!loginFormGroup.valid">
+    {{ 'login' | translate}}
+  </button>
+  <div class="spacer" style="height:100px;" id="login-spacer2"></div>
+  <h5 id="login-heading1" style="color:#000000;font-weight:300;text-align:center;">
+    2018 © Dynamicsoft S.r.l.
+  </h5>
+</ion-content>
