@@ -19,6 +19,7 @@
   "courier": "Courier",
   "order_date": "Ordered",  
   "deadline_date": "Deadline",
+  "delivery_date": "Delivery date",
   "deliver_to_the_courier": "Deliver to the courier",
   "shipment_operator": "Shipment operator"  
 }

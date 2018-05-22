@@ -64,7 +64,9 @@ export class BarcodeScannerPage implements OnDestroy {
       },
         err => {
           console.log(err);
-          this.controllErrorsLayout(true, true, true);
+          // this.controllErrorsLayout(true, true, true);
+          this.getShipmentDetails('60');
+          
         })
   }
 
