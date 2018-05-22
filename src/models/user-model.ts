@@ -4,4 +4,5 @@ export class User {
     Name: string;
     UserGroup: string;
     Email: string;
+    ListOfActiveModules: number[]
 }

@@ -8,9 +8,9 @@
         <h2>{{loggedInUser.Name}}</h2>
         <p>{{loggedInUser.Email}}</p>
       </ion-item>
-      <ion-item color="none" (click)="NavigateToBarcodeScanner()" id="menu-list-item6">
+      <ion-item color="none" (click)="NavigateToBarcodeScanner()" *ngIf="isActiveMultipleShipment" id="menu-list-item6">
         <ion-icon name="barcode" item-left></ion-icon>
-        Spedizioni barcode scanner
+        {{ 'shipment_barcode_scanner' | translate }}
       </ion-item>
     </ion-list>
   </ion-content>

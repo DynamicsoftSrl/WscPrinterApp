@@ -13,30 +13,30 @@
 </ion-header>
 <ion-content #content padding id="page2">
   <h4 id="impostazioni-heading2" style="color:#000000;">
-    Informazioni account
+    {{ 'account_info' | translate }}
   </h4>
   <form id="impostazioni-form3">
     <ion-item id="impostazioni-input7">
       <ion-label>
-        Nome
+        {{ 'name' | translate }}
       </ion-label>
       <ion-input type="text" placeholder="" [value]="loggedInUser?.Name"></ion-input>
     </ion-item>
     <ion-item id="impostazioni-input8">
       <ion-label>
-        Email
+        {{ 'email' | translate }}
       </ion-label>
       <ion-input type="email" placeholder="" [value]="loggedInUser?.Email"></ion-input>
     </ion-item>
     <ion-item id="impostazioni-toggle6">
       <ion-label>
-        Attiva notifiche email
+        {{'activate_email_notifications' | translate}}
       </ion-label>
       <ion-toggle color="positive" checked="false"></ion-toggle>
     </ion-item>
   </form>
   <h4 id="impostazioni-heading3" style="color:#000000;">
-    Modifica password
+    {{'edit_password' | translate}}
   </h4>
   <form id="impostazioni-form4">
     <ion-list>

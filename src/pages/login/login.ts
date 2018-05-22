@@ -40,9 +40,9 @@ export class LoginComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     //validation of login form via FormBuilder
     this.loginFormGroup = this.formBuilder.group({
-      Email: ['admin_dynamicsoft', Validators.required],
-      Password: ['DYNAMIC#1#', Validators.required],
-      Domain: ['http://cms.wscprinter.it/', Validators.required]
+      Email: ['', Validators.required],
+      Password: ['', Validators.required],
+      Domain: ['', Validators.required]
     });
   }
 
@@ -141,7 +141,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
           let stringAdminUserObject = JSON.stringify(response);
           this.localStorage.saveToLocalStorage(this.localStorage.loggedUserLocalStorage, stringAdminUserObject).then(user => {
-            this.navigateToHomepage(response);
+            this.navigateToCorrespondingPage(response);
           });
         }
         else {
@@ -174,7 +174,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.spinner.hideLoadingSpinner()
   }
 
-  navigateToHomepage(userDetails: User) {
+  navigateToCorrespondingPage(userDetails: User) {
     this.navCtrl.setRoot(TabsMenuComponent);
   }
 

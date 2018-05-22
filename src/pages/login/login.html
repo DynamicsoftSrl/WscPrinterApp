@@ -5,7 +5,7 @@
   <form id="login-form2" [formGroup]="loginFormGroup">
     <ion-item id="login-input3">
       <ion-label>
-        Username
+        {{ 'username' | translate}}
       </ion-label>
       <ion-input type="text" placeholder="" name="Username" [(ngModel)]="model.Email" formControlName="Email" (keyup)="removeValidators()"></ion-input>
     </ion-item>
@@ -21,7 +21,7 @@
 
     <ion-item id="login-input4">
       <ion-label>
-        Password
+        {{ 'password' | translate}}
       </ion-label>
       <ion-input type="password" placeholder="" name="Password" [(ngModel)]="model.Password" formControlName="Password" (keyup)="removeValidators()"></ion-input>
     </ion-item>
@@ -32,7 +32,7 @@
 
     <ion-item id="login-input5">
       <ion-label>
-        Dominio
+        {{ 'domain' | translate}}
       </ion-label>
       <ion-input type="text" placeholder="" name="Domain" [(ngModel)]="model.Domain" formControlName="Domain" (keyup)="removeValidators()"></ion-input>
     </ion-item>
@@ -59,7 +59,7 @@
   </div>
 
   <button id="login-button1" ion-button color="dark" block (click)="onLogin()" [disabled]="!loginFormGroup.valid">
-    Login
+    {{ 'login' | translate}}
   </button>
   <div class="spacer" style="height:100px;" id="login-spacer2"></div>
   <h5 id="login-heading1" style="color:#000000;font-weight:300;text-align:center;">

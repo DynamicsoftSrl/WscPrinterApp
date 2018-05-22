@@ -31,6 +31,7 @@ export class BarcodeScannerPage implements OnDestroy {
   public scanError: boolean = false;
   public shipmentStatusChanged: boolean = false;
   public changingStateError: boolean = false;
+  public hideCourierButton: boolean = false;
   public model: ShipmentDetailsModel = new ShipmentDetailsModel();
 
   private sub: Subscription = new Subscription();
@@ -63,7 +64,9 @@ export class BarcodeScannerPage implements OnDestroy {
       },
         err => {
           console.log(err);
-          this.controllErrorsLayout(true, true, true);
+          // this.controllErrorsLayout(true, true, true);
+          this.getShipmentDetails('60');
+          
         })
   }
 
@@ -74,6 +77,12 @@ export class BarcodeScannerPage implements OnDestroy {
         let shipmentDetailsSub = response.subscribe((shipmentDetails: ShipmentDetailsModel | null) => {
           if (shipmentDetails && shipmentDetails.RowId != 0) {
             this.model = shipmentDetails;
+            if (this.model.StatoSpedizione === 4) {
+              this.hideCourierButton = true;
+            }
+            else {
+              this.hideCourierButton = false;
+            }
 
             this.controllErrorsLayout(false, true, true);
 
