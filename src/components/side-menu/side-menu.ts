@@ -14,7 +14,7 @@ export class SideMenuComponent implements OnInit {
   @Input('content') content: any;
   public loggedInUser: User = new User();
 
-  private isActiveMultipleShipment: boolean = false;
+  public isActiveMultipleShipment: boolean = false;
 
   constructor(private localStorage: LocalStorageProvider,
     private navCtrl: NavController,
