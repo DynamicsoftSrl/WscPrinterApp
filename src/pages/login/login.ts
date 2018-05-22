@@ -40,9 +40,9 @@ export class LoginComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     //validation of login form via FormBuilder
     this.loginFormGroup = this.formBuilder.group({
-      Email: ['admin_dynamicsoft', Validators.required],
-      Password: ['DYNAMIC#1#', Validators.required],
-      Domain: ['http://cms.wscprinter.it/', Validators.required]
+      Email: ['', Validators.required],
+      Password: ['', Validators.required],
+      Domain: ['', Validators.required]
     });
   }
 

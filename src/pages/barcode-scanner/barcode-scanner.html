@@ -71,8 +71,8 @@
           </ng-template>
         </ion-item>
         <ion-item color="none" id="spedizioneBarcodeScannerInfo-list-item33" *ngIf="!shipmentStatusChanged">
-          N.Colli
-          <ion-note item-right *ngIf="model.NColli">{{model.NColli}} di 5</ion-note>
+          N.colli/bancali
+          <ion-note item-right *ngIf="model.NColli">{{model.NColli}}</ion-note>
         </ion-item>
         <ion-item color="none" id="spedizioneBarcodeScannerInfo-list-item34" *ngIf="!shipmentStatusChanged">
           {{'shipment_number' | translate}}
@@ -89,7 +89,7 @@
 
         <ion-item color="none" id="spedizioneBarcodeScannerInfo-list-item36" *ngIf="shipmentStatusChanged">
           {{'deadline_date' | translate}}
-          <ion-note item-right>{{model.DataConsegnaSpedizione | date:'dd/MM/yyyy'}}</ion-note>
+          <ion-note item-right>{{model.DataSpedizione | date:'dd/MM/yyyy'}}</ion-note>
         </ion-item>
 
         <ion-item color="none" id="spedizioneBarcodeScannerInfo-list-item36" *ngIf="shipmentStatusChanged">

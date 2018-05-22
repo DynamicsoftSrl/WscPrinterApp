@@ -23,37 +23,37 @@ export class TabsMenuComponent implements OnInit {
   }
 
   async ngOnInit() {
-    let user = await this.getUser();
-    this.redirectUserToCorrespondingPage(user);
+    // let user = await this.getUser();
+    // this.redirectUserToCorrespondingPage(user);
   }
 
-  private getUser() {
-    let userKey = this.localStorage.loggedUserLocalStorage;
+  // private getUser() {
+  //   let userKey = this.localStorage.loggedUserLocalStorage;
 
-    return this.localStorage.getItemFromLocalStorage(userKey)
-  }
+  //   return this.localStorage.getItemFromLocalStorage(userKey)
+  // }
 
-  private redirectUserToCorrespondingPage(user: any) {
-    if (user) {
-      let userModules = JSON.parse(user).ListOfActiveModules;
+  // private redirectUserToCorrespondingPage(user: any) {
+  //   if (user) {
+  //     let userModules = JSON.parse(user).ListOfActiveModules;
 
-      if (userModules != (null && undefined)) {
-        if (userModules[0] === ModuleConstants.ID_MODULO_SPEDIZIONI_MULTIPLE) {
-          this.homepage = BarcodeScannerPage;
-          console.log('test');
-        }
-        else {
-          this.homepage = HomePage;
-        }
-      }
-      else {
-        this.homepage = HomePage;
-      }
-    }
-    else {
-      this.logout();
-    }
-  }
+  //     if (userModules != (null && undefined)) {
+  //       if (userModules[0] === ModuleConstants.ID_MODULO_SPEDIZIONI_MULTIPLE) {
+  //         this.homepage = BarcodeScannerPage;
+  //         console.log('test');
+  //       }
+  //       else {
+  //         this.homepage = HomePage;
+  //       }
+  //     }
+  //     else {
+  //       this.homepage = HomePage;
+  //     }
+  //   }
+  //   else {
+  //     this.logout();
+  //   }
+  // }
 
   logout() {
     this.authProvider.logout();
