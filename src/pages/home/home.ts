@@ -24,7 +24,7 @@ export class HomePage implements OnInit {
 
   //Nav Guard which is controlling login page, if user is logged in, he can't enter the login page until he logout
   async ionViewCanEnter() {
-    const isAuth = await this.authProvider.isUserAuthentificated()
+    const isAuth = await this.authProvider.isUserAuthentificated();
 
     return isAuth;
   }
@@ -44,6 +44,6 @@ export class HomePage implements OnInit {
   logout() {
     this.authProvider.logout();
 
-    this.navCtrl.push(LoginComponent)
+    this.navCtrl.push(LoginComponent);
   }
 }

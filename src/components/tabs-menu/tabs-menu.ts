@@ -54,7 +54,7 @@ export class TabsMenuComponent implements OnInit {
   logout() {
     this.authProvider.logout();
 
-    this.navCtrl.setRoot(LoginComponent)
+    this.navCtrl.setRoot(LoginComponent);
   }
 
 }

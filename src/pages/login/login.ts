@@ -48,7 +48,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   //Nav Guard which is controlling login page, if user is logged in, he can't enter the login page until he logout
   async ionViewCanEnter() {
-    const isAuth = await this.authProvider.isUserAuthentificated()
+    const isAuth = await this.authProvider.isUserAuthentificated();
 
     if (isAuth) {
       this.navCtrl.setRoot(TabsMenuComponent);
@@ -59,15 +59,15 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   //validation part getters for username, password and domain
   get email() {
-    return this.loginFormGroup.get('Email')
+    return this.loginFormGroup.get('Email');
   }
 
   get password() {
-    return this.loginFormGroup.get('Password')
+    return this.loginFormGroup.get('Password');
   }
 
   get domain() {
-    return this.loginFormGroup.get('Domain')
+    return this.loginFormGroup.get('Domain');
   }
 
   onLogin() {
@@ -84,9 +84,9 @@ export class LoginComponent implements OnInit, OnDestroy {
         else {
           this.login();
         }
-      })
+      });
     }
-    ).catch(e => { console.log(e) })
+    ).catch(e => { console.log(e); });
   }
 
   getTokenAndLogin() {
@@ -103,7 +103,7 @@ export class LoginComponent implements OnInit, OnDestroy {
               this.localStorage.saveToLocalStorage(this.localStorage.tokenNameInLocalStorage, token.access_token)
                 .then(token => {
                   this.login();
-                })
+                });
             }, (err: HttpErrorResponse ) => {
               console.log(err.message);
               if (err.status == 400) {
@@ -122,11 +122,11 @@ export class LoginComponent implements OnInit, OnDestroy {
               this.sub.add(tokenSub);
 
               this.hideSpinnerLoader();
-            })
-          })
+            });
+          });
       }, (err) => {
         this.handleError(err);
-      })
+      });
 
     this.sub.add(tokenCredentialsSub);
   }
@@ -153,15 +153,15 @@ export class LoginComponent implements OnInit, OnDestroy {
           console.log(err.message);
           this.getTokenAndLogin();
         }
-      })
+      });
 
       this.sub.add(userSub);
-    }, err => { console.log(err) });
+    }, err => { console.log(err); });
   }
 
   private handleError(err: HttpErrorResponse) {
     this.isLoginError = true;
-    this.hideSpinnerLoader()
+    this.hideSpinnerLoader();
     console.log(err.message);
   }
 
@@ -171,7 +171,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   hideSpinnerLoader() {
-    this.spinner.hideLoadingSpinner()
+    this.spinner.hideLoadingSpinner();
   }
 
   navigateToCorrespondingPage(userDetails: User) {

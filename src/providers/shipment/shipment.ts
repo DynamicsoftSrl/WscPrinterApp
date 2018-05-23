@@ -19,7 +19,7 @@ export class ShipmentProvider {
 
     const url = domain + this.mapping.get_shipment_details.replace('{id}', id);
 
-    return this.api.getAuth(url)
+    return this.api.getAuth(url);
   }
 
   async setShipmentDetails(shipmentDetails: ShipmentDetailsModel) {

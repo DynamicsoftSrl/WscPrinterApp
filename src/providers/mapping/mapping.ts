@@ -15,7 +15,7 @@ export class MappingProvider {
 
     this.storage.getItemFromLocalStorage(domainName).then(res => {
       this.domain = res;
-    })
+    });
   }
 
   public domain;

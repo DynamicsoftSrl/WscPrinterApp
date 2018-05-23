@@ -13,7 +13,7 @@ export class ApiProvider {
     //getting token from local storage
     localStorage.getItemFromLocalStorage(this.tokenName).then(token => {
       this.token = token;
-    }).catch(err => { console.log(err) })
+    }).catch(err => { console.log(err); });
 
   }
 

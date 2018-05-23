@@ -38,7 +38,7 @@ export class BarcodeScannerPage implements OnDestroy {
 
   //Nav Guard which is controlling login page, if user is logged in, he can't enter the login page until he logout
   async ionViewCanEnter() {
-    const isAuth = await this.authProvider.isUserAuthentificated()
+    const isAuth = await this.authProvider.isUserAuthentificated();
 
     return isAuth;
   }
@@ -64,10 +64,8 @@ export class BarcodeScannerPage implements OnDestroy {
       },
         err => {
           console.log(err);
-          // this.controllErrorsLayout(true, true, true);
-          this.getShipmentDetails('60');
-
-        })
+          this.controllErrorsLayout(true, true, true);
+        });
   }
 
   private getShipmentDetails(id: string) {
@@ -98,12 +96,12 @@ export class BarcodeScannerPage implements OnDestroy {
             this.showAlertAuthorization();
 
             this.controllErrorsLayout(true, true, true);
-          })
+          });
       }),
       // tslint:disable-next-line:no-unused-expression
       err => {
         this.controllErrorsLayout(true, true, true);
-      }
+      };
   }
 
   //control layout depending on conditions we send to this method
@@ -116,7 +114,7 @@ export class BarcodeScannerPage implements OnDestroy {
   }
 
   deliverToCourier() {
-    this.deliverConfirmationAlert()
+    this.deliverConfirmationAlert();
   }
 
   //if user token has expire, show alert and logout
@@ -183,7 +181,7 @@ export class BarcodeScannerPage implements OnDestroy {
         err => {
           this.changingStateError = true;
           this.spinner.hideLoadingSpinner();
-        })
+        });
     },
       err => {
         this.changingStateError = true;

@@ -1,8 +1,8 @@
 export class User {
     UserId: number;
-    Username: string
+    Username: string;
     Name: string;
     UserGroup: string;
     Email: string;
-    ListOfActiveModules: number[]
+    ListOfActiveModules: number[];
 }
