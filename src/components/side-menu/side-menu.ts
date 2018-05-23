@@ -4,6 +4,7 @@ import { LocalStorageProvider } from './../../providers/local-storage/local-stor
 import { Component, Input, OnInit } from '@angular/core';
 import { NavController, MenuController } from 'ionic-angular';
 import { BarcodeScannerPage } from '../../pages/barcode-scanner/barcode-scanner';
+import { ActivityPage } from '../../pages/activity/activity';
 
 @Component({
   selector: 'side-menu',
@@ -15,6 +16,7 @@ export class SideMenuComponent implements OnInit {
   public loggedInUser: User = new User();
 
   public isActiveMultipleShipment: boolean = false;
+  public isActiveActivity: boolean = false;
 
   constructor(private localStorage: LocalStorageProvider,
     private navCtrl: NavController,
@@ -28,11 +30,21 @@ export class SideMenuComponent implements OnInit {
       .then(user => {
         this.loggedInUser = JSON.parse(user);
         if (this.loggedInUser.ListOfActiveModules) {
+
+          //checking if multiple shipment is active
           if (this.loggedInUser.ListOfActiveModules.find(x => x === ModuleConstants.ID_MODULO_SPEDIZIONI_MULTIPLE)) {
             this.isActiveMultipleShipment = true;
           }
           else {
             this.isActiveMultipleShipment = false;
+          }
+
+          //checking if activity is active
+          if (this.loggedInUser.ListOfActiveModules.find(x => x === ModuleConstants.ID_MODULO_ATTIVITA)) {
+            this.isActiveActivity = true;
+          }
+          else {
+            this.isActiveActivity = false;
           }
         }
       });
@@ -41,6 +53,11 @@ export class SideMenuComponent implements OnInit {
   NavigateToBarcodeScanner() {
     this.menuCtrl.close();
     this.navCtrl.push(BarcodeScannerPage);
+  }
+
+  NavigateToActivity() {
+    this.menuCtrl.close();
+    this.navCtrl.push(ActivityPage);
   }
 
 }

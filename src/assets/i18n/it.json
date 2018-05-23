@@ -21,5 +21,6 @@
   "deadline_date": "Data spedizione",
   "delivery_date": "Date consegna",  
   "deliver_to_the_courier": "Consegnato al corriere",
-  "shipment_operator": "Operatore sped."
+  "shipment_operator": "Operatore sped.",
+  "activity": "Attività"
 }

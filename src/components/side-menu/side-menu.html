@@ -12,6 +12,10 @@
         <ion-icon name="barcode" item-left></ion-icon>
         {{ 'shipment_barcode_scanner' | translate }}
       </ion-item>
+      <ion-item color="none" (click)="NavigateToActivity()" *ngIf="isActiveActivity" id="menu-list-item7">
+        <ion-icon name="paper" item-left></ion-icon>
+        {{ 'activity' | translate }}
+      </ion-item>
     </ion-list>
   </ion-content>
 </ion-menu>

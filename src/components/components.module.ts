@@ -6,12 +6,14 @@ import { TabsMenuComponent } from './tabs-menu/tabs-menu';
 //it must be imported in every module
 import { IonicModule } from 'ionic-angular';
 import { TranslateModule } from '@ngx-translate/core';
+import { PopoverComponent } from './popover/popover';
 
 @NgModule({
 	declarations:
 		[
 			SideMenuComponent,
 			TabsMenuComponent,
+			PopoverComponent,
 		],
 	imports:
 		[
@@ -22,12 +24,14 @@ import { TranslateModule } from '@ngx-translate/core';
 	exports:
 		[
 			SideMenuComponent,
-			TabsMenuComponent
+			TabsMenuComponent,
+			PopoverComponent
 		],
 	entryComponents:
 		[
 			SideMenuComponent,
-			TabsMenuComponent
+			TabsMenuComponent,
+			PopoverComponent
 		]
 })
 export class ComponentsModule { }

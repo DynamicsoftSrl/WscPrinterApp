@@ -1,3 +1,4 @@
+import { ActivityPageModule } from './../pages/activity/activity.module';
 import { NgModule, ErrorHandler } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
@@ -45,15 +46,16 @@ export function createTranslateLoader(http: HttpClient) {
     IonicStorageModule.forRoot(),
     FormsModule,
     HttpClientModule,
-    ComponentsModule,
-    BarcodeScannerPageModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
         useFactory: (createTranslateLoader),
         deps: [HttpClient]
       }
-    })
+    }),
+    ComponentsModule,
+    BarcodeScannerPageModule,
+    ActivityPageModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [

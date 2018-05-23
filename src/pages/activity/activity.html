@@ -1,0 +1,37 @@
+<ion-header>
+  <ion-navbar>
+    <ion-toolbar>
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <ion-title text-left class="col-md-3">
+              <ion-buttons start>
+                <button ion-button icon-only (click)="presentPopover($event)">
+                  <ion-icon name="options"></ion-icon>
+                  Filter
+                </button>
+              </ion-buttons>
+            </ion-title>
+          </ion-col>
+          <ion-col>
+            <ion-title text-center class="col-6">
+              {{ 'activity' | translate }}
+            </ion-title>
+          </ion-col>
+          <ion-col>
+            <ion-buttons end>
+              <button ion-button icon-only>
+                <ion-icon name="barcode"></ion-icon>
+                Barcode
+              </button>
+            </ion-buttons>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-toolbar>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+
+</ion-content>
