@@ -48,7 +48,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   //Nav Guard which is controlling login page, if user is logged in, he can't enter the login page until he logout
   async ionViewCanEnter() {
-    let isAuth = await this.authProvider.isUserAuthentificated()
+    const isAuth = await this.authProvider.isUserAuthentificated()
 
     if (isAuth) {
       this.navCtrl.setRoot(TabsMenuComponent);
@@ -90,16 +90,16 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   getTokenAndLogin() {
-    let tokenCredentialsSub = this.localStorage.getTokenCredentialsFromJson()
+    const tokenCredentialsSub = this.localStorage.getTokenCredentialsFromJson()
       .subscribe(res => {
-        let credentials = (res["credentials"]);
+        const credentials = (res['credentials']);
 
-        let username = credentials.username;
-        let password = credentials.password;
+        const username = credentials.username;
+        const password = credentials.password;
 
         this.authProvider.getTokenFromServer(username, password, this.model.Domain)
           .then((response) => {
-            let tokenSub = response.subscribe((token: TokenModel) => {
+            const tokenSub = response.subscribe((token: TokenModel) => {
               this.localStorage.saveToLocalStorage(this.localStorage.tokenNameInLocalStorage, token.access_token)
                 .then(token => {
                   this.login();
@@ -108,15 +108,15 @@ export class LoginComponent implements OnInit, OnDestroy {
               console.log(err.message);
               if (err.status == 400) {
                 this.isTokenCredentialsError = true;
-                console.log("Wrong credentials");
+                console.log('Wrong credentials');
               }
               else if (err.status == 0) {
                 this.isDomainError = true;
-                console.log("Wrong domain");
+                console.log('Wrong domain');
               }
               else {
                 this.isDomainError = true;
-                console.log("Wrong domain test");
+                console.log('Wrong domain test');
               }
 
               this.sub.add(tokenSub);
@@ -133,13 +133,13 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   login() {
     this.authProvider.login(this.model).then(login => {
-      let userSub = login.subscribe((response: User) => {
+      const userSub = login.subscribe((response: User) => {
         this.hideSpinnerLoader();
 
         if (response != null) {
           this.isLoginError = false;
 
-          let stringAdminUserObject = JSON.stringify(response);
+          const stringAdminUserObject = JSON.stringify(response);
           this.localStorage.saveToLocalStorage(this.localStorage.loggedUserLocalStorage, stringAdminUserObject).then(user => {
             this.navigateToCorrespondingPage(response);
           });

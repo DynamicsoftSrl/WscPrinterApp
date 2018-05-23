@@ -3,6 +3,21 @@
     "no-duplicate-variable": true,
     "no-unused-variable": [
       true
+    ],
+    "comment-format": true,
+    "max-line-length": [
+      true,
+      140
+    ],
+    "no-trailing-whitespace": true,
+    "no-unnecessary-initializer": true,
+    "no-unused-expression": true,
+    "no-use-before-declare": true,
+    "no-var-keyword": true,
+    "prefer-const": true,
+    "quotemark": [
+      true,
+      "single"
     ]
   },
   "rulesDirectory": [

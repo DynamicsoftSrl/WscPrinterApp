@@ -15,17 +15,17 @@ export class ShipmentProvider {
   }
 
   async getShipmentDetails(id: string) {
-    let domain = await this.localStorage.getDomain();
+    const domain = await this.localStorage.getDomain();
 
-    let url = domain + this.mapping.get_shipment_details.replace('{id}', id);
+    const url = domain + this.mapping.get_shipment_details.replace('{id}', id);
 
     return this.api.getAuth(url)
   }
 
   async setShipmentDetails(shipmentDetails: ShipmentDetailsModel) {
-    let domain = await this.localStorage.getDomain();
+    const domain = await this.localStorage.getDomain();
 
-    let url = domain + this.mapping.set_shipment_details;
+    const url = domain + this.mapping.set_shipment_details;
 
     return this.api.postAuth(url, shipmentDetails);
   }

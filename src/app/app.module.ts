@@ -75,7 +75,7 @@ export function createTranslateLoader(http: HttpClient) {
     LoadingSpinnerProvider
   ],
   exports: [
-    //exported because of using of translation service in other modules 
+    //exported because of using of translation service in other modules
     TranslateModule
   ]
 })

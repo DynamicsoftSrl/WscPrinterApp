@@ -14,10 +14,10 @@ export class AuthProvider {
 
 
   login(loginModel: LoginForm) {
-    let response = this.localStorage.getItemFromLocalStorage(this.localStorage.domainNameInLocalStorage).then(domain => {
-      let url = domain + this.mapping.post_login;
+    const response = this.localStorage.getItemFromLocalStorage(this.localStorage.domainNameInLocalStorage).then(domain => {
+      const url = domain + this.mapping.post_login;
 
-      let token = this.localStorage.getItemFromLocalStorage(this.localStorage.tokenNameInLocalStorage).then(token => {
+      const token = this.localStorage.getItemFromLocalStorage(this.localStorage.tokenNameInLocalStorage).then(token => {
         const httpOptions = {
           headers: new HttpHeaders({
             'Content-Type': 'application/json',
@@ -25,8 +25,8 @@ export class AuthProvider {
           })
         };
 
-        let postLogin = new LoginForm();
-        
+        const postLogin = new LoginForm();
+
         postLogin.Domain = loginModel.Domain;
         postLogin.Email = loginModel.Email;
         postLogin.Password = btoa(loginModel.Password);
@@ -47,9 +47,9 @@ export class AuthProvider {
   }
 
   isUserAuthentificated() {
-    let isAuth = this.localStorage.getItemFromLocalStorage(this.localStorage.tokenNameInLocalStorage).then(token => {
+    const isAuth = this.localStorage.getItemFromLocalStorage(this.localStorage.tokenNameInLocalStorage).then(token => {
       if (token != (undefined && null)) {
-        let isUser = this.localStorage.getItemFromLocalStorage(this.localStorage.loggedUserLocalStorage).then(user => {
+        const isUser = this.localStorage.getItemFromLocalStorage(this.localStorage.loggedUserLocalStorage).then(user => {
           if (user != (undefined && null)) {
             return true;
           }
@@ -68,15 +68,15 @@ export class AuthProvider {
     return isAuth;
   }
 
-  getTokenFromServer(username: string, password: string,domain: string) {
+  getTokenFromServer(username: string, password: string, domain: string) {
     // let username = "Dynamicsoft";
     // let password = "Dynamicsoft2016";
 
-    let data = "username=" + username + "&password=" + password + "&grant_type=password";
-    let reqHeaders = new HttpHeaders({ 'content-type': 'application/x-www-form-urlencoded' });
+    const data = 'username=' + username + '&password=' + password + '&grant_type=password';
+    const reqHeaders = new HttpHeaders({ 'content-type': 'application/x-www-form-urlencoded' });
 
     //saving domain in local storage, so later we can reuse it for other requests
-    let response = this.localStorage.getItemFromLocalStorage(this.localStorage.domainNameInLocalStorage).then(domainName => {
+    const response = this.localStorage.getItemFromLocalStorage(this.localStorage.domainNameInLocalStorage).then(domainName => {
       return this.http.post(domain + this.mapping.token, data, { headers: reqHeaders });
     });
 

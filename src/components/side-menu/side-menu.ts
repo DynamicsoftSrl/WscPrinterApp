@@ -22,7 +22,7 @@ export class SideMenuComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    let userKey = this.localStorage.loggedUserLocalStorage;
+    const userKey = this.localStorage.loggedUserLocalStorage;
 
     this.localStorage.getItemFromLocalStorage(userKey)
       .then(user => {

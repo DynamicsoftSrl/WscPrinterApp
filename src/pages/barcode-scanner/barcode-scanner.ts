@@ -38,7 +38,7 @@ export class BarcodeScannerPage implements OnDestroy {
 
   //Nav Guard which is controlling login page, if user is logged in, he can't enter the login page until he logout
   async ionViewCanEnter() {
-    let isAuth = await this.authProvider.isUserAuthentificated()
+    const isAuth = await this.authProvider.isUserAuthentificated()
 
     return isAuth;
   }
@@ -66,7 +66,7 @@ export class BarcodeScannerPage implements OnDestroy {
           console.log(err);
           // this.controllErrorsLayout(true, true, true);
           this.getShipmentDetails('60');
-          
+
         })
   }
 
@@ -74,7 +74,7 @@ export class BarcodeScannerPage implements OnDestroy {
 
     this.shipment.getShipmentDetails(id)
       .then(response => {
-        let shipmentDetailsSub = response.subscribe((shipmentDetails: ShipmentDetailsModel | null) => {
+        const shipmentDetailsSub = response.subscribe((shipmentDetails: ShipmentDetailsModel | null) => {
           if (shipmentDetails && shipmentDetails.RowId != 0) {
             this.model = shipmentDetails;
             if (this.model.StatoSpedizione === 4) {
@@ -100,6 +100,7 @@ export class BarcodeScannerPage implements OnDestroy {
             this.controllErrorsLayout(true, true, true);
           })
       }),
+      // tslint:disable-next-line:no-unused-expression
       err => {
         this.controllErrorsLayout(true, true, true);
       }
@@ -120,7 +121,7 @@ export class BarcodeScannerPage implements OnDestroy {
 
   //if user token has expire, show alert and logout
   showAlertAuthorization() {
-    let alert = this.alertCtrl.create({
+    const alert = this.alertCtrl.create({
       title: 'Authorization error!',
       subTitle: 'Your token has expired, please login and try again.',
       buttons: [
@@ -140,7 +141,7 @@ export class BarcodeScannerPage implements OnDestroy {
 
 
   deliverConfirmationAlert() {
-    let alert = this.alertCtrl.create({
+    const alert = this.alertCtrl.create({
       title: 'Are you sure you want to delivery order?',
       buttons: [
         {

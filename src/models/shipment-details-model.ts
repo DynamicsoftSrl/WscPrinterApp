@@ -1,4 +1,4 @@
-import { DateTime } from "ionic-angular";
+import { DateTime } from 'ionic-angular';
 
 export class ShipmentDetailsModel {
     public RowId: number;

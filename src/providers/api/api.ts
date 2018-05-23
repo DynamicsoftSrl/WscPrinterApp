@@ -23,7 +23,7 @@ export class ApiProvider {
   //get request with authorization token inside headers
   getAuth(url: string) {
 
-    let httpOptions = this.appendHttpOptions();
+    const httpOptions = this.appendHttpOptions();
 
     return this.http.get(url, httpOptions);
   }
@@ -31,7 +31,7 @@ export class ApiProvider {
   //get request with authorization token inside headers
   postAuth(url: string, data: any) {
 
-    let httpOptions = this.appendHttpOptions();
+    const httpOptions = this.appendHttpOptions();
 
     return this.http.post(url, data, httpOptions);
   }

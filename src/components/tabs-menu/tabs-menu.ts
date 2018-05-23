@@ -1,11 +1,8 @@
-import { BarcodeScannerPage } from './../../pages/barcode-scanner/barcode-scanner';
 import { NavController } from 'ionic-angular';
 import { AuthProvider } from './../../providers/auth/auth';
 import { HomePage } from './../../pages/home/home';
 import { LoginComponent } from './../../pages/login/login';
 import { Component, OnInit } from '@angular/core';
-import { LocalStorageProvider } from '../../providers/local-storage/local-storage';
-import { ModuleConstants } from '../../assets/constants/constants';
 
 @Component({
   selector: 'tabs-menu',
@@ -14,10 +11,9 @@ import { ModuleConstants } from '../../assets/constants/constants';
 export class TabsMenuComponent implements OnInit {
 
   public homepage: any = HomePage;
-  
+
   constructor(private authProvider: AuthProvider,
-    private navCtrl: NavController,
-    private localStorage: LocalStorageProvider,
+    private navCtrl: NavController
   ) {
 
   }

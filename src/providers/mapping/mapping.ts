@@ -11,7 +11,7 @@ export class MappingProvider {
   }
 
   public setDomain() {
-    let domainName = this.storage.domainNameInLocalStorage;
+    const domainName = this.storage.domainNameInLocalStorage;
 
     this.storage.getItemFromLocalStorage(domainName).then(res => {
       this.domain = res;
@@ -20,9 +20,9 @@ export class MappingProvider {
 
   public domain;
 
-  readonly token = "/token";
+  readonly token = '/token';
   public get_token_api = this.token;
-  public post_login = "/ionaccount/login";
-  public get_shipment_details = "/ionbarcode/getshipmentdetails/{id}";
-  public set_shipment_details = "/ionbarcode/setshipmentdetails";
+  public post_login = '/ionaccount/login';
+  public get_shipment_details = '/ionbarcode/getshipmentdetails/{id}';
+  public set_shipment_details = '/ionbarcode/setshipmentdetails';
 }

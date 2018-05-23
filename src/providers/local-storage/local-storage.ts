@@ -37,6 +37,6 @@ export class LocalStorageProvider {
   }
 
   getTokenCredentialsFromJson() {
-    return this.http.get("assets/data/token-credentials.json")
+    return this.http.get('assets/data/token-credentials.json');
   }
 }

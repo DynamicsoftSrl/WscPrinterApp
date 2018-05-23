@@ -11,8 +11,8 @@ export class LoadingSpinnerProvider {
   private loading: Loading;
 
   showLoadingSpinner(contentText?: string, spinnerType?: string) {
-    let defaultContent = 'Please wait...';
-    let defaultSpinner = 'circles';
+    const defaultContent = 'Please wait...';
+    const defaultSpinner = 'circles';
 
     this.loading = this.loadingCtrl.create({
       spinner: spinnerType != null ? spinnerType : defaultSpinner,
