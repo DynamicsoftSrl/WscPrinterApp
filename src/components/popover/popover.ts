@@ -1,23 +1,33 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ViewController } from 'ionic-angular';
 
 @Component({
   selector: 'popover',
   templateUrl: 'popover.html'
 })
-export class PopoverComponent {
-
-  text: string;
+export class PopoverComponent implements OnInit {
 
   constructor(
     public viewCtrl: ViewController
   ) {
-    console.log('Hello PopoverComponent Component');
-    this.text = 'Hello World';
+  }
+
+  public data: number[] = this.viewCtrl.data.allStates;
+  public selection: number = this.viewCtrl.data.activeState;
+
+  ngOnInit(): void {
+  }
+
+  radioChanged(selectedValue: number) {
+    this.selection = selectedValue;
+
+    this.viewCtrl.data.activeState = this.selection;
+
+    this.close();
   }
 
   close() {
-    this.viewCtrl.dismiss();
+    this.viewCtrl.dismiss(this.selection);
   }
 
 }

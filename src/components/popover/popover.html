@@ -1,7 +1,12 @@
-<ion-list>
-    <ion-list-header>Ionic</ion-list-header>
-    <button ion-item (click)="close()">Learn Ionic</button>
-    <button ion-item (click)="close()">Documentation</button>
-    <button ion-item (click)="close()">Showcase</button>
-    <button ion-item (click)="close()">GitHub Repo</button>
-  </ion-list>
+<ion-list radio-group [(ngModel)]="selection">
+  <ion-list-header>Filtra</ion-list-header>
+  <ion-item *ngFor="let item of data; let i = index;">
+    <ion-label #item *ngIf="item === 0">In coda</ion-label>
+    <ion-label *ngIf="item === 1">In preparazione</ion-label>
+    <ion-label *ngIf="item === 2">In attesa</ion-label>
+    <ion-label *ngIf="item === 3">In transito</ion-label>
+    <ion-label *ngIf="item === 4">Consegnato</ion-label>
+
+    <ion-radio [checked]="item === selection ? true : false" [value]="item" (ionSelect)="radioChanged($event)"></ion-radio>
+  </ion-item>
+</ion-list>

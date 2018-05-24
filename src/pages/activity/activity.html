@@ -4,11 +4,11 @@
       <ion-grid>
         <ion-row>
           <ion-col>
-            <ion-title text-left class="col-md-3">
+            <ion-title text-left class="col-3">
               <ion-buttons start>
-                <button ion-button icon-only (click)="presentPopover($event)">
-                  <ion-icon name="options"></ion-icon>
-                  Filter
+                <button ion-button icon-only>
+                  <ion-icon name="barcode"></ion-icon>
+                  Barcode
                 </button>
               </ion-buttons>
             </ion-title>
@@ -20,9 +20,9 @@
           </ion-col>
           <ion-col>
             <ion-buttons end>
-              <button ion-button icon-only>
-                <ion-icon name="barcode"></ion-icon>
-                Barcode
+              <button ion-button icon-only (click)="presentPopover($event)">
+                <ion-icon name="options"></ion-icon>
+                Filter
               </button>
             </ion-buttons>
           </ion-col>
@@ -32,6 +32,7 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-
+<ion-content padding class="bck-orange">
+  <img src="assets/img/wscprinter-logo.png" style="display:block;width:50%;height:auto;margin-left:auto;margin-right:auto;"/>
+  <div class="spacer" style="width:300px;height:39px;" id="login-spacer1"></div>
 </ion-content>
