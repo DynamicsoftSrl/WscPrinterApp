@@ -21,7 +21,7 @@ export class ActivityPage {
   private activeState: number = 0;
 
   presentPopover(myEvent) {
-    const data = { 'activeState': this.activeState, 'allStates': [0, 1, 2, 3, 4] };
+    const data = { 'activeState': this.activeState, 'allStates': [0, 1, 2, 3, 4, 5] };
 
     const popover = this.popoverCtrl.create(PopoverComponent, data);
 
