@@ -1,15 +1,15 @@
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
-import { BarcodeScannerPage } from './barcode-scanner';
 import { TranslateModule } from '@ngx-translate/core';
+import { ShipmentPage } from './shipment-page';
 
 @NgModule({
   declarations: [
-    BarcodeScannerPage
+    ShipmentPage
   ],
   imports: [
-    IonicPageModule.forChild(BarcodeScannerPage),
+    IonicPageModule.forChild(ShipmentPage),
     TranslateModule
   ],
 })
-export class BarcodeScannerPageModule {}
+export class ShipmentModule {}

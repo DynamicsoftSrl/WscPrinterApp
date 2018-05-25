@@ -1,9 +1,9 @@
+import { ShipmentPage } from './../../pages/shipment/shipment-page';
 import { ModuleConstants } from './../../assets/constants/constants';
 import { User } from './../../models/user-model';
 import { LocalStorageProvider } from './../../providers/local-storage/local-storage';
 import { Component, Input, OnInit } from '@angular/core';
 import { NavController, MenuController } from 'ionic-angular';
-import { BarcodeScannerPage } from '../../pages/barcode-scanner/barcode-scanner';
 import { ActivityPage } from '../../pages/activity/activity';
 
 @Component({
@@ -52,7 +52,7 @@ export class SideMenuComponent implements OnInit {
 
   NavigateToBarcodeScanner() {
     this.menuCtrl.close();
-    this.navCtrl.push(BarcodeScannerPage);
+    this.navCtrl.push(ShipmentPage);
   }
 
   NavigateToActivity() {

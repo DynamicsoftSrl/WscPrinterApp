@@ -35,7 +35,7 @@ export class TabsMenuComponent implements OnInit {
 
   //     if (userModules != (null && undefined)) {
   //       if (userModules[0] === ModuleConstants.ID_MODULO_SPEDIZIONI_MULTIPLE) {
-  //         this.homepage = BarcodeScannerPage;
+  //         this.homepage = ShipmentPage;
   //         console.log('test');
   //       }
   //       else {

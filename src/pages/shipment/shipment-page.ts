@@ -1,10 +1,10 @@
-import { LocalStorageProvider } from './../../providers/local-storage/local-storage';
-import { AuthProvider } from './../../providers/auth/auth';
-import { LoadingSpinnerProvider } from './../../providers/loading-spinner/loading-spinner';
+import { BarcodeScannerProvider } from './../../providers/barcode-scanner/barcode-scanner';
+import { LocalStorageProvider } from '../../providers/local-storage/local-storage';
+import { AuthProvider } from '../../providers/auth/auth';
+import { LoadingSpinnerProvider } from '../../providers/loading-spinner/loading-spinner';
 import { Subscription } from 'rxjs/Subscription';
 import { Component, OnDestroy } from '@angular/core';
 import { IonicPage, NavController, App } from 'ionic-angular';
-import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { ShipmentProvider } from '../../providers/shipment/shipment';
 import { ShipmentDetailsModel } from '../../models/shipment-details-model';
 import { AlertController } from 'ionic-angular';
@@ -12,19 +12,19 @@ import { LoginComponent } from '../login/login';
 
 @IonicPage()
 @Component({
-  selector: 'page-barcode-scanner',
-  templateUrl: 'barcode-scanner.html',
+  selector: 'shipment',
+  templateUrl: 'shipment-page.html'
 })
-export class BarcodeScannerPage implements OnDestroy {
+export class ShipmentPage implements OnDestroy {
 
   constructor(public navCtrl: NavController,
-    private barcodeScanner: BarcodeScanner,
     private shipment: ShipmentProvider,
     private spinner: LoadingSpinnerProvider,
     private authProvider: AuthProvider,
     public alertCtrl: AlertController,
     public app: App,
-    private localStorage: LocalStorageProvider) {
+    private localStorage: LocalStorageProvider,
+    private barcodeScanner: BarcodeScannerProvider) {
   }
 
   public isScanned: boolean = false;
@@ -43,29 +43,25 @@ export class BarcodeScannerPage implements OnDestroy {
     return isAuth;
   }
 
-  public scanBarcode() {
+  async scanBarcode() {
     this.shipmentStatusChanged = false;
     this.changingStateError = false;
 
     this.spinner.showLoadingSpinner();
 
-    this.barcodeScanner.scan()
-      .then(barcodeData => {
-        // this.controllErrorsLayout(false, true, false);
+    const id = await this.barcodeScanner.scanBarcode();
 
-        const id = barcodeData.text;
-
-        if (id != '') {
-          this.getShipmentDetails(id);
-        }
-        else {
-          this.controllErrorsLayout(true, true, true);
-        }
-      },
-        err => {
-          console.log(err);
-          this.controllErrorsLayout(true, true, true);
-        });
+    if (typeof id == 'string') {
+      if (id != (undefined && null && '')) {
+        this.getShipmentDetails(id);
+      }
+      else {
+        this.controllErrorsLayout(true, true, true);
+      }
+    }
+    else {
+      this.controllErrorsLayout(true, true, true);
+    }
   }
 
   private getShipmentDetails(id: string) {

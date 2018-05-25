@@ -1,28 +1,26 @@
 <ion-header>
-  <ion-navbar>
-    <ion-toolbar>
-      <ion-grid>
+  <ion-navbar hideBackButton>
+    <ion-toolbar style="padding: 0;">
+      <ion-grid style="padding: 0;">
         <ion-row>
           <ion-col>
-            <ion-title text-left class="col-3">
-              <ion-buttons start>
-                <button ion-button icon-only>
-                  <ion-icon name="barcode"></ion-icon>
-                  Barcode
-                </button>
-              </ion-buttons>
-            </ion-title>
+            <ion-buttons start>
+              <button ion-button icon-only (click)="scan()" style="font-size: 1.2rem">
+                <ion-icon name="barcode"></ion-icon>
+                Barcode
+              </button>
+            </ion-buttons>
           </ion-col>
           <ion-col>
-            <ion-title text-center class="col-6">
+            <ion-title text-center id="activityTitle">
               {{ 'activity' | translate }}
             </ion-title>
           </ion-col>
           <ion-col>
             <ion-buttons end>
-              <button ion-button icon-only (click)="presentPopover($event)">
-                <ion-icon name="options"></ion-icon>
+              <button ion-button icon-only (click)="presentPopover($event)" style="font-size: 1.2rem">
                 Filter
+                <ion-icon name="options"></ion-icon>
               </button>
             </ion-buttons>
           </ion-col>
@@ -33,6 +31,8 @@
 </ion-header>
 
 <ion-content padding class="bck-orange">
-  <img src="assets/img/wscprinter-logo.png" style="display:block;width:50%;height:auto;margin-left:auto;margin-right:auto;"/>
+  <img src="assets/img/wscprinter-logo.png" style="display:block;width:50%;height:auto;margin-left:auto;margin-right:auto;"
+  />
   <div class="spacer" style="width:300px;height:39px;" id="login-spacer1"></div>
+  <h2 *ngIf="barcodeNumber">{{ barcodeNumber }}</h2>
 </ion-content>
