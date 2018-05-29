@@ -1,4 +1,4 @@
-import { LocalStorageProvider } from './../local-storage/local-storage';
+import { LocalStorageProvider } from '../local-storage/local-storage.provider';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
@@ -25,4 +25,5 @@ export class MappingProvider {
   public post_login = '/ionaccount/login';
   public get_shipment_details = '/ionbarcode/getshipmentdetails/{id}';
   public set_shipment_details = '/ionbarcode/setshipmentdetails';
+  public get_all_activities = '/ionactivity/getallactivities/{stateNumber}';
 }

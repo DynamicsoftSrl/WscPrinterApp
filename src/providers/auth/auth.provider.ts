@@ -1,8 +1,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { LoginForm } from '../../models/login-form';
-import { LocalStorageProvider } from '../local-storage/local-storage';
-import { MappingProvider } from '../mapping/mapping';
+import { LocalStorageProvider } from '../local-storage/local-storage.provider';
+import { MappingProvider } from '../mapping/mapping.provider';
 
 @Injectable()
 export class AuthProvider {
@@ -83,3 +83,4 @@ export class AuthProvider {
     return response;
   }
 }
+

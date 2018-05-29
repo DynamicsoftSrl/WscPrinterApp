@@ -13,16 +13,17 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { ComponentsModule } from '../components/components.module';
 import { HomePage } from '../pages/home/home';
 import { LoginComponent } from '../pages/login/login';
-import { ApiProvider } from '../providers/api/api';
-import { AuthProvider } from '../providers/auth/auth';
-import { BarcodeScannerProvider } from '../providers/barcode-scanner/barcode-scanner';
-import { LoadingSpinnerProvider } from '../providers/loading-spinner/loading-spinner';
-import { LocalStorageProvider } from '../providers/local-storage/local-storage';
-import { MappingProvider } from '../providers/mapping/mapping';
-import { ShipmentProvider } from '../providers/shipment/shipment';
+import { ApiProvider } from '../providers/api/api.provider';
+import { AuthProvider } from '../providers/auth/auth.provider';
+import { BarcodeScannerProvider } from '../providers/barcode-scanner/barcode-scanner.provider';
+import { LoadingSpinnerProvider } from '../providers/loading-spinner/loading-spinner.provider';
+import { LocalStorageProvider } from '../providers/local-storage/local-storage.provider';
+import { MappingProvider } from '../providers/mapping/mapping.provider';
+import { ShipmentProvider } from '../providers/shipment/shipment.provider';
 import { ActivityPageModule } from './../pages/activity/activity.module';
 import { ShipmentModule } from './../pages/shipment/shipment-page.module';
 import { MyApp } from './app.component';
+import { ActivitiesProvider } from '../providers/activities/activities.provider';
 
 // AoT requires an exported function for factories
 export function createTranslateLoader(http: HttpClient) {
@@ -70,7 +71,8 @@ export function createTranslateLoader(http: HttpClient) {
     ApiProvider,
     ShipmentProvider,
     LoadingSpinnerProvider,
-    BarcodeScannerProvider
+    BarcodeScannerProvider,
+    ActivitiesProvider
   ],
   exports: [
     //exported because of using of translation service in other modules

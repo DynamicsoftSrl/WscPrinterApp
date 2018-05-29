@@ -1,9 +1,9 @@
-import { LocalStorageProvider } from './../../providers/local-storage/local-storage';
+import { LocalStorageProvider } from '../../providers/local-storage/local-storage.provider';
 import { User } from './../../models/user-model';
 import { LoginComponent } from './../login/login';
 import { Component, OnInit } from '@angular/core';
 import { NavController } from 'ionic-angular';
-import { AuthProvider } from './../../providers/auth/auth';
+import { AuthProvider } from '../../providers/auth/auth.provider';
 
 @Component({
   selector: 'page-home',

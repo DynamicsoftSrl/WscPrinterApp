@@ -1,5 +1,5 @@
 import { LoginComponent } from './../pages/login/login';
-import { AuthProvider } from './../providers/auth/auth';
+import { AuthProvider } from '../providers/auth/auth.provider';
 import { Component, OnInit } from '@angular/core';
 import { Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';

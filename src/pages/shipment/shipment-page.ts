@@ -1,11 +1,11 @@
-import { BarcodeScannerProvider } from './../../providers/barcode-scanner/barcode-scanner';
-import { LocalStorageProvider } from '../../providers/local-storage/local-storage';
-import { AuthProvider } from '../../providers/auth/auth';
-import { LoadingSpinnerProvider } from '../../providers/loading-spinner/loading-spinner';
+import { BarcodeScannerProvider } from '../../providers/barcode-scanner/barcode-scanner.provider';
+import { LocalStorageProvider } from '../../providers/local-storage/local-storage.provider';
+import { AuthProvider } from '../../providers/auth/auth.provider';
+import { LoadingSpinnerProvider } from '../../providers/loading-spinner/loading-spinner.provider';
 import { Subscription } from 'rxjs/Subscription';
 import { Component, OnDestroy } from '@angular/core';
 import { IonicPage, NavController, App } from 'ionic-angular';
-import { ShipmentProvider } from '../../providers/shipment/shipment';
+import { ShipmentProvider } from '../../providers/shipment/shipment.provider';
 import { ShipmentDetailsModel } from '../../models/shipment-details-model';
 import { AlertController } from 'ionic-angular';
 import { LoginComponent } from '../login/login';

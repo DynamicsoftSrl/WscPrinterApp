@@ -1,8 +1,8 @@
-import { ApiProvider } from './../api/api';
-import { LocalStorageProvider } from './../local-storage/local-storage';
+import { ApiProvider } from '../api/api.provider';
+import { LocalStorageProvider } from '../local-storage/local-storage.provider';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { MappingProvider } from './../mapping/mapping';
+import { MappingProvider } from '../mapping/mapping.provider';
 import { ShipmentDetailsModel } from '../../models/shipment-details-model';
 
 @Injectable()

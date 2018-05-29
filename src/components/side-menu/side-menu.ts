@@ -1,7 +1,7 @@
 import { ShipmentPage } from './../../pages/shipment/shipment-page';
 import { ModuleConstants } from './../../assets/constants/constants';
 import { User } from './../../models/user-model';
-import { LocalStorageProvider } from './../../providers/local-storage/local-storage';
+import { LocalStorageProvider } from '../../providers/local-storage/local-storage.provider';
 import { Component, Input, OnInit } from '@angular/core';
 import { NavController, MenuController } from 'ionic-angular';
 import { ActivityPage } from '../../pages/activity/activity';
@@ -16,7 +16,7 @@ export class SideMenuComponent implements OnInit {
   public loggedInUser: User = new User();
 
   public isActiveMultipleShipment: boolean = false;
-  public isActiveActivity: boolean = false;
+  public isActiveActivity: boolean = true;
 
   constructor(private localStorage: LocalStorageProvider,
     private navCtrl: NavController,
@@ -44,7 +44,7 @@ export class SideMenuComponent implements OnInit {
             this.isActiveActivity = true;
           }
           else {
-            this.isActiveActivity = false;
+            // this.isActiveActivity = false;
           }
         }
       });

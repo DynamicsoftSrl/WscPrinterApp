@@ -1,18 +1,18 @@
-import { LoadingSpinnerProvider } from './../../providers/loading-spinner/loading-spinner';
+import { LoadingSpinnerProvider } from '../../providers/loading-spinner/loading-spinner.provider';
 import { TabsMenuComponent } from './../../components/tabs-menu/tabs-menu';
 import { User } from './../../models/user-model';
-import { LocalStorageProvider } from './../../providers/local-storage/local-storage';
+import { LocalStorageProvider } from '../../providers/local-storage/local-storage.provider';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 
 import { LoginForm } from '../../models/login-form';
-import { AuthProvider } from '../../providers/auth/auth';
+import { AuthProvider } from '../../providers/auth/auth.provider';
 import { TokenModel } from '../../models/token-model';
 import { Subscription } from 'rxjs/Subscription';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NavController } from 'ionic-angular';
-import { MappingProvider } from '../../providers/mapping/mapping';
+import { MappingProvider } from '../../providers/mapping/mapping.provider';
 
 @Component({
   selector: 'login',
@@ -72,6 +72,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   onLogin() {
     this.showSpinnerLoader();
+    this.checkDomain();
 
     this.localStorage.getItemFromLocalStorage(this.localStorage.tokenNameInLocalStorage).then(tokenStorage => {
       this.localStorage.saveToLocalStorage(this.localStorage.domainNameInLocalStorage, this.model.Domain).then(res => {
@@ -182,6 +183,13 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.isLoginError = false;
     this.isDomainError = false;
     this.isTokenCredentialsError = false;
+  }
+
+  // check if domain's last character is not '/', if it is, remove it
+  private checkDomain(): void {
+    if (this.model.Domain.substring(this.model.Domain.length - 1) == '/') {
+      this.model.Domain = this.model.Domain.substring(0, this.model.Domain.length - 1);
+    }
   }
 
   ngOnDestroy(): void {

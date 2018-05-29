@@ -1,4 +1,4 @@
-import { LocalStorageProvider } from './../local-storage/local-storage';
+import { LocalStorageProvider } from '../local-storage/local-storage.provider';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import 'rxjs/add/observable/fromPromise';
