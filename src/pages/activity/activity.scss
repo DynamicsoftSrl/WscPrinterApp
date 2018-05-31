@@ -1,7 +1,40 @@
-page-activity {
+// page-activity {
 
-}
+// }
 
 .bck-orange{
     background-color: #EE9649;
 }
+
+.status-bck {
+    background-color: white;
+}
+
+.circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 1em;
+    color: #fff;
+    line-height: 40px;
+    text-align: center;
+    background: gray;
+  }
+
+  .segment-md .segment-button{
+    color: whitesmoke;
+  }
+
+  .segment-md .segment-button.activated, .segment-md .segment-button.segment-activated {
+    border-color: white;
+    opacity: 1;
+    color: white;
+  }
+
+  .list-md .item-block .item-inner{
+    border:0px
+  }
+
+  ion-item.item-md{
+    border-bottom: 1px solid #dedede
+  }

@@ -11,18 +11,19 @@ export class ActivitiesProvider {
     private localStorage: LocalStorageProvider) {
   }
 
-  async getAllActivities(stateNumber: number ) {
+  async getAllActivities(startRowIndex: number, maximumRows: number, userId: number, stateNumber: number) {
     // getting domain from local storage
     const domain = await this.localStorage.getItemFromLocalStorage(this.localStorage.domainNameInLocalStorage).then(domain => {
       return domain;
     });
 
     let url = domain + this.mapping.get_all_activities;
-    url = url.replace('{stateNumber}', stateNumber.toString());
-
-    console.log(url);
+    url = url.replace('{startRowIndex}', startRowIndex.toString())
+            .replace('{maximumRows}', maximumRows.toString())
+            .replace('{userId}', userId.toString())
+            .replace('{activityState}', stateNumber.toString());
 
     return this.api.getAuth(url);
-}
+  }
 
 }

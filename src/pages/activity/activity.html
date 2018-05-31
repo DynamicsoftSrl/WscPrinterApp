@@ -30,9 +30,60 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding class="bck-orange">
-  <img src="assets/img/wscprinter-logo.png" style="display:block;width:50%;height:auto;margin-left:auto;margin-right:auto;"
+<ion-content class="bck-orange">
+  <img src="assets/img/wscprinter-logo.png" padding style="display:block;width:50%;height:auto;margin-left:auto;margin-right:auto;"
   />
-  <div class="spacer" style="width:300px;height:39px;" id="login-spacer1"></div>
-  <h2 *ngIf="barcodeNumber">{{ barcodeNumber }}</h2>
+  <ion-grid no-padding>
+    <ion-row class="status-bck">
+      <ion-col>
+        <h6 padding text-left class="ion-col" *ngIf="activeState === 0">In coda</h6>
+        <h6 padding text-left class="ion-col" *ngIf="activeState === 1">In lavorazione</h6>
+        <h6 padding text-left class="ion-col" *ngIf="activeState === 2">Terminate</h6>
+        <h6 padding text-left class="ion-col" *ngIf="activeState === 3">Annullate</h6>
+        <h6 padding text-left class="ion-col" *ngIf="activeState === 4">Sospese</h6>
+        <h6 padding text-left class="ion-col" *ngIf="activeState === 5">Tutte</h6>
+      </ion-col>
+      <ion-col>
+        <h6 class="circle" style="float: right; margin-right: 16px">{{ activitiesLength }}</h6>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <div padding>
+    <ion-segment style="background-color: #EE9649" [(ngModel)]="period">
+      <ion-segment-button value="today">
+        OGGI
+      </ion-segment-button>
+      <ion-segment-button value="tommorow">
+        DOMANI
+      </ion-segment-button>
+      <ion-segment-button value="all">
+        TUTTE
+      </ion-segment-button>
+    </ion-segment>
+  </div>
+
+  <div [ngSwitch]="period">
+    <ion-list *ngSwitchCase="'today'">
+      <ion-item *ngFor="let item of activitiesList">
+        <ion-thumbnail item-start>
+          <img src="assets/imgs/logo.png">
+        </ion-thumbnail>
+        <h2>{{item.Nome_Workflow}}</h2>        
+        <h3>{{item.jobname}}</h3>        
+        <h6>{{item.NumeroOrdine}}</h6>
+        <h6>Lavorazioni id: {{item.Id_Processo_Lavorazione}}</h6>
+      </ion-item>
+    </ion-list>
+
+    <ion-list *ngSwitchCase="'tommorow'">
+      <ion-item>
+        <ion-thumbnail item-start>
+          <img src="assets/imgs/logo.png">
+        </ion-thumbnail>
+        <h2>Luna</h2>
+      </ion-item>
+    </ion-list>
+  </div>
+
 </ion-content>

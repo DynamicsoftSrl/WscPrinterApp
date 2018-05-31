@@ -1,8 +1,12 @@
+import { ActivityModel } from './../../models/activity-model';
+import { LocalStorageProvider } from './../../providers/local-storage/local-storage.provider';
 import { ActivitiesProvider } from './../../providers/activities/activities.provider';
 import { BarcodeScannerProvider } from '../../providers/barcode-scanner/barcode-scanner.provider';
 import { PopoverComponent } from './../../components/popover/popover';
 import { Component, OnInit } from '@angular/core';
 import { IonicPage, NavController, NavParams, PopoverController, ViewController } from 'ionic-angular';
+import { User } from '../../models/user-model';
+import { ActivitiesViewModel } from '../../models/activities-view-model';
 
 @IonicPage()
 @Component({
@@ -17,20 +21,28 @@ export class ActivityPage implements OnInit {
     public popoverCtrl: PopoverController,
     public viewCtrl: ViewController,
     public barcodeScanner: BarcodeScannerProvider,
-    private activities: ActivitiesProvider) {
+    private activities: ActivitiesProvider,
+    private localStorage: LocalStorageProvider) {
   }
 
-  private activeState: number = 0;
+  public activeState: number = 0;
   public barcodeNumber: any;
+  public activitiesLength: number = 0;
+  public userObj: User;
 
-  ionViewDidLoad() {
-  }
+  public period: string = 'today';
+  public activitiesList: ActivityModel[];
 
   async ngOnInit() {
-    const response$ = await this.activities.getAllActivities(this.activeState);
+    const user = await this.localStorage.getItemFromLocalStorage(this.localStorage.loggedUserLocalStorage);
+    this.userObj = JSON.parse(user);
 
-    response$.subscribe(activities => {
-      console.log(activities);
+    const response$ = await this.activities.getAllActivities(0, 10, this.userObj.UserId, this.activeState);
+
+    response$.subscribe((activities: ActivitiesViewModel) => {
+      this.activitiesLength = activities.CountActivities;
+
+      this.activitiesList = activities.Activities;
     });
   }
 
@@ -43,18 +55,23 @@ export class ActivityPage implements OnInit {
       ev: myEvent
     });
 
-    popover.onDidDismiss(selectedState => {
-      this.getSelectedFilter(selectedState);
+    popover.onWillDismiss(selectedState => {
+
+      if (selectedState != null) {
+        this.getSelectedFilter(selectedState);
+      }
     });
   }
 
   private async getSelectedFilter(selectedState: number) {
     this.activeState = selectedState;
 
-    const response$ = await this.activities.getAllActivities(this.activeState);
+    const response$ = await this.activities.getAllActivities(0, 10, this.userObj.UserId, this.activeState);
 
-    response$.subscribe(activities => {
-      console.log(activities);
+    response$.subscribe((activities: ActivitiesViewModel) => {
+      this.activitiesLength = activities.CountActivities;
+
+      this.activitiesList = activities.Activities;
     });
   }
 
