@@ -36,12 +36,12 @@
   <ion-grid no-padding>
     <ion-row class="status-bck">
       <ion-col>
-        <h6 padding text-left class="ion-col" *ngIf="activeState === 0">In coda</h6>
-        <h6 padding text-left class="ion-col" *ngIf="activeState === 1">In lavorazione</h6>
-        <h6 padding text-left class="ion-col" *ngIf="activeState === 2">Terminate</h6>
-        <h6 padding text-left class="ion-col" *ngIf="activeState === 3">Annullate</h6>
-        <h6 padding text-left class="ion-col" *ngIf="activeState === 4">Sospese</h6>
-        <h6 padding text-left class="ion-col" *ngIf="activeState === 5">Tutte</h6>
+        <h6 padding text-left class="ion-col color-incoda" *ngIf="activeState === 0">In coda</h6>
+        <h6 padding text-left class="ion-col color-inlav" *ngIf="activeState === 1">In lavorazione</h6>
+        <h6 padding text-left class="ion-col color-terminate" *ngIf="activeState === 2">Terminate</h6>
+        <h6 padding text-left class="ion-col color-annullate" *ngIf="activeState === 3">Annullate</h6>
+        <h6 padding text-left class="ion-col color-sospese" *ngIf="activeState === 4">Sospese</h6>
+        <h6 padding text-left class="ion-col color-tutte" *ngIf="activeState === 5">Tutte</h6>
       </ion-col>
       <ion-col>
         <h6 class="circle" style="float: right; margin-right: 16px">{{ activitiesLength }}</h6>
@@ -66,24 +66,66 @@
   <div [ngSwitch]="period">
     <ion-list *ngSwitchCase="'today'">
       <ion-item *ngFor="let item of activitiesList">
-        <ion-thumbnail item-start>
-          <img src="assets/imgs/logo.png">
-        </ion-thumbnail>
-        <h2>{{item.Nome_Workflow}}</h2>        
-        <h3>{{item.jobname}}</h3>        
-        <h6>{{item.NumeroOrdine}}</h6>
-        <h6>Lavorazioni id: {{item.Id_Processo_Lavorazione}}</h6>
+        <ion-avatar item-start (click)="clicked(item)">
+          <img src="assets/imgs/play.png">
+        </ion-avatar>
+        <ion-grid no-padding>
+          <ion-row class="status-bck">
+            <ion-col col-9>
+              <h3>
+                <b>{{item.Nome_Workflow | slice: 0 : 22}}<span *ngIf="item.Nome_Workflow.length > 22">...</span>
+                </b>
+              </h3>
+            </ion-col>
+            <ion-col col-3 text-right id="dateP">
+              <p>
+                <b>22/10/2015</b>
+              </p>
+            </ion-col>
+            <ion-col col-9 id="activityDescription">
+              <p>{{item.jobname}}</p>
+              <p>{{item.NumeroOrdine}}</p>
+              <p>Lavorazioni id: {{item.Id_Processo_Lavorazione}}</p>
+            </ion-col>
+            <ion-col col-3 text-right>
+              <br>
+              <ion-icon name="arrow-round-forward" (click)="clicked(item)"></ion-icon>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
       </ion-item>
     </ion-list>
 
     <ion-list *ngSwitchCase="'tommorow'">
-      <ion-item>
-        <ion-thumbnail item-start>
-          <img src="assets/imgs/logo.png">
-        </ion-thumbnail>
-        <h2>Luna</h2>
+      <ion-item *ngFor="let item of activitiesList">
+        <ion-avatar item-start (click)="clicked(item)">
+          <img src="assets/imgs/locked.png">
+        </ion-avatar>
+        <ion-grid no-padding>
+          <ion-row class="status-bck">
+            <ion-col col-9>
+              <h3>
+                <b>{{item.Nome_Workflow | slice: 0 : 22}}<span *ngIf="item.Nome_Workflow.length > 22">...</span>
+                </b>
+              </h3>
+            </ion-col>
+            <ion-col col-3 text-right id="dateP">
+              <p>
+                <b>22/10/2015</b>
+              </p>
+            </ion-col>
+            <ion-col col-9 id="activityDescription">
+              <p>{{item.jobname}}</p>
+              <p>{{item.NumeroOrdine}}</p>
+              <p>Lavorazioni id: {{item.Id_Processo_Lavorazione}}</p>
+            </ion-col>
+            <ion-col col-3 text-right>
+              <br>
+              <ion-icon name="arrow-round-forward" (click)="clicked(item)"></ion-icon>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
       </ion-item>
     </ion-list>
   </div>
-
 </ion-content>

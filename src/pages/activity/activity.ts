@@ -64,19 +64,26 @@ export class ActivityPage implements OnInit {
   }
 
   private async getSelectedFilter(selectedState: number) {
-    this.activeState = selectedState;
+    //if somebody select state that is already selected, we don't want to send again a request, else get new data
+    if (selectedState != this.activeState) {
+      this.activeState = selectedState;
 
-    const response$ = await this.activities.getAllActivities(0, 10, this.userObj.UserId, this.activeState);
+      const response$ = await this.activities.getAllActivities(0, 10, this.userObj.UserId, this.activeState);
 
-    response$.subscribe((activities: ActivitiesViewModel) => {
-      this.activitiesLength = activities.CountActivities;
+      response$.subscribe((activities: ActivitiesViewModel) => {
+        this.activitiesLength = activities.CountActivities;
 
-      this.activitiesList = activities.Activities;
-    });
+        this.activitiesList = activities.Activities;
+      });
+    }
   }
 
   async scan() {
     this.barcodeNumber = await this.barcodeScanner.scanBarcode();
+  }
+
+  clicked(item: any) {
+    console.log(item);
   }
 
 }

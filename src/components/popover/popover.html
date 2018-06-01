@@ -1,12 +1,12 @@
 <ion-list radio-group [(ngModel)]="selection">
   <ion-list-header>Filtra</ion-list-header>
   <ion-item *ngFor="let item of data; let i = index;">
-    <ion-label *ngIf="item === 0">In coda</ion-label>
-    <ion-label *ngIf="item === 1" >In lavorazione</ion-label>
-    <ion-label *ngIf="item === 2" >Terminate</ion-label>
-    <ion-label *ngIf="item === 3" >Annullate</ion-label>
-    <ion-label *ngIf="item === 4" >Sospese</ion-label>
-    <ion-label *ngIf="item === 5" >Tutte</ion-label>
+    <ion-label *ngIf="item === 0" class="color-incoda">In coda</ion-label>
+    <ion-label *ngIf="item === 1" class="color-inlav">In lavorazione</ion-label>
+    <ion-label *ngIf="item === 2" class="color-terminate">Terminate</ion-label>
+    <ion-label *ngIf="item === 3" class="color-annullate">Annullate</ion-label>
+    <ion-label *ngIf="item === 4" class="color-sospese">Sospese</ion-label>
+    <ion-label *ngIf="item === 5" class="color-tutte">Tutte</ion-label>
 
     <ion-radio [checked]="item === selection ? true : false" [value]="item" (ionSelect)="radioChanged($event)"></ion-radio>
   </ion-item>
