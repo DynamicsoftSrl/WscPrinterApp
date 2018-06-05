@@ -41,7 +41,6 @@ export class ActivityPage implements OnInit {
 
     response$.subscribe((activities: ActivitiesViewModel) => {
       this.activitiesLength = activities.CountActivities;
-
       this.activitiesList = activities.Activities;
     });
   }
@@ -84,6 +83,37 @@ export class ActivityPage implements OnInit {
 
   clicked(item: any) {
     console.log(item);
+  }
+
+  checkTodaysDate(item: ActivityModel): boolean {
+    let isToday = false;
+    const todaysDate = new Date();
+
+    if (item.DataScadenzaOrdine != null) {
+      const inputDate = new Date(item.DataScadenzaOrdine);
+
+      if (inputDate.setHours(0, 0, 0, 0) == todaysDate.setHours(0, 0, 0, 0)) {
+        isToday = true;
+      }
+    }
+
+    return isToday;
+  }
+
+  checkTomorrowDate(item: ActivityModel): boolean {
+    let isTomorrow = false;
+    const todaysDate = new Date();
+    todaysDate.setDate(todaysDate.getDate() + 1);
+
+    if (item.DataScadenzaOrdine != null) {
+      const inputDate = new Date(item.DataScadenzaOrdine);
+
+      if (inputDate.setHours(0, 0, 0, 0) == todaysDate.setHours(0, 0, 0, 0)) {
+        isTomorrow = true;
+      }
+    }
+
+    return isTomorrow;
   }
 
 }

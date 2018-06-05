@@ -41,8 +41,6 @@ export class AuthProvider {
   }
 
   logout(): void {
-    // this.localStorage.removeItemFromLocalStorage(this.localStorage.tokenNameInLocalStorage);
-    // this.localStorage.removeItemFromLocalStorage(this.localStorage.loggedUserLocalStorage);
     this.localStorage.clearLocalStorage();
   }
 
@@ -69,9 +67,6 @@ export class AuthProvider {
   }
 
   getTokenFromServer(username: string, password: string, domain: string) {
-    // let username = "Dynamicsoft";
-    // let password = "Dynamicsoft2016";
-
     const data = 'username=' + username + '&password=' + password + '&grant_type=password';
     const reqHeaders = new HttpHeaders({ 'content-type': 'application/x-www-form-urlencoded' });
 

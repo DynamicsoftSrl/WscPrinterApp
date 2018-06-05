@@ -65,67 +65,111 @@
 
   <div [ngSwitch]="period">
     <ion-list *ngSwitchCase="'today'">
-      <ion-item *ngFor="let item of activitiesList">
-        <ion-avatar item-start (click)="clicked(item)">
-          <img src="assets/imgs/play.png">
-        </ion-avatar>
-        <ion-grid no-padding>
-          <ion-row class="status-bck">
-            <ion-col col-9>
-              <h3>
-                <b>{{item.Nome_Workflow | slice: 0 : 22}}<span *ngIf="item.Nome_Workflow.length > 22">...</span>
-                </b>
-              </h3>
-            </ion-col>
-            <ion-col col-3 text-right id="dateP">
-              <p>
-                <b>22/10/2015</b>
-              </p>
-            </ion-col>
-            <ion-col col-9 id="activityDescription">
-              <p>{{item.jobname}}</p>
-              <p>{{item.NumeroOrdine}}</p>
-              <p>Lavorazioni id: {{item.Id_Processo_Lavorazione}}</p>
-            </ion-col>
-            <ion-col col-3 text-right>
-              <br>
-              <ion-icon name="arrow-round-forward" (click)="clicked(item)"></ion-icon>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-      </ion-item>
+      <ng-container *ngFor="let item of activitiesList">
+        <ion-item *ngIf="checkTodaysDate(item)">
+          <ion-avatar item-start (click)="clicked(item)">
+            <img *ngIf="item.statoProcesso == 'play'" src="assets/imgs/play.png">
+            <img *ngIf="item.statoProcesso == 'stop'" src="assets/imgs/locked.png">
+          </ion-avatar>
+          <ion-grid no-padding>
+            <ion-row class="status-bck">
+              <ion-col col-9>
+                <h3>
+                  <b>{{item.Nome_Workflow | slice: 0 : 22}}
+                    <span *ngIf="item.Nome_Workflow.length > 22">...</span>
+                  </b>
+                </h3>
+              </ion-col>
+              <ion-col col-3 text-right id="dateP">
+                <p>
+                  <b>{{item.DataScadenzaOrdine | date:'dd/MM/y'}}</b>
+                </p>
+              </ion-col>
+              <ion-col col-9 id="activityDescription">
+                <p>{{item.jobname}}</p>
+                <p>{{item.NumeroOrdine}}</p>
+                <p>Lavorazioni id: {{item.Id_Processo_Lavorazione}}</p>
+              </ion-col>
+              <ion-col col-3 text-right>
+                <br>
+                <ion-icon name="arrow-round-forward" (click)="clicked(item)"></ion-icon>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-item>
+      </ng-container>
     </ion-list>
 
     <ion-list *ngSwitchCase="'tommorow'">
-      <ion-item *ngFor="let item of activitiesList">
-        <ion-avatar item-start (click)="clicked(item)">
-          <img src="assets/imgs/locked.png">
-        </ion-avatar>
-        <ion-grid no-padding>
-          <ion-row class="status-bck">
-            <ion-col col-9>
-              <h3>
-                <b>{{item.Nome_Workflow | slice: 0 : 22}}<span *ngIf="item.Nome_Workflow.length > 22">...</span>
-                </b>
-              </h3>
-            </ion-col>
-            <ion-col col-3 text-right id="dateP">
-              <p>
-                <b>22/10/2015</b>
-              </p>
-            </ion-col>
-            <ion-col col-9 id="activityDescription">
-              <p>{{item.jobname}}</p>
-              <p>{{item.NumeroOrdine}}</p>
-              <p>Lavorazioni id: {{item.Id_Processo_Lavorazione}}</p>
-            </ion-col>
-            <ion-col col-3 text-right>
-              <br>
-              <ion-icon name="arrow-round-forward" (click)="clicked(item)"></ion-icon>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-      </ion-item>
+      <ng-container *ngFor="let item of activitiesList">
+        <ion-item *ngIf="checkTomorrowDate(item)">
+          <ion-avatar item-start (click)="clicked(item)">
+            <img *ngIf="item.statoProcesso == 'play'" src="assets/imgs/play.png">
+            <img *ngIf="item.statoProcesso == 'stop'" src="assets/imgs/locked.png">
+          </ion-avatar>
+          <ion-grid no-padding>
+            <ion-row class="status-bck">
+              <ion-col col-9>
+                <h3>
+                  <b>{{item.Nome_Workflow | slice: 0 : 22}}
+                    <span *ngIf="item.Nome_Workflow.length > 22">...</span>
+                  </b>
+                </h3>
+              </ion-col>
+              <ion-col col-3 text-right id="dateP">
+                <p>
+                  <b>{{item.DataScadenzaOrdine | date:'dd/MM/y'}}</b>
+                </p>
+              </ion-col>
+              <ion-col col-9 id="activityDescription">
+                <p>{{item.jobname}}</p>
+                <p>{{item.NumeroOrdine}}</p>
+                <p>Lavorazioni id: {{item.Id_Processo_Lavorazione}}</p>
+              </ion-col>
+              <ion-col col-3 text-right>
+                <br>
+                <ion-icon name="arrow-round-forward" (click)="clicked(item)"></ion-icon>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-item>
+      </ng-container>
+    </ion-list>
+
+    <ion-list *ngSwitchCase="'all'">
+      <ng-container *ngFor="let item of activitiesList">
+        <ion-item>
+          <ion-avatar item-start (click)="clicked(item)">
+            <img *ngIf="item.statoProcesso == 'play'" src="assets/imgs/play.png">
+            <img *ngIf="item.statoProcesso == 'stop'" src="assets/imgs/locked.png">
+          </ion-avatar>
+          <ion-grid no-padding>
+            <ion-row class="status-bck">
+              <ion-col col-9>
+                <h3>
+                  <b>{{item.Nome_Workflow | slice: 0 : 22}}
+                    <span *ngIf="item.Nome_Workflow.length > 22">...</span>
+                  </b>
+                </h3>
+              </ion-col>
+              <ion-col col-3 text-right id="dateP">
+                <p>
+                  <b>{{item.DataScadenzaOrdine | date:'dd/MM/y'}}</b>
+                </p>
+              </ion-col>
+              <ion-col col-9 id="activityDescription">
+                <p>{{item.jobname}}</p>
+                <p>{{item.NumeroOrdine}}</p>
+                <p>Lavorazioni id: {{item.Id_Processo_Lavorazione}}</p>
+              </ion-col>
+              <ion-col col-3 text-right>
+                <br>
+                <ion-icon name="arrow-round-forward" (click)="clicked(item)"></ion-icon>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-item>
+      </ng-container>
     </ion-list>
   </div>
 </ion-content>

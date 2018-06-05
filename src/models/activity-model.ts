@@ -1,11 +1,10 @@
-import { DateTime } from 'ionic-angular';
 export class ActivityModel {
     public Annulla_Processo_Operatore: string;
     public DataAnnullamento_Processo: string;
     public DataAssegnazione_Processo: string;
     public DataFine_Processo: string;
     public DataInizio_Processo: string;
-    public DataScadenzaOrdine: string;
+    public DataScadenzaOrdine?: Date;
     public Descrizione_Elemento: string;
     public Fine_Processo_Operatore: string;
     public IdCliente: string;
@@ -34,9 +33,10 @@ export class ActivityModel {
     public SSMA_TimeStamp: string;
     public Sospeso_Processo_Operatore: string;
     public Stato_Processo: number;
+    public statoProcesso: string;
     public Tipo_Processo: string;
     public cliente: string;
-    public data_scadenza_ordine?: DateTime;
+    public data_scadenza_ordine?: Date;
     public descrizione: string;
     public flagPermesso: boolean;
     public flag_assegnazione: string;

@@ -22,6 +22,7 @@ export class MappingProvider {
 
   readonly token = '/token';
   public get_token_api = this.token;
+  public api = '/api';
   public post_login = '/ionaccount/login';
   public get_shipment_details = '/ionbarcode/getshipmentdetails/{id}';
   public set_shipment_details = '/ionbarcode/setshipmentdetails';

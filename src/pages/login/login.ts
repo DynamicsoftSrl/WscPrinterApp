@@ -25,7 +25,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     private authProvider: AuthProvider,
     private localStorage: LocalStorageProvider,
     private mapping: MappingProvider,
-    private spinner: LoadingSpinnerProvider
+    private spinner: LoadingSpinnerProvider,
   ) {
   }
 
@@ -37,11 +37,15 @@ export class LoginComponent implements OnInit, OnDestroy {
   public isDomainError: boolean = false;
   public isTokenCredentialsError: boolean = false;
 
+  private defaultProtocol: string = 'http://';
+  private completeUrl: string = '';
+
   ngOnInit(): void {
     //validation of login form via FormBuilder
     this.loginFormGroup = this.formBuilder.group({
       Email: ['', Validators.required],
       Password: ['', Validators.required],
+      DomainPrefix: [this.defaultProtocol],
       Domain: ['', Validators.required]
     });
   }
@@ -73,9 +77,15 @@ export class LoginComponent implements OnInit, OnDestroy {
   onLogin() {
     this.showSpinnerLoader();
     this.checkDomain();
+    this.setCompleteUrl();
 
     this.localStorage.getItemFromLocalStorage(this.localStorage.tokenNameInLocalStorage).then(tokenStorage => {
-      this.localStorage.saveToLocalStorage(this.localStorage.domainNameInLocalStorage, this.model.Domain).then(res => {
+      // setting token url because we don't need  /api on localhost during development
+      if (this.model.Domain.indexOf('localhost') > -1) {
+        this.completeUrl = this.defaultProtocol + this.model.Domain;
+      }
+
+      this.localStorage.saveToLocalStorage(this.localStorage.domainNameInLocalStorage, this.completeUrl).then(res => {
 
         this.mapping.setDomain();
 
@@ -87,7 +97,10 @@ export class LoginComponent implements OnInit, OnDestroy {
         }
       });
     }
-    ).catch(e => { console.log(e); });
+    ).catch(e => {
+      console.log(e);
+      this.hideSpinnerLoader();
+    });
   }
 
   getTokenAndLogin() {
@@ -98,7 +111,17 @@ export class LoginComponent implements OnInit, OnDestroy {
         const username = credentials.username;
         const password = credentials.password;
 
-        this.authProvider.getTokenFromServer(username, password, this.model.Domain)
+        // setting token url because we don't need  /api on localhost during development
+        let tokenUrl = '';
+
+        if (this.model.Domain.indexOf('localhost') > -1) {
+          tokenUrl = this.defaultProtocol + this.model.Domain;
+        }
+        else {
+          tokenUrl = this.completeUrl;
+        }
+
+        this.authProvider.getTokenFromServer(username, password, tokenUrl)
           .then((response) => {
             const tokenSub = response.subscribe((token: TokenModel) => {
               this.localStorage.saveToLocalStorage(this.localStorage.tokenNameInLocalStorage, token.access_token)
@@ -189,6 +212,16 @@ export class LoginComponent implements OnInit, OnDestroy {
   private checkDomain(): void {
     if (this.model.Domain.substring(this.model.Domain.length - 1) == '/') {
       this.model.Domain = this.model.Domain.substring(0, this.model.Domain.length - 1);
+    }
+  }
+
+  // setting complete URL
+  private setCompleteUrl(): void {
+    if (this.model.DomainPrefix != undefined) {
+      this.completeUrl = this.model.DomainPrefix + this.model.Domain + this.mapping.api;
+    }
+    else {
+      this.completeUrl = this.defaultProtocol + this.model.Domain + this.mapping.api;
     }
   }
 
