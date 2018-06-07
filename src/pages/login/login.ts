@@ -40,7 +40,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   private defaultProtocol: string = 'http://';
   private completeUrl: string = '';
 
-  ngOnInit(): void {
+  async ngOnInit() {
     //validation of login form via FormBuilder
     this.loginFormGroup = this.formBuilder.group({
       Email: ['', Validators.required],
@@ -48,6 +48,41 @@ export class LoginComponent implements OnInit, OnDestroy {
       DomainPrefix: [this.defaultProtocol],
       Domain: ['', Validators.required]
     });
+
+    this.setUserInputValues();
+  }
+
+  // If user logout, we want to set input values of login form. We are reading user data from local storage
+  async setUserInputValues() {
+    const userLocal = this.localStorage.loggedUserLocalStorage;
+    const domainLocal = this.localStorage.domainNameInLocalStorage;
+    const userStr = await this.localStorage.getItemFromLocalStorage(userLocal);
+
+    if (userStr != null && userStr != undefined) {
+      const userDetails: User = JSON.parse(userStr);
+
+      const https = 'https://';
+
+      let domainValue: string = await this.localStorage.getItemFromLocalStorage(domainLocal);
+
+      if (domainValue != undefined && domainValue != null) {
+        if (domainValue.indexOf(this.defaultProtocol) > -1) {
+          domainValue = domainValue.split(this.defaultProtocol)[1];
+        }
+
+        if (domainValue.indexOf(https) > -1) {
+          domainValue = domainValue.split(https)[1];
+        }
+
+        if (domainValue.indexOf(this.mapping.api) > -1) {
+          domainValue = domainValue.split(this.mapping.api)[0];
+        }
+
+        this.model.Domain = domainValue;
+      }
+
+      this.model.Email = userDetails.Email;
+    }
   }
 
   //Nav Guard which is controlling login page, if user is logged in, he can't enter the login page until he logout

@@ -41,7 +41,9 @@ export class AuthProvider {
   }
 
   logout(): void {
-    this.localStorage.clearLocalStorage();
+    const tokenName = this.localStorage.tokenNameInLocalStorage;
+
+    this.localStorage.removeItemFromLocalStorage(tokenName);
   }
 
   isUserAuthentificated() {
