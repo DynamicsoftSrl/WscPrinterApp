@@ -50,7 +50,7 @@
   </ion-grid>
 
   <div padding>
-    <ion-segment style="background-color: #EE9649" [(ngModel)]="period">
+    <ion-segment style="background-color: #EE9649" [(ngModel)]="period" (ionChange)="segmentChanged($event)">
       <ion-segment-button value="today">
         OGGI
       </ion-segment-button>
@@ -66,7 +66,7 @@
   <div [ngSwitch]="period">
     <ion-list *ngSwitchCase="'today'">
       <ng-container *ngFor="let item of activitiesList">
-        <ion-item *ngIf="checkTodaysDate(item)">
+        <ion-item>
           <ion-avatar item-start (click)="clicked(item)">
             <img *ngIf="item.statoProcesso == 'play'" src="assets/imgs/play.png">
             <img *ngIf="item.statoProcesso == 'stop'" src="assets/imgs/locked.png">
@@ -80,7 +80,7 @@
                   </b>
                 </h3>
               </ion-col>
-              <ion-col col-3 text-right id="dateP">
+              <ion-col col-3 text-right class="dateP">
                 <p>
                   <b>{{item.DataScadenzaOrdine | date:'dd/MM/y'}}</b>
                 </p>
@@ -102,7 +102,7 @@
 
     <ion-list *ngSwitchCase="'tommorow'">
       <ng-container *ngFor="let item of activitiesList">
-        <ion-item *ngIf="checkTomorrowDate(item)">
+        <ion-item>
           <ion-avatar item-start (click)="clicked(item)">
             <img *ngIf="item.statoProcesso == 'play'" src="assets/imgs/play.png">
             <img *ngIf="item.statoProcesso == 'stop'" src="assets/imgs/locked.png">
@@ -116,7 +116,7 @@
                   </b>
                 </h3>
               </ion-col>
-              <ion-col col-3 text-right id="dateP">
+              <ion-col col-3 text-right class="dateP">
                 <p>
                   <b>{{item.DataScadenzaOrdine | date:'dd/MM/y'}}</b>
                 </p>
@@ -152,7 +152,7 @@
                   </b>
                 </h3>
               </ion-col>
-              <ion-col col-3 text-right id="dateP">
+              <ion-col col-3 text-right class="dateP">
                 <p>
                   <b>{{item.DataScadenzaOrdine | date:'dd/MM/y'}}</b>
                 </p>

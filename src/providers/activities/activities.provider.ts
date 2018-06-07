@@ -11,7 +11,7 @@ export class ActivitiesProvider {
     private localStorage: LocalStorageProvider) {
   }
 
-  async getAllActivities(startRowIndex: number, maximumRows: number, userId: number, stateNumber: number) {
+  async getAllActivities(startRowIndex: number, maximumRows: number, userId: number, stateNumber: number, period: string) {
     // getting domain from local storage
     const domain = await this.localStorage.getItemFromLocalStorage(this.localStorage.domainNameInLocalStorage).then(domain => {
       return domain;
@@ -21,7 +21,8 @@ export class ActivitiesProvider {
     url = url.replace('{startRowIndex}', startRowIndex.toString())
             .replace('{maximumRows}', maximumRows.toString())
             .replace('{userId}', userId.toString())
-            .replace('{activityState}', stateNumber.toString());
+            .replace('{activityState}', stateNumber.toString())
+            .replace('{period}', period);
 
     return this.api.getAuth(url);
   }

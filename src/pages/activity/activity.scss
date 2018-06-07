@@ -38,7 +38,7 @@ ion-item.item-md {
   border-bottom: 1px solid #dedede
 }
 
-#dateP {
+.dateP {
   p {
     font-size: 1rem;
     line-height: 2rem;
@@ -52,11 +52,14 @@ ion-item.item-md {
 }
 
 ion-item {
-  img{
+  img {
     cursor: pointer;
   }
+  ion-icon {
+    cursor: pointer;
+  }
+}
 
-  ion-icon{
-    cursor: pointer;
-  }
+ion-item.item-md{
+  border-bottom: 1px solid #dedede !important;
 }

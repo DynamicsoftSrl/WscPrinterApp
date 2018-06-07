@@ -34,10 +34,14 @@ export class ActivityPage implements OnInit {
   public activitiesList: ActivityModel[];
 
   async ngOnInit() {
+    this.getActivities();
+  }
+
+  private async getActivities() {
     const user = await this.localStorage.getItemFromLocalStorage(this.localStorage.loggedUserLocalStorage);
     this.userObj = JSON.parse(user);
 
-    const response$ = await this.activities.getAllActivities(0, 10, this.userObj.UserId, this.activeState);
+    const response$ = await this.activities.getAllActivities(0, 10, this.userObj.UserId, this.activeState, this.period);
 
     response$.subscribe((activities: ActivitiesViewModel) => {
       this.activitiesLength = activities.CountActivities;
@@ -67,7 +71,7 @@ export class ActivityPage implements OnInit {
     if (selectedState != this.activeState) {
       this.activeState = selectedState;
 
-      const response$ = await this.activities.getAllActivities(0, 10, this.userObj.UserId, this.activeState);
+      const response$ = await this.activities.getAllActivities(0, 10, this.userObj.UserId, this.activeState, this.period);
 
       response$.subscribe((activities: ActivitiesViewModel) => {
         this.activitiesLength = activities.CountActivities;
@@ -85,35 +89,10 @@ export class ActivityPage implements OnInit {
     console.log(item);
   }
 
-  checkTodaysDate(item: ActivityModel): boolean {
-    let isToday = false;
-    const todaysDate = new Date();
+  // on change of period (today, tommorow, all), send request and get activities list
+  segmentChanged(ev) {
+    this.period = ev._value;
 
-    if (item.DataScadenzaOrdine != null) {
-      const inputDate = new Date(item.DataScadenzaOrdine);
-
-      if (inputDate.setHours(0, 0, 0, 0) == todaysDate.setHours(0, 0, 0, 0)) {
-        isToday = true;
-      }
-    }
-
-    return isToday;
+    this.getActivities();
   }
-
-  checkTomorrowDate(item: ActivityModel): boolean {
-    let isTomorrow = false;
-    const todaysDate = new Date();
-    todaysDate.setDate(todaysDate.getDate() + 1);
-
-    if (item.DataScadenzaOrdine != null) {
-      const inputDate = new Date(item.DataScadenzaOrdine);
-
-      if (inputDate.setHours(0, 0, 0, 0) == todaysDate.setHours(0, 0, 0, 0)) {
-        isTomorrow = true;
-      }
-    }
-
-    return isTomorrow;
-  }
-
 }
