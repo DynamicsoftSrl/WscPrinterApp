@@ -46,7 +46,10 @@ export class ActivityPage implements OnInit {
     response$.subscribe((activities: ActivitiesViewModel) => {
       this.activitiesLength = activities.CountActivities;
       this.activitiesList = activities.Activities;
-    });
+    },
+      err => {
+        console.log(err);
+      });
   }
 
   presentPopover(myEvent) {
@@ -77,7 +80,10 @@ export class ActivityPage implements OnInit {
         this.activitiesLength = activities.CountActivities;
 
         this.activitiesList = activities.Activities;
-      });
+      },
+        err => {
+          console.log(err);
+        });
     }
   }
 

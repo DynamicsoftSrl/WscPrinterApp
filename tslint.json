@@ -1,45 +1,12 @@
 {
   "rules": {
-    "no-duplicate-variable": true,
-    "no-unused-variable": [
-      true
-    ],
-    "comment-format": true,
-    "max-line-length": [
-      true,
-      140
-    ],
-    "no-trailing-whitespace": true,
-    "no-unnecessary-initializer": true,
-    "no-unused-expression": true,
-    "no-use-before-declare": true,
-    "no-var-keyword": true,
-    "prefer-const": true,
     "quotemark": [
       true,
       "single"
     ],
-    "one-line": [
-      true,
-      "check-open-brace",
-      "check-catch",
-      "check-whitespace"
-    ],
-    "semicolon": [
-      true,
-      "always"
-    ],
-    "whitespace": [
-      true,
-      "check-branch",
-      "check-decl",
-      "check-operator",
-      "check-separator",
-      "check-type"
-    ]
-  }
-  // ,
-  // "rulesDirectory": [
-  //   "node_modules/tslint-eslint-rules/dist/rules"
-  // ]
+    "semicolon": true
+  },
+  "rulesDirectory": [
+    "node_modules/tslint-eslint-rules/dist/rules"
+  ]
 }
