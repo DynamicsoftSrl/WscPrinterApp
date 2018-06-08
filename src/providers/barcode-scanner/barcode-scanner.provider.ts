@@ -1,6 +1,6 @@
+import { BarcodeScanner, BarcodeScanResult } from '@ionic-native/barcode-scanner';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 
 /*
   Generated class for the BarcodeScannerProvider provider.
@@ -18,7 +18,7 @@ export class BarcodeScannerProvider {
 
   scanBarcode() {
     const retVal$ = this.barcodeScanner.scan()
-      .then(barcodeData => {
+      .then((barcodeData: BarcodeScanResult) => {
         // this.controllErrorsLayout(false, true, false);
 
         const scannedBarcode = barcodeData.text;
