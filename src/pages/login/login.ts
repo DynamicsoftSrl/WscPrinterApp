@@ -65,12 +65,15 @@ export class LoginComponent implements OnInit, OnDestroy {
 
       let domainValue: string = await this.localStorage.getItemFromLocalStorage(domainLocal);
 
+      // reading details from localstorage, and setting model values in DOM depending on details
+      // spliting http/https from entire domain url
       if (domainValue != undefined && domainValue != null) {
         if (domainValue.indexOf(this.defaultProtocol) > -1) {
           domainValue = domainValue.split(this.defaultProtocol)[1];
         }
 
         if (domainValue.indexOf(https) > -1) {
+          this.defaultProtocol = https;
           domainValue = domainValue.split(https)[1];
         }
 

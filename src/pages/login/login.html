@@ -30,17 +30,20 @@
       <strong>Password is required!</strong>
     </div>
 
-    <ion-item id="login-input5" id='domainLabelItem'>
-      <ion-label stacked id='domainLbl'>
-        {{ 'domain' | translate}}
-      </ion-label>
-    </ion-item>
-
     <ion-item>
+      <ion-label stacked id='domainLbl'>
+        Protocol
+      </ion-label>
       <ion-select [(ngModel)]="model.DomainPrefix" formControlName="DomainPrefix">
         <ion-option value="http://">http</ion-option>
         <ion-option value="https://">https</ion-option>
       </ion-select>
+    </ion-item>
+
+    <ion-item id="login-input5" id='domainLabelItem'>
+      <ion-label stacked id='domainLbl'>
+        {{ 'domain' | translate}}
+      </ion-label>
       <ion-input type="text" placeholder="www.example.com" name="Domain" [(ngModel)]="model.Domain" formControlName="Domain" (keyup)="removeValidators()"></ion-input>
     </ion-item>
 

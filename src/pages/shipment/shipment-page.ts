@@ -49,10 +49,14 @@ export class ShipmentPage implements OnDestroy {
 
     this.spinner.showLoadingSpinner();
 
-    const id = await this.barcodeScanner.scanBarcode();
+    let id = await this.barcodeScanner.scanBarcode();
 
+    // if first character is 0, we should remove it
     if (typeof id == 'string') {
       if (id != (undefined && null && '')) {
+        if (id.charAt(0) == '0') {
+          id = id.slice(1, id.length);
+        }
         this.getShipmentDetails(id);
       }
       else {
