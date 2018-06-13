@@ -22,7 +22,6 @@ export class ActivityDetailsPage implements OnInit {
   public infoData: ActivityModel = this.navParams.data;
 
   ngOnInit(): void {
-    console.log(this.infoData);
   }
 
   segmentChanged(ev: any) {

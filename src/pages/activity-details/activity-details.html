@@ -29,131 +29,19 @@
 
   <div [ngSwitch]="details">
     <ion-list *ngSwitchCase="'info'" style="margin-top:4px" class="list-selector">
-      <div>
-        <ion-item style="color: orange">
-          <ion-icon name="information-circle" style="display: inline;"></ion-icon>
-          <h2 style="display: inline">
-            <b>{{ "activity_info" | translate}}</b>
-          </h2>
-        </ion-item>
-      </div>
-      <div>
-        <ion-item class="font-size-sector">
-          <ion-grid>
-            <ion-row>
-              <ion-col col-7>
-                <b>Attivita</b>
-                <p no-margin text-wrap class="font-size-sector">{{ infoData.Nome_Workflow }}</p>
-              </ion-col>
-              <ion-col col-5>
-                <b>Stato</b>
-                <p no-margin class="font-size-sector">{{ infoData.statoLavorazione }}</p>
-              </ion-col>
-
-              <ion-col col-7>
-                <b>Data scadenza</b>
-                <p no-margin class="font-size-sector">{{ infoData.DataScadenzaOrdine | date:'dd/MM/y' }}</p>
-              </ion-col>
-              <ion-col col-5>
-                <b>Id attivita</b>
-                <p no-margin class="font-size-sector">{{ infoData.IdOrder }}</p>
-              </ion-col>
-
-              <ion-col col-7>
-                <b>Totale tempo impiegato</b>
-                <p no-margin class="font-size-sector">56 minuti</p>
-              </ion-col>
-            </ion-row>
-          </ion-grid>
-        </ion-item>
-      </div>
-      <div>
-        <ion-item style="color: orange">
-          <ion-icon name="information-circle" style="display: inline"></ion-icon>
-          <h2 style="display: inline">
-            <b>{{ "order_info" | translate}}</b>
-          </h2>
-        </ion-item>
-      </div>
-      <div>
-        <ion-item class="font-size-sector">
-          <ion-grid>
-            <ion-row>
-              <ion-col col-7>
-                <b>Cliente</b>
-                <p no-margin text-wrap class="font-size-jobinfo">{{ infoData.cliente }}</p>
-              </ion-col>
-              <ion-col col-5>
-                <b>Numero ordine</b>
-                <p no-margin class="font-size-jobinfo">{{ infoData.NumeroOrdine }}</p>
-                <br>
-                <b>Lavorazione Id</b>
-                <p no-margin class="font-size-jobinfo">{{ infoData.IdOrder }}</p>
-              </ion-col>
-
-              <ion-col col-7>
-                <b>Indirizzo di consegna</b>
-                <p no-margin class="font-size-jobinfo">{{ infoData.operatore }}</p>
-              </ion-col>
-              <ion-col col-5>
-                <b>Jobname</b>
-                <p no-margin text-wrap class="font-size-jobinfo">{{ infoData.jobname }}</p>
-              </ion-col>
-
-              <ion-col col-7>
-                <b>Referente</b>
-                <p no-margin class="font-size-jobinfo">{{ infoData.operatore }}</p>
-              </ion-col>
-              <ion-col col-5>
-                <b>Spedizione</b>
-                <p no-margin text-wrap class="font-size-jobinfo" [innerHTML]="infoData.descrizione"></p>
-              </ion-col>
-            </ion-row>
-          </ion-grid>
-        </ion-item>
-
-      </div>
+      <info [activityInfo]="infoData"></info>
     </ion-list>
 
     <ion-list *ngSwitchCase="'dati-lavoro'" style="margin-top:4px" class="list-selector">
-      <div>
-        <ion-item style="color: orange">
-          <ion-icon name="information-circle" style="display: inline;"></ion-icon>
-          <h2 style="display: inline">
-            <b>{{ "job_description" | translate}}</b>
-          </h2>
-        </ion-item>
-      </div>
-      <div>
-        <ion-item class="font-size-sector" no-padding>
-          <ion-grid>
-            <ion-row>
-              <ion-col col-7>
-                <p no-margin text-wrap class="font-size-jobinfo" [innerHTML]="infoData.descrizione"></p>
-              </ion-col>
-            </ion-row>
-          </ion-grid>
-        </ion-item>
-      </div>
-      <div>
-        <ion-item style="color: orange">
-          <ion-icon name="information-circle" style="display: inline;"></ion-icon>
-          <h2 style="display: inline">
-            <b>Dati tecnici</b>
-          </h2>
-        </ion-item>
-      </div>
-      <div>
-        <ion-item class="font-size-sector" no-padding>
-          <ion-grid>
-            <ion-row>
-              <ion-col col-7>
-                <p no-margin text-wrap class="font-size-jobinfo">{{ infoData }}</p>
-              </ion-col>
-            </ion-row>
-          </ion-grid>
-        </ion-item>
-      </div>
+      <job-info [activityInfo]="infoData"></job-info>
+    </ion-list>
+
+    <ion-list *ngSwitchCase="'note'" style="margin-top:4px" class="list-selector">
+      <note-tab></note-tab>
+    </ion-list>
+
+    <ion-list *ngSwitchCase="'log'" style="margin-top:4px" class="list-selector">
+      <other-tab></other-tab>
     </ion-list>
   </div>
 </ion-content>

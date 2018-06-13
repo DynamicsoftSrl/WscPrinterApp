@@ -7,6 +7,10 @@ import { TabsMenuComponent } from './tabs-menu/tabs-menu';
 import { IonicModule } from 'ionic-angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { PopoverComponent } from './popover/popover';
+import { InfoComponent } from './activity-widgets/info-tab/info';
+import { NoteTabComponent } from './activity-widgets/note-tab/note-tab';
+import { OtherTabComponent } from './activity-widgets/other-tab/other-tab';
+import { JobInfoComponent } from './activity-widgets/job-info-tab/job-info';
 
 @NgModule({
 	declarations:
@@ -14,6 +18,10 @@ import { PopoverComponent } from './popover/popover';
 			SideMenuComponent,
 			TabsMenuComponent,
 			PopoverComponent,
+			InfoComponent,
+			JobInfoComponent,
+			NoteTabComponent,
+			OtherTabComponent,
 		],
 	imports:
 		[
@@ -25,7 +33,11 @@ import { PopoverComponent } from './popover/popover';
 		[
 			SideMenuComponent,
 			TabsMenuComponent,
-			PopoverComponent
+			PopoverComponent,
+			InfoComponent,
+			JobInfoComponent,
+			NoteTabComponent,
+			OtherTabComponent
 		],
 	entryComponents:
 		[

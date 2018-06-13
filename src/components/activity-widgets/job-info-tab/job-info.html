@@ -1,0 +1,38 @@
+<div>
+  <ion-item style="color: orange">
+    <ion-icon name="information-circle" style="display: inline;"></ion-icon>
+    <h2 style="display: inline">
+      <b>{{ "job_description" | translate}}</b>
+    </h2>
+  </ion-item>
+</div>
+<div>
+  <ion-item class="font-size-sector" no-padding>
+    <ion-grid>
+      <ion-row>
+        <ion-col col-7>
+          <p no-margin text-wrap class="font-size-jobinfo" [innerHTML]="activityInfo.descrizione"></p>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-item>
+</div>
+<div>
+  <ion-item style="color: orange">
+    <ion-icon name="information-circle" style="display: inline;"></ion-icon>
+    <h2 style="display: inline">
+      <b>Dati tecnici</b>
+    </h2>
+  </ion-item>
+</div>
+<div>
+  <ion-item class="font-size-sector" no-padding>
+    <ion-grid>
+      <ion-row>
+        <ion-col col-7>
+          <p no-margin text-wrap class="font-size-jobinfo">{{ activityInfo }}</p>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-item>
+</div>

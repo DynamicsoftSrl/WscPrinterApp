@@ -1,3 +1,4 @@
+import { LoadingSpinnerProvider } from './../../providers/loading-spinner/loading-spinner.provider';
 import { ActivityDetailsPage } from './../activity-details/activity-details';
 import { ActivityModel } from './../../models/activity-model';
 import { LocalStorageProvider } from './../../providers/local-storage/local-storage.provider';
@@ -24,7 +25,8 @@ export class ActivityPage implements OnInit {
     public viewCtrl: ViewController,
     public barcodeScanner: BarcodeScannerProvider,
     private activities: ActivitiesProvider,
-    private localStorage: LocalStorageProvider) {
+    private localStorage: LocalStorageProvider,
+    private spinner: LoadingSpinnerProvider) {
   }
 
   public activeState: number = 0;
@@ -42,7 +44,11 @@ export class ActivityPage implements OnInit {
     this.setStartActivities(activities$);
   }
 
-  private async getActivities() {
+  private async getActivities(isInfinite?: boolean) {
+    if (!isInfinite) {
+      this.spinner.showLoadingSpinner();
+    }
+
     const user = await this.localStorage.getItemFromLocalStorage(this.localStorage.loggedUserLocalStorage);
     this.userObj = JSON.parse(user);
 
@@ -50,6 +56,10 @@ export class ActivityPage implements OnInit {
     const maximumRows = 10;
 
     const response$ = await this.activities.getAllActivities(startRows, maximumRows, this.userObj.UserId, this.activeState, this.period);
+
+    if (!isInfinite) {
+      this.spinner.hideLoadingSpinner();
+    }
     return response$;
   }
 
@@ -100,7 +110,8 @@ export class ActivityPage implements OnInit {
     if (this.activitiesLength / 10 > this.counter && this.activitiesLength / 10 >= 1) {
       this.counter++;
 
-      let activities$ = await this.getActivities();
+      const isInfinite = true;
+      let activities$ = await this.getActivities(isInfinite);
       this.appendNewActivities(activities$, infiniteScroll);
     }
     else {
