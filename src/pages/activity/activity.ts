@@ -1,3 +1,4 @@
+import { ActivityDetailsPage } from './../activity-details/activity-details';
 import { ActivityModel } from './../../models/activity-model';
 import { LocalStorageProvider } from './../../providers/local-storage/local-storage.provider';
 import { ActivitiesProvider } from './../../providers/activities/activities.provider';
@@ -108,7 +109,7 @@ export class ActivityPage implements OnInit {
   }
 
   clicked(item: any) {
-    console.log(item);
+    this.navCtrl.push(ActivityDetailsPage, item);
   }
 
   // on change of period (today, tommorow, all), send request and get activities list

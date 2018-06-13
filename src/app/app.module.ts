@@ -1,3 +1,4 @@
+import { ActivityDetailsPageModule } from './../pages/activity-details/activity-details.module';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -51,7 +52,8 @@ export function createTranslateLoader(http: HttpClient) {
     }),
     ComponentsModule,
     ShipmentModule,
-    ActivityPageModule
+    ActivityPageModule,
+    ActivityDetailsPageModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [

@@ -17,10 +17,18 @@
   "shipment_state": "Stato Spedizione",
   "shipment_number": "N. spedizione",
   "courier": "Corriere",
-  "order_date": "Data scadenza",  
+  "order_date": "Data scadenza",
   "deadline_date": "Data spedizione",
-  "delivery_date": "Date consegna",  
+  "delivery_date": "Date consegna",
   "deliver_to_the_courier": "Consegnato al corriere",
   "shipment_operator": "Operatore sped.",
-  "activity": "Attività"
+  "activity": "Attività",
+  "activity_details": "Dettaglio attività",
+  "INFO": "INFO",
+  "TECHNICAL_DATA": "DATI LAVORO",
+  "NOTE": "NOTE",
+  "LOG": "LOG",
+  "activity_info": "Informazioni attività",
+  "order_info": "Informazioni ordine e lavorazione",
+  "job_description": "Descrizione lavorazione"
 }
