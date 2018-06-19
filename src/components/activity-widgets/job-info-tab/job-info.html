@@ -17,22 +17,56 @@
     </ion-grid>
   </ion-item>
 </div>
-<div>
-  <ion-item style="color: orange">
-    <ion-icon name="information-circle" style="display: inline;"></ion-icon>
-    <h2 style="display: inline">
-      <b>Dati tecnici</b>
-    </h2>
-  </ion-item>
-</div>
-<div>
-  <ion-item class="font-size-sector" no-padding>
-    <ion-grid>
-      <ion-row>
-        <ion-col col-7>
-          <p no-margin text-wrap class="font-size-jobinfo">{{ activityInfo }}</p>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-  </ion-item>
-</div>
+
+<ng-container>
+  <div>
+    <ion-item style="color: orange">
+      <ion-icon name="information-circle" style="display: inline;"></ion-icon>
+      <h2 style="display: inline">
+        <b>Dati tecnici</b>
+      </h2>
+    </ion-item>
+  </div>
+  <div>
+    <ion-item class="font-size-sector" no-padding>
+      <ion-grid>
+        <ion-row>
+          <ion-col col-7>
+            <!-- <p no-margin text-wrap class="font-size-jobinfo">{{ technicalData.descrizione }}</p> -->
+            <p no-margin text-wrap class="font-size-jobinfo">
+              <b class="sector-header">Descrizione</b>
+            </p>
+          </ion-col>
+          <ion-col col-2>
+            <!-- <p no-margin text-wrap class="font-size-jobinfo">{{ technicalData.um }}</p> -->
+            <p no-margin text-wrap class="font-size-jobinfo">
+              <b class="sector-header">Um</b>
+            </p>
+          </ion-col>
+          <ion-col col-3>
+            <p no-margin text-wrap class="font-size-jobinfo">
+              <b class="sector-header" text-center>Quantita</b>
+            </p>
+            <!-- <p no-margin text-wrap class="font-size-jobinfo">{{ technicalData.quantita }}</p> -->
+          </ion-col>
+        </ion-row>
+        <ng-container *ngIf="technicalData.length > 0">
+          <ion-row *ngFor="let item of technicalData" class="border-bottom">
+            <ion-col col-7>
+              <!-- <p no-margin text-wrap class="font-size-jobinfo">{{ technicalData.descrizione }}</p> -->
+              <p no-margin text-wrap class="font-size-jobinfo">{{ item.descrizione }}</p>
+            </ion-col>
+            <ion-col col-2>
+              <!-- <p no-margin text-wrap class="font-size-jobinfo">{{ technicalData.um }}</p> -->
+              <p no-margin text-wrap class="font-size-jobinfo">{{ item.um }}</p>
+            </ion-col>
+            <ion-col col-3>
+              <p no-margin text-wrap class="font-size-jobinfo" text-center>{{ item.quantita }}</p>
+              <!-- <p no-margin text-wrap class="font-size-jobinfo">{{ technicalData.quantita }}</p> -->
+            </ion-col>
+          </ion-row>
+        </ng-container>
+      </ion-grid>
+    </ion-item>
+  </div>
+</ng-container>

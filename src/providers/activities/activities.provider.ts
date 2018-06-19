@@ -19,11 +19,36 @@ export class ActivitiesProvider {
 
     let url = domain + this.mapping.get_all_activities;
     url = url.replace('{startRowIndex}', startRowIndex.toString())
-            .replace('{maximumRows}', maximumRows.toString())
-            .replace('{userId}', userId.toString())
-            .replace('{activityState}', stateNumber.toString())
-            .replace('{period}', period);
+      .replace('{maximumRows}', maximumRows.toString())
+      .replace('{userId}', userId.toString())
+      .replace('{activityState}', stateNumber.toString())
+      .replace('{period}', period);
 
+    return this.api.getAuth(url);
+  }
+
+  async getTechnicalData(orderId: number, lavorazioniId: number) {
+    // getting domain from local storage
+    const domain = await this.localStorage.getItemFromLocalStorage(this.localStorage.domainNameInLocalStorage).then(domain => {
+      return domain;
+    });
+
+    let url = domain + this.mapping.get_technical_data;
+    url = url.replace('{orderId}', orderId.toString())
+      .replace('{lavorazioniId}', lavorazioniId.toString());
+
+    return this.api.getAuth(url);
+  }
+
+  async getInfoPageData(orderId: number, userId: number) {
+    // getting domain from local storage
+    const domain = await this.localStorage.getItemFromLocalStorage(this.localStorage.domainNameInLocalStorage).then(domain => {
+      return domain;
+    });
+
+    let url = domain + this.mapping.get_order_row;
+    url = url.replace('{userId}', userId.toString()).replace('{orderId}', orderId.toString());
+    
     return this.api.getAuth(url);
   }
 

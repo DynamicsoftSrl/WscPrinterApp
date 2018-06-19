@@ -6,11 +6,11 @@ import { Component } from '@angular/core';
 })
 export class NoteTabComponent {
 
-  text: string;
+  public orderNotes;
 
   constructor() {
     console.log('Hello NoteTabComponent Component');
-    this.text = 'Hello Note tab';
+    this.orderNotes = 'Hello Note tab';
   }
 
 }

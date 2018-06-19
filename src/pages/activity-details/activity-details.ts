@@ -25,7 +25,7 @@ export class ActivityDetailsPage implements OnInit {
   }
 
   segmentChanged(ev: any) {
-    console.log(ev);
+    // console.log(ev);
   }
 
 }

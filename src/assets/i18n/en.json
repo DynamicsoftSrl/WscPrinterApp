@@ -28,6 +28,7 @@
   "TECHNICAL_DATA": "TECHNICAL DATA",
   "NOTE": "NOTE",
   "LOG": "LOG",
+  "OTHER": "OTHER",
   "activity_info": "Activity info",
   "order_info": "Order and processing information",
   "job_description": "Descrizione lavorazione"

@@ -1,0 +1,51 @@
+import { DateTime } from 'ionic-angular';
+
+export class OrderRowModel {
+    public IdOrder?: number; 
+    public NumeroOrdine: string; 
+    public DataOrdine?: DateTime;
+    public DataScadenza?: DateTime;
+    public IdCliente?: number;
+    public TipologiaSpedizione: string;
+    public DataScadenzaSpedizione?: DateTime;
+    public DataSpedizione?: DateTime;
+    public DataConsegnaSpedizione ?: DateTime;
+    public StatoSpedizione?: number;
+    public NumSpedizione: string; 
+    public OperatoreSpedizione: string; 
+    public DestinatarioSpedizione: string; 
+    public ContenutoSpedizione: string; 
+    public NoteSpedizione: string; 
+    public TipologiaPagamento: string;
+    public TipologiaCliente?: number;
+    public Piva: string; 
+    public RagSoc: string; 
+    public NomeU: string; 
+    public CognomeU: string; 
+    public IndirizzoU: string; 
+    public CittaU: string; 
+    public ProvU: string; 
+    public CapU: string; 
+    public CFU: string; 
+    public TelefonoU: string; 
+    public EmailU: string; 
+    public NoteRisposta: string; 
+    public Note: string; 
+    public StatusOrdine?: boolean;
+    public StatoLavorazione?: number;
+    public JobName: string; 
+    public IdInt?: number; 
+    public ReferenteId?: number;
+    public ReferenteNome: string; 
+    public ReferenteCognome: string; 
+    public ReferenteEmail: string; 
+    public ReferenteTelefono: string; 
+    public ReferenteCellulare: string; 
+    public ReferenteRuolo: string; 
+    public IdOperatoreSpedizione?: number;
+    public ReferenteTestuale: string;
+    public TipoSpedizione: string; 
+    public DataOrdCliente?: DateTime;
+    public SpedIndirizzo: string;
+
+}
