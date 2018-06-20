@@ -29,4 +29,6 @@ export class MappingProvider {
   public get_all_activities = '/ionactivity/getallactivities/{startRowIndex}/{maximumRows}/{userId}/{activityState}/{period}';
   public get_technical_data = '/ionactivity/gettechnicaldata/{orderId}/{lavorazioniId}';
   public get_order_row = '/ionactivity/getinfopagedata/{userId}/{orderId}';
+  public get_notes = '/ionactivity/getnotes/{userId}/{orderId}/{lavorazioneId}';
+  public add_note = '/ionactivity/addLavNota';
 }

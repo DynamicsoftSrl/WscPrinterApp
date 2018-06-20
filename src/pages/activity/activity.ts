@@ -136,9 +136,6 @@ export class ActivityPage implements OnInit {
       this.activitiesLength = activities.CountActivities;
       this.activitiesList = activities.Activities;
       this.spinner.hideLoadingSpinner();
-      if(this.activitiesList.length > 0){
-        console.log(this.activitiesList[0].Id_Order_Dettail);
-      }
     },
       err => {
         console.log(err);

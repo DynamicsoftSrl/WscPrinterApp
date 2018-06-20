@@ -24,8 +24,6 @@ export class InfoComponent implements OnInit {
   public orderData: OrderRowModel = new OrderRowModel();
 
   async ngOnInit() {
-    console.log(this.activityInfo);
-
     const userStr = await this.localStorage.getItemFromLocalStorage(this.localStorage.loggedUserLocalStorage);
 
     const user: User = JSON.parse(userStr);

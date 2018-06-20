@@ -2,6 +2,7 @@ import { ApiProvider } from './../api/api.provider';
 import { LocalStorageProvider } from './../local-storage/local-storage.provider';
 import { MappingProvider } from './../mapping/mapping.provider';
 import { Injectable } from '@angular/core';
+import { NewNote } from '../../models/new-note';
 
 @Injectable()
 export class ActivitiesProvider {
@@ -48,8 +49,30 @@ export class ActivitiesProvider {
 
     let url = domain + this.mapping.get_order_row;
     url = url.replace('{userId}', userId.toString()).replace('{orderId}', orderId.toString());
-    
+
     return this.api.getAuth(url);
   }
 
+  async getNotes(orderId: number, lavorazioneId: number, userId: number) {
+    // getting domain from local storage
+    const domain = await this.localStorage.getItemFromLocalStorage(this.localStorage.domainNameInLocalStorage).then(domain => {
+      return domain;
+    });
+
+    let url = domain + this.mapping.get_notes;
+    url = url.replace('{userId}', userId.toString()).replace('{orderId}', orderId.toString()).replace('{lavorazioneId}', lavorazioneId.toString());
+
+    return this.api.getAuth(url);
+  }
+
+  async addNote(data: NewNote) {
+    // getting domain from local storage
+    const domain = await this.localStorage.getItemFromLocalStorage(this.localStorage.domainNameInLocalStorage).then(domain => {
+      return domain;
+    });
+
+    let url = domain + this.mapping.add_note;
+
+    return this.api.postAuth(url, data);
+  }
 }

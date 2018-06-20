@@ -37,7 +37,7 @@
     </ion-list>
 
     <ion-list *ngSwitchCase="'note'" style="margin-top:4px" class="list-selector">
-      <note-tab></note-tab>
+      <note-tab [activityInfo]="infoData"></note-tab>
     </ion-list>
 
     <ion-list *ngSwitchCase="'log'" style="margin-top:4px" class="list-selector">

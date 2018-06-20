@@ -11,18 +11,45 @@
     <ion-grid>
       <ion-row>
         <ion-col col-7>
-          <p no-margin text-wrap class="font-size-jobinfo">{{ orderNotes }}</p>
+          <p no-margin text-wrap class="font-size-jobinfo">{{ notes.OrderNote }}</p>
         </ion-col>
       </ion-row>
     </ion-grid>
   </ion-item>
 </div>
 
-<div>
+<div style="border-bottom: 1px solid lightgray">
   <ion-item style="color: orange">
     <ion-icon name="information-circle" style="display: inline;"></ion-icon>
     <h2 style="display: inline">
       <b>Note Lavorazioni</b>
     </h2>
+  </ion-item>
+</div>
+<div>
+  <ion-list>
+    <ion-item *ngFor="let item of notes.LavNotes">
+      <ion-avatar item-left>
+        <img src="assets/icon/favicon.ico" />
+      </ion-avatar>
+      <ion-grid>
+        <ion-row>
+          <ion-col col-7>
+            <h4 style="font-size: 1.2rem">{{ item.EmessoDa }}</h4>
+          </ion-col>
+          <ion-col col-5>
+            <p no-margin text-wrap class="font-size-jobinfo">{{ item.DataNotaString }}</p>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+      <p style="padding-left: 10px;font-size: 1.1rem">{{ item.DescrizioneNota }}</p>
+    </ion-item>
+  </ion-list>
+</div>
+<div>
+  <ion-item color="none" inset>
+    <ion-icon name="add" item-left class="note-icon"></ion-icon>
+    <ion-input type="text" placeholder="Inserisci nuova nota" [(ngModel)]="newNote" class="input-note"></ion-input>
+    <ion-icon name="send" item-right (click)="submitNote()" class="note-icon"></ion-icon>
   </ion-item>
 </div>

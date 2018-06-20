@@ -1,16 +1,87 @@
-import { Component } from '@angular/core';
+import { Notes } from './../../../models/notes-model';
+import { ActivitiesProvider } from './../../../providers/activities/activities.provider';
+import { LocalStorageProvider } from './../../../providers/local-storage/local-storage.provider';
+import { Component, OnInit, Input } from '@angular/core';
+import { ActivityModel } from '../../../models/activity-model';
+import { User } from '../../../models/user-model';
+import { LavNote } from '../../../models/lav-note-model';
+import { NewNote } from '../../../models/new-note';
 
 @Component({
   selector: 'note-tab',
   templateUrl: 'note-tab.html'
 })
-export class NoteTabComponent {
+
+export class NoteTabComponent implements OnInit {
 
   public orderNotes;
 
-  constructor() {
-    console.log('Hello NoteTabComponent Component');
-    this.orderNotes = 'Hello Note tab';
+  constructor(
+    private localStorage: LocalStorageProvider,
+    private activitiesService: ActivitiesProvider
+  ) {
   }
 
+  @Input('activityInfo') activityInfo: ActivityModel;
+
+  public notes: Notes = new Notes([new LavNote()]);
+
+  public newNote: string = '';
+  private user: User;
+
+  async ngOnInit() {
+    this.getNotes();
+  }
+
+  // getting of order note and lavorazioni notes
+  async getNotes() {
+    // get user info and send user id and id of order to server, to get info about order
+    const userStr = await this.localStorage.getItemFromLocalStorage(this.localStorage.loggedUserLocalStorage);
+
+    this.user = JSON.parse(userStr);
+    const notes = await this.activitiesService.getNotes(this.activityInfo.IdOrder, this.activityInfo.Id_Order_Dettail, this.user.UserId);
+
+    notes.map((notes: Notes) => {
+      // splitting date and set its value without minutes and secunds, because pipe doesn't work on this string date
+      notes.LavNotes.forEach(lavNote => {
+        let stringDate = lavNote.DataNotaString;
+        let lastIndex = stringDate.lastIndexOf(':');
+        let val = lavNote.DataNotaString.slice(0, lastIndex);
+
+        lavNote.DataNotaString = val;
+      });
+
+      return notes;
+    })
+      .subscribe((notes: Notes) => {
+        this.notes = notes;
+      });
+  }
+
+  // creating new note
+  async submitNote() {
+    var objectData = new NewNote();
+
+    objectData.LavorazioneId = this.activityInfo.Id_Order_Dettail;
+    objectData.UserId = this.user.UserId;
+    objectData.Note = this.newNote;
+
+    let note$ = await this.activitiesService.addNote(objectData);
+
+    note$.map((notes: LavNote[]) => {
+      // splitting date and set its value without minutes and secunds, because pipe doesn't work on this string date
+      notes.forEach(lavNote => {
+        let stringDate = lavNote.DataNotaString;
+        let lastIndex = stringDate.lastIndexOf(':');
+        let val = lavNote.DataNotaString.slice(0, lastIndex);
+
+        lavNote.DataNotaString = val;
+      });
+
+      return notes;
+    }).subscribe((response: LavNote[]) => {
+      this.notes.LavNotes = response;
+      this.newNote = '';
+    });
+  }
 }

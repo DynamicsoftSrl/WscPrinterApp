@@ -24,7 +24,6 @@ export class JobInfoComponent implements OnInit {
     const technicalData$ = await this.activitiesProvider.getTechnicalData(this.activityInfo.IdOrder, this.activityInfo.Id_Order_Dettail);
 
     technicalData$.subscribe((response: TechnicalDataModel[]) => {
-      console.log(response);
       this.technicalData = response;
     });
   }
