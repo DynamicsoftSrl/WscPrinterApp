@@ -75,4 +75,16 @@ export class ActivitiesProvider {
 
     return this.api.postAuth(url, data);
   }
+
+  async getOtherTabData(orderId: number, lavorazioneId: number, activityId: number) {
+    // getting domain from local storage
+    const domain = await this.localStorage.getItemFromLocalStorage(this.localStorage.domainNameInLocalStorage).then(domain => {
+      return domain;
+    });
+
+    let url = domain + this.mapping.get_other_tab_data;
+    url = url.replace('{orderId}', orderId.toString()).replace('{lavorazioneId}', lavorazioneId.toString()).replace('{lavProcessId}', activityId.toString());
+
+    return this.api.getAuth(url);
+  }
 }
