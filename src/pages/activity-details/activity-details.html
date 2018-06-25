@@ -1,17 +1,31 @@
 <ion-header>
-
   <ion-navbar>
-    <ion-title text-center>{{ "activity_details" | translate}}</ion-title>
+    <ion-toolbar style="padding: 0;">
+      <ion-grid style="padding: 0;">
+        <ion-row>
+          <ion-col>
+            <ion-title text-center id="activityTitle">
+              {{ 'activity_details' | translate }}
+            </ion-title>
+          </ion-col>
+          <ion-col *ngIf="details == 'log'">
+            <ion-buttons end>
+              <button ion-button icon-only (click)="presentPopover($event)" style="font-size: 1.2rem">
+                ...
+              </button>
+            </ion-buttons>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-toolbar>
   </ion-navbar>
-
 </ion-header>
-
 
 <ion-content class="bck-orange">
   <img src="assets/img/wscprinter-logo.png" padding style="display:block;width:50%;height:auto;margin-left:auto;margin-right:auto;"
   />
   <div>
-    <ion-segment style="background-color: #EE9649" [(ngModel)]="details" (ionChange)="segmentChanged($event)">
+    <ion-segment style="background-color: #EE9649" [(ngModel)]="details">
       <ion-segment-button value="info">
         {{ "INFO" | translate}}
       </ion-segment-button>

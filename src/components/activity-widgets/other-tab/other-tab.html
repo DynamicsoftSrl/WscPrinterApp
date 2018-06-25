@@ -1,6 +1,6 @@
 <div>
   <ion-item style="color: orange">
-    <ion-icon name="information-circle" style="display: inline;"></ion-icon>
+    <ion-icon name="ios-information-circle-outline" style="display: inline;"></ion-icon>
     <h2 style="display: inline">
       <b>Log attivita</b>
     </h2>
@@ -24,7 +24,7 @@
           <b>Avviata il</b>
           <p no-margin text-wrap class="font-size-jobinfo color-incoda" text-wrap *ngIf="activities.OrderDetailsWorkflow.DataInizio_Processo">{{ activities.OrderDetailsWorkflow.DataInizio_Processo | date: 'dd/MM/y HH:mm' }}</p>
           <p no-margin text-wrap class="font-size-jobinfo" text-wrap *ngIf="!activities.OrderDetailsWorkflow.DataInizio_Processo">
-          - </p>
+            - </p>
           <b>Terminata il</b>
           <p no-margin text-wrap class="font-size-jobinfo color-terminate" text-wrap *ngIf="activities.OrderDetailsWorkflow.DataFine_Processo">{{ activities.OrderDetailsWorkflow.DataFine_Processo | date: 'dd/MM/y HH:mm'}}</p>
           <p no-margin text-wrap class="font-size-jobinfo" text-wrap *ngIf="!activities.OrderDetailsWorkflow.DataFine_Processo"> - </p>
@@ -42,7 +42,7 @@
 </div>
 <div>
   <ion-item style="color: orange">
-    <ion-icon name="information-circle" style="display: inline;"></ion-icon>
+    <ion-icon name="ios-information-circle-outline" style="display: inline;"></ion-icon>
     <h2 style="display: inline">
       <b>Attivita correlate</b>
     </h2>

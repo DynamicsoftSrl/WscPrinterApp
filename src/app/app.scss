@@ -73,3 +73,14 @@ ion-item.item-md {
 .font-size-jobinfo {
   font-size: 1rem !important;
 }
+
+.circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  font-size: 1em;
+  color: #fff;
+  line-height: 40px;
+  text-align: center;
+  background: gray;
+}

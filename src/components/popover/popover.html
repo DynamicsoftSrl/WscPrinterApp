@@ -1,13 +1,37 @@
 <ion-list radio-group [(ngModel)]="selection">
-  <ion-list-header>Filtra</ion-list-header>
-  <ion-item *ngFor="let item of data; let i = index;">
-    <ion-label *ngIf="item === 0" class="color-incoda">In coda</ion-label>
-    <ion-label *ngIf="item === 1" class="color-inlav">In lavorazione</ion-label>
-    <ion-label *ngIf="item === 2" class="color-terminate">Terminate</ion-label>
-    <ion-label *ngIf="item === 3" class="color-annullate">Annullate</ion-label>
-    <ion-label *ngIf="item === 4" class="color-sospese">Sospese</ion-label>
-    <ion-label *ngIf="item === 5" class="color-tutte">Tutte</ion-label>
+  <ion-list-header *ngIf="popoverType == 'activity'">Filtra</ion-list-header>
+  <!-- If we are using popover for filtering -->
+  <div *ngIf="popoverType == 'activity'">
+    <ion-item *ngFor="let item of data; let i = index;">
+      <ion-label *ngIf="item === 0" class="color-incoda">In coda</ion-label>
+      <ion-label *ngIf="item === 1" class="color-inlav">In lavorazione</ion-label>
+      <ion-label *ngIf="item === 2" class="color-terminate">Terminate</ion-label>
+      <ion-label *ngIf="item === 3" class="color-annullate">Annullate</ion-label>
+      <ion-label *ngIf="item === 4" class="color-sospese">Sospese</ion-label>
+      <ion-label *ngIf="item === 5" class="color-tutte">Tutte</ion-label>
+      <ion-radio [checked]="item === selection ? true : false" [value]="item" (ionSelect)="radioChanged($event)"></ion-radio>
+    </ion-item>
+  </div>
 
-    <ion-radio [checked]="item === selection ? true : false" [value]="item" (ionSelect)="radioChanged($event)"></ion-radio>
-  </ion-item>
+  <!-- If we are using popover for activities, in altro tab -->
+  <div *ngIf="popoverType == 'activity-details'">
+    <ion-item *ngFor="let item of data; let i = index;" (click)="radioChanged($event)">
+      <ng-container *ngIf="item == 'Avvia'">
+        <img src="../../assets/imgs/avvia.png" class="icon-max" />
+      </ng-container>
+      <ng-container *ngIf="item == 'Sospendi'">
+        <img src="../../assets/imgs/sospendi.png" class="icon-max" />
+      </ng-container>
+      <ng-container *ngIf="item == 'Termina'">
+        <img src="../../assets/imgs/termina.png" class="icon-max" />
+      </ng-container>
+      <ng-container *ngIf="item == 'Ripristina'">
+        <img src="../../assets/imgs/ripristina.png" class="icon-max" />
+      </ng-container>
+      <ng-container *ngIf="item == 'Annulla'">
+        <img src="../../assets/imgs/annulla.png" class="icon-max" />
+      </ng-container>
+      <span style="margin-left: 2px">{{ item }}</span>
+    </ion-item>
+  </div>
 </ion-list>

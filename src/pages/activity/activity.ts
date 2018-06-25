@@ -61,7 +61,7 @@ export class ActivityPage implements OnInit {
   }
 
   presentPopover(myEvent) {
-    const data = { 'activeState': this.activeState, 'allStates': [0, 1, 2, 3, 4, 5] };
+    const data = { 'popoverType': 'activity', 'activeState': this.activeState, 'allStates': [0, 1, 2, 3, 4, 5] };
 
     const popover = this.popoverCtrl.create(PopoverComponent, data);
 
