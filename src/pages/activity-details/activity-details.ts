@@ -1,8 +1,10 @@
+import { User } from './../../models/user-model';
+import { LocalStorageProvider } from './../../providers/local-storage/local-storage.provider';
+import { ActivitiesProvider } from './../../providers/activities/activities.provider';
 import { Component, OnInit } from '@angular/core';
 import { IonicPage, NavController, NavParams, PopoverController, AlertController } from 'ionic-angular';
 import { ActivityModel } from '../../models/activity-model';
 import { PopoverComponent } from '../../components/popover/popover';
-
 
 @IonicPage()
 @Component({
@@ -14,15 +16,21 @@ export class ActivityDetailsPage implements OnInit {
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     private popoverCtrl: PopoverController,
-    public alertCtrl: AlertController) {
+    public alertCtrl: AlertController,
+    private activityService: ActivitiesProvider,
+    private localStorage: LocalStorageProvider
+  ) {
   }
 
   public details: string = 'info';
 
   // getting activity details from parent-nav component
   public infoData: ActivityModel = this.navParams.data;
+  private user: User;
 
-  ngOnInit(): void {
+  async ngOnInit() {
+    const userString = await this.localStorage.getItemFromLocalStorage(this.localStorage.loggedUserLocalStorage);
+    this.user = JSON.parse(userString);
   }
 
   segmentChanged(ev: any) {
@@ -108,7 +116,7 @@ export class ActivityDetailsPage implements OnInit {
         {
           text: 'CONFERMA',
           handler: () => {
-            console.log('Buy clicked');
+            this.changeActivityState(selected);
           }
         }
       ]
@@ -150,4 +158,22 @@ export class ActivityDetailsPage implements OnInit {
     prompt.present();
   }
 
+  async changeActivityState(data: string) {
+    const userId = this.user.UserId;
+    const activityId = this.infoData.Id_Processo_Lavorazione;
+    const lavorazioneId = this.infoData.Id_Order_Dettail;
+    const processPosition = this.infoData.PosizioneProcesso;
+    const operationType = data.toLowerCase();
+
+    const activityState$ = await this.activityService.changeActivityState(userId, activityId, lavorazioneId, processPosition, operationType);
+
+    activityState$.subscribe(x => {
+      console.log(x);
+    });
+  }
+
+  // navigate to previous page
+  goBack() {
+    this.navCtrl.pop();
+  }
 }

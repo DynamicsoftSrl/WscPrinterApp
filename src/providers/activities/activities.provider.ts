@@ -87,4 +87,19 @@ export class ActivitiesProvider {
 
     return this.api.getAuth(url);
   }
+
+  async changeActivityState(userId: number, activityId: number, lavorazioneId: number, processPosition: number, operationType: string) {
+    // getting domain from local storage
+    const domain = await this.localStorage.getItemFromLocalStorage(this.localStorage.domainNameInLocalStorage).then(domain => {
+      return domain;
+    });
+
+    let url = domain + this.mapping.change_activity_state;
+
+    url = url.replace('{userId}', userId.toString()).replace('{activityId}', activityId.toString())
+             .replace('{lavorazioneId}', lavorazioneId.toString()).replace('{processPosition}', processPosition.toString())
+             .replace('{operationType}', operationType);
+
+    return this.api.getAuth(url);
+  }
 }

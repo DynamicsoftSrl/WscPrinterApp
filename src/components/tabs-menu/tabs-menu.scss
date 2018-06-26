@@ -1,3 +1,64 @@
-tabs-menu {
+// style for dashboard icon in tabs menu
+.tabbar,
+.tabs-ios,
+.tabs-md,
+.tabs-wp {
+  .tab-button-icon {
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 24px;
+    width: 24px;
+    background-size: contain;
+    -webkit-background-size: contain;
+    -moz-background-size: contain;
+    -o-background-size: contain;
+    &:before {
+      display: none;
+    }
+  }
+}
 
+.tabs-ios {
+  a[aria-selected=false] {
+    .tab-button-icon[ng-reflect-name=dashboard],
+    .tab-button-icon[aria-label="dashboard"] {
+      background-image: url(../../assets/imgs/dashboard_button.png);
+    }
+  }
+  a[aria-selected=true] {
+    .tab-button-icon[ng-reflect-name=dashboard],
+    .tab-button-icon[aria-label=dashboard] {
+      background-image: url(../../assets/imgs/dashboard_button_active.png);
+    }
+  }
+}
+
+.tabs-md {
+  a[aria-selected=false] {
+    .tab-button-icon[ng-reflect-name=dashboard],
+    .tab-button-icon[aria-label="dashboard"] {
+      background-image: url(../../assets/imgs/dashboard_button.png);
+    }
+  }
+  a[aria-selected=true] {
+    .tab-button-icon[ng-reflect-name=dashboard],
+    .tab-button-icon[aria-label=dashboard] {
+      background-image: url(../../assets/imgs/dashboard_button_active.png);
+    }
+  }
+}
+
+.tabs-wp {
+  a[aria-selected=false] {
+    .tab-button-icon[ng-reflect-name=dashboard],
+    .tab-button-icon[aria-label="dashboard"] {
+      background-image: url(../../assets/imgs/dashboard_button.png);
+    }
+  }
+  a[aria-selected=true] {
+    .tab-button-icon[ng-reflect-name=dashboard],
+    .tab-button-icon[aria-label=dashboard] {
+      background-image: url(../../assets/imgs/dashboard_button_active.png);
+    }
+  }
 }

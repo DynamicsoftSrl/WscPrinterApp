@@ -1,3 +1,4 @@
+import { DashboardPageModule } from './../pages/dashboard/dashboard.module';
 import { ActivityDetailsPageModule } from './../pages/activity-details/activity-details.module';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { ErrorHandler, NgModule } from '@angular/core';
@@ -53,7 +54,8 @@ export function createTranslateLoader(http: HttpClient) {
     ComponentsModule,
     ShipmentModule,
     ActivityPageModule,
-    ActivityDetailsPageModule
+    ActivityDetailsPageModule,
+    DashboardPageModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [

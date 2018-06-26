@@ -1,0 +1,60 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title text-center>Dashboard</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <ion-grid id="content-dashboard" no-padding padding-bottom margin-bottom>
+    <ion-row class="bck-orange" id="background-logo">
+      <ion-col col-12>
+        <img src="assets/img/wscprinter-logo.png" class="wscprinter-logo" />
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col col-12>
+        <img src="assets/imgs/user.jpg" class="user-icon" />
+        <h4 text-center class="mt-1">{{ loggedInUser.Name }}</h4>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col col-4 text-center>
+        <img src="assets/imgs/scanner_Spedizioni1.png" class="option-icon" (click)="navigateToBarcodeScanner()" />
+        <p text-center no-margin (click)="navigateToBarcodeScanner()">
+          <b>Scanner spedizioni</b>
+        </p>
+      </ion-col>
+      <ion-col col-4 text-center>
+        <img src="assets/imgs/scanner_commessa.png" class="option-icon" />
+        <p text-center no-margin>
+          <b>Scanner commessa</b>
+        </p>
+      </ion-col>
+      <ion-col col-4 text-center>
+        <img src="assets/imgs/gestione_attività.png" class="option-icon" (click)="navigateToActivity()" />
+        <p text-center no-margin (click)="navigateToActivity()">
+          <b>Gestione attività</b>
+        </p>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col col-4 text-center>
+        <img src="assets/imgs/setting_impostazioni.png" class="option-icon" (click)="navigateToImpostazioni()" />
+        <p text-center no-margin (click)="navigateToImpostazioni()">
+          <b>Impostazioni</b>
+        </p>
+      </ion-col>
+      <ion-col col-4 text-center>
+        <img src="assets/imgs/logout.png" class="option-icon" (click)="logout()" />
+        <p text-center no-margin (click)="logout()">
+          <b>Logout</b>
+        </p>
+      </ion-col>
+      <ion-col col-4 text-center></ion-col>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>

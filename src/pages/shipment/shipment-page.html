@@ -20,8 +20,7 @@
 </ion-header>
 <ion-content padding style="background:url(assets/img/wscprinter-background.png) no-repeat center;background-size:cover;"
   id="page6">
-  <img src="assets/img/wscprinter-logo.png" style="display:block;width:50%;height:auto;margin-left:auto;margin-right:auto;"
-  />
+  <img src="assets/img/wscprinter-logo.png" class="wscprinter-logo"/>
 
   <ng-container *ngIf="!isScanned; else scannerInfo">
     <button id="spedizioneBarcodeScannerInfo-button7" ion-button color="dark" block (click)="scanBarcode()">

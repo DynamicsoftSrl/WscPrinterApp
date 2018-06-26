@@ -1,17 +1,24 @@
 <ion-header>
-  <ion-navbar>
+  <ion-navbar hideBackButton="true">
     <ion-toolbar style="padding: 0;">
       <ion-grid style="padding: 0;">
         <ion-row>
+          <ion-col>
+            <ion-buttons start>
+              <button ion-button icon-only style="font-size: 1.2rem" (click)="goBack()">
+                <ion-icon name="menu"></ion-icon>
+              </button>
+            </ion-buttons>
+          </ion-col>
           <ion-col>
             <ion-title text-center id="activityTitle">
               {{ 'activity_details' | translate }}
             </ion-title>
           </ion-col>
-          <ion-col *ngIf="details == 'log'">
+          <ion-col>
             <ion-buttons end>
               <button ion-button icon-only (click)="presentPopover($event)" style="font-size: 1.2rem">
-                ...
+                <img src="assets/imgs/azione.png" style="max-height: 80%">
               </button>
             </ion-buttons>
           </ion-col>

@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 
 import { AuthProvider } from '../../providers/auth/auth.provider';
-import { HomePage } from './../../pages/home/home';
 import { LoginComponent } from './../../pages/login/login';
+import { DashboardPage } from '../../pages/dashboard/dashboard';
 
 @Component({
   selector: 'tabs-menu',
@@ -11,18 +11,11 @@ import { LoginComponent } from './../../pages/login/login';
 })
 export class TabsMenuComponent {
 
-  public homepage: any = HomePage;
+  public homepage: any = DashboardPage;
 
   constructor(private authProvider: AuthProvider,
     private navCtrl: NavController
   ) {
 
   }
-
-  logout() {
-    this.authProvider.logout();
-
-    this.navCtrl.setRoot(LoginComponent);
-  }
-
 }
