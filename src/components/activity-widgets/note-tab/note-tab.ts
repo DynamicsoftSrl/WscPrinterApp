@@ -1,3 +1,4 @@
+import { LoadingSpinnerProvider } from './../../../providers/loading-spinner/loading-spinner.provider';
 import { Notes } from './../../../models/notes-model';
 import { ActivitiesProvider } from './../../../providers/activities/activities.provider';
 import { LocalStorageProvider } from './../../../providers/local-storage/local-storage.provider';
@@ -18,7 +19,8 @@ export class NoteTabComponent implements OnInit {
 
   constructor(
     private localStorage: LocalStorageProvider,
-    private activitiesService: ActivitiesProvider
+    private activitiesService: ActivitiesProvider,
+    private spinner: LoadingSpinnerProvider
   ) {
   }
 
@@ -35,6 +37,9 @@ export class NoteTabComponent implements OnInit {
 
   // getting of order note and lavorazioni notes
   async getNotes() {
+    // show loading spinner while waiting for response of server
+    this.spinner.showLoadingSpinner();
+
     // get user info and send user id and id of order to server, to get info about order
     const userStr = await this.localStorage.getItemFromLocalStorage(this.localStorage.loggedUserLocalStorage);
 
@@ -55,11 +60,17 @@ export class NoteTabComponent implements OnInit {
     })
       .subscribe((notes: Notes) => {
         this.notes = notes;
+
+        // hide loading spinner
+        this.spinner.hideLoadingSpinner();
       });
   }
 
   // creating new note
   async submitNote() {
+    // show loading spinner while waiting for response of server
+    this.spinner.showLoadingSpinner();
+
     var objectData = new NewNote();
 
     objectData.LavorazioneId = this.activityInfo.Id_Order_Dettail;
@@ -82,6 +93,8 @@ export class NoteTabComponent implements OnInit {
     }).subscribe((response: LavNote[]) => {
       this.notes.LavNotes = response;
       this.newNote = '';
+
+      this.spinner.hideLoadingSpinner();
     });
   }
 }

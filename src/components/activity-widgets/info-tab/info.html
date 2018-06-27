@@ -25,7 +25,8 @@
 
         <ion-col col-7>
           <b>Data scadenza</b>
-          <p no-margin class="font-size-sector">{{ activityInfo.DataScadenzaOrdine | date:'dd/MM/y' }}</p>
+          <p no-margin class="font-size-sector" *ngIf="activityInfo.DataScadenzaOrdine">{{ activityInfo.DataScadenzaOrdine | date:'dd/MM/y' }}</p>
+          <p class="font-size-sector" *ngIf="!activityInfo.DataScadenzaOrdine"> - </p>
         </ion-col>
         <ion-col col-5>
           <b>Id attivita</b>
@@ -33,9 +34,10 @@
         </ion-col>
 
         <!-- ********************************************* -->
-        <ion-col col-7>
+        <ion-col col-7 *ngIf="activityInfo.Stato_Processo === 2">
           <b>Totale tempo impiegato</b>
-          <p no-margin class="font-size-sector">56 minuti</p>
+          <p no-margin class="font-size-sector" *ngIf="activityInfo.ConsuntivoTempoTotale">{{ activityInfo.ConsuntivoTempoTotale }}</p>
+          <p class="font-size-sector" *ngIf="!activityInfo.ConsuntivoTempoTotale"> - </p>
         </ion-col>
       </ion-row>
     </ion-grid>

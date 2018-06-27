@@ -89,6 +89,7 @@ export class ActivitiesProvider {
     return this.api.getAuth(url);
   }
 
+  // changing activity state for avvia, sospendi and repristina
   async changeActivityState(userId: number, activityId: number, lavorazioneId: number, processPosition: number, operationType: string) {
     // getting domain from local storage
     const domain = await this.localStorage.getItemFromLocalStorage(this.localStorage.domainNameInLocalStorage).then(domain => {
@@ -104,14 +105,15 @@ export class ActivitiesProvider {
     return this.api.getAuth(url);
   }
 
-  async annullaActivity(data: AnnullaActivityModel) {
+  // changing activity state for termina and annulla only, because we are setting some additional values(note, minutes) in database and we use Post because of that
+  async changeActivityStateTerminaAndAnnulla(data: AnnullaActivityModel) {
     // getting domain from local storage
     const domain = await this.localStorage.getItemFromLocalStorage(this.localStorage.domainNameInLocalStorage).then(domain => {
       return domain;
     });
 
-    let url = domain + this.mapping.annulla_activity;
-    
+    let url = domain + this.mapping.change_activity_state_annulla_and_termina;
+
     return this.api.postAuth(url, data);
   }
 }

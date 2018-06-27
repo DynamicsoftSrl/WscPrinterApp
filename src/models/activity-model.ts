@@ -59,4 +59,5 @@ export class ActivityModel {
     public strDataFine: string;
     public strDataInizio: string;
     public tipo_associazione: string;
+    public ConsuntivoTempoTotale?: Number;
 }

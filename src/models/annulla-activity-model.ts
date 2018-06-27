@@ -4,4 +4,5 @@ export class AnnullaActivityModel extends NewNote {
     public ActivityId: number;
     public ProcessPosition: number;
     public OperationType: string;
+    public ConsuntivoTempoTotale?: number;
 }

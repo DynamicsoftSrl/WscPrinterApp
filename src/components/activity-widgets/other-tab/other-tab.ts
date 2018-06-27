@@ -1,3 +1,4 @@
+import { LoadingSpinnerProvider } from './../../../providers/loading-spinner/loading-spinner.provider';
 import { ActivitiesProvider } from './../../../providers/activities/activities.provider';
 import { Component, OnInit, Input } from '@angular/core';
 import { ActivityModel } from '../../../models/activity-model';
@@ -11,7 +12,8 @@ export class OtherTabComponent implements OnInit {
 
 
   constructor(
-    private activitiesService: ActivitiesProvider
+    private activitiesService: ActivitiesProvider,
+    private spinner: LoadingSpinnerProvider
   ) {
   }
 
@@ -24,10 +26,14 @@ export class OtherTabComponent implements OnInit {
   }
 
   private async getTabInfo(orderId, lavorazioneId, activityId) {
+    // show loading spinner while waiting for response of server
+    this.spinner.showLoadingSpinner();
     const otherTabData$ = await this.activitiesService.getOtherTabData(orderId, lavorazioneId, activityId);
 
     otherTabData$.subscribe((res: ActivitiesViewModel) => {
       this.activities = res;
+
+      this.spinner.hideLoadingSpinner();
     });
   }
 }

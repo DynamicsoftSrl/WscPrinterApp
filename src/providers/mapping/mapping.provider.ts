@@ -33,5 +33,5 @@ export class MappingProvider {
   public add_note = '/ionactivity/addlavnota';
   public get_other_tab_data = '/ionactivity/getothertabdata/{orderId}/{lavorazioneId}/{lavProcessId}';
   public change_activity_state = '/ionactivity/changeactivitystate/{userId}/{activityId}/{lavorazioneId}/{processPosition}/{operationType}';
-  public annulla_activity = '/ionactivity/annullaactivity';
+  public change_activity_state_annulla_and_termina = '/ionactivity/changeactivitystate';
 }

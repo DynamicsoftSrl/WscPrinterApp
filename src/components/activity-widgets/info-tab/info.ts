@@ -1,3 +1,4 @@
+import { LoadingSpinnerProvider } from './../../../providers/loading-spinner/loading-spinner.provider';
 import { User } from './../../../models/user-model';
 import { LocalStorageProvider } from './../../../providers/local-storage/local-storage.provider';
 import { ActivitiesProvider } from './../../../providers/activities/activities.provider';
@@ -14,7 +15,8 @@ export class InfoComponent implements OnInit {
 
   constructor(
     private activitiesService: ActivitiesProvider,
-    private localStorage: LocalStorageProvider
+    private localStorage: LocalStorageProvider,
+    private spinner: LoadingSpinnerProvider
   ) {
 
   }
@@ -24,14 +26,18 @@ export class InfoComponent implements OnInit {
   public orderData: OrderRowModel = new OrderRowModel();
 
   async ngOnInit() {
+    // show loading spinner while waiting for response of server
+    this.spinner.showLoadingSpinner();
+
     const userStr = await this.localStorage.getItemFromLocalStorage(this.localStorage.loggedUserLocalStorage);
 
     const user: User = JSON.parse(userStr);
     const infoData = await this.activitiesService.getInfoPageData(this.activityInfo.IdOrder, user.UserId);
 
     infoData.subscribe((res: OrderRowModel) => {
-      // console.log(res);
       this.orderData = res;
+      // hide loading spinner
+      this.spinner.hideLoadingSpinner();
     });
   }
 }

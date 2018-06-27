@@ -1,3 +1,4 @@
+import { LoadingSpinnerProvider } from './../../providers/loading-spinner/loading-spinner.provider';
 import { User } from './../../models/user-model';
 import { LocalStorageProvider } from './../../providers/local-storage/local-storage.provider';
 import { ActivitiesProvider } from './../../providers/activities/activities.provider';
@@ -16,11 +17,11 @@ export class ActivityDetailsPage implements OnInit {
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
-    private popoverCtrl: PopoverController,
     public alertCtrl: AlertController,
     private activityService: ActivitiesProvider,
     private localStorage: LocalStorageProvider,
-    public actionSheetCtrl: ActionSheetController
+    public actionSheetCtrl: ActionSheetController,
+    private spinner: LoadingSpinnerProvider
   ) {
   }
 
@@ -30,9 +31,17 @@ export class ActivityDetailsPage implements OnInit {
   public infoData: ActivityModel = this.navParams.data;
   private user: User;
 
+  // details that we need for changing activity state, we need them in multiple methods, so they are created globally
+  private userId: number;
+  private activityId: number = this.infoData.Id_Processo_Lavorazione;
+  private lavorazioneId: number = this.infoData.Id_Order_Dettail;
+  private processPosition: number = this.infoData.PosizioneProcesso;
+
   async ngOnInit() {
     const userString = await this.localStorage.getItemFromLocalStorage(this.localStorage.loggedUserLocalStorage);
     this.user = JSON.parse(userString);
+
+    this.userId = this.user.UserId;
   }
 
   // presentPopover(myEvent) {
@@ -108,7 +117,6 @@ export class ActivityDetailsPage implements OnInit {
           role: 'cancel',
           cssClass: 'color-red',
           handler: () => {
-            console.log('Cancel clicked');
           }
         },
         {
@@ -138,19 +146,22 @@ export class ActivityDetailsPage implements OnInit {
           text: 'ANNULLA',
           cssClass: 'color-red',
           handler: data => {
-            console.log('cancel clicked' + selected);
           }
         },
         {
           text: 'CONFERMA',
           handler: data => {
             if (selected == 'Annulla') {
+              // annulla activity
               if (data[inputname] != '') {
                 this.annullaActivity(selected, data[inputname]);
               }
             }
             else if (selected == 'Termina') {
               // termina activity
+              if (data[inputname] != '') {
+                this.terminaActivity(selected, data[inputname]);
+              }
             }
           }
         }
@@ -160,32 +171,60 @@ export class ActivityDetailsPage implements OnInit {
     prompt.present();
   }
 
-  async annullaActivity(type: string, note: string) {
-    const userId = this.user.UserId;
-    const activityId = this.infoData.Id_Processo_Lavorazione;
-    const lavorazioneId = this.infoData.Id_Order_Dettail;
-    const processPosition = this.infoData.PosizioneProcesso;
+  async terminaActivity(type: string, minutes: number) {
+    // show loading spinner while waiting for response of server
+    this.spinner.showLoadingSpinner();
 
     // creating object for sending in post method
     var model = new AnnullaActivityModel();
-    model.UserId = userId;
-    model.ActivityId = activityId;
-    model.LavorazioneId = lavorazioneId;
-    model.ProcessPosition = processPosition;
+    model.UserId = this.userId;
+    model.ActivityId = this.activityId;
+    model.LavorazioneId = this.lavorazioneId;
+    model.ProcessPosition = this.processPosition;
+    model.ConsuntivoTempoTotale = minutes;
+
+    if (type != '') {
+      model.OperationType = type.toLowerCase();
+    }
+
+    const response$ = await this.activityService.changeActivityStateTerminaAndAnnulla(model);
+
+    response$.subscribe(res => {
+      console.log(res);
+
+      this.spinner.hideLoadingSpinner();
+    });
+  }
+
+  async annullaActivity(type: string, note: string) {
+    // show loading spinner while waiting for response of server
+    this.spinner.showLoadingSpinner();
+
+    // creating object for sending in post method
+    var model = new AnnullaActivityModel();
+    model.UserId = this.userId;
+    model.ActivityId = this.activityId;
+    model.LavorazioneId = this.lavorazioneId;
+    model.ProcessPosition = this.processPosition;
     model.Note = note;
 
     if (type != '') {
       model.OperationType = type.toLowerCase();
     }
 
-    const response$ = await this.activityService.annullaActivity(model);
+    const response$ = await this.activityService.changeActivityStateTerminaAndAnnulla(model);
 
     response$.subscribe(res => {
       console.log(res);
+
+      this.spinner.hideLoadingSpinner();
     });
   }
 
   async changeActivityState(data: string) {
+    // show loading spinner while waiting for response of server
+    this.spinner.showLoadingSpinner();
+
     const userId = this.user.UserId;
     const activityId = this.infoData.Id_Processo_Lavorazione;
     const lavorazioneId = this.infoData.Id_Order_Dettail;
@@ -201,6 +240,7 @@ export class ActivityDetailsPage implements OnInit {
 
     activityState$.subscribe(x => {
       console.log(x);
+      this.spinner.hideLoadingSpinner();
     });
   }
 
@@ -218,7 +258,6 @@ export class ActivityDetailsPage implements OnInit {
           text: 'Avvia',
           icon: 'play',
           handler: () => {
-            console.log('Avvia clicked');
             this.showPrompt('Avvia');
           }
         },
@@ -226,7 +265,6 @@ export class ActivityDetailsPage implements OnInit {
           text: 'Sospendi',
           icon: 'pause',
           handler: () => {
-            console.log('Sospendi clicked');
             this.showPrompt('Sospendi');
           }
         },
@@ -234,7 +272,6 @@ export class ActivityDetailsPage implements OnInit {
           text: 'Termina',
           icon: 'checkmark',
           handler: () => {
-            console.log('Termina clicked');
             this.showPrompt('Termina');
           }
         },
@@ -242,14 +279,12 @@ export class ActivityDetailsPage implements OnInit {
           text: 'Ripristina',
           icon: 'swap',
           handler: () => {
-            console.log('Rispristina clicked');
             this.showPrompt('Ripristina');
           }
         }, {
           text: 'Annulla',
           icon: 'alert',
           handler: () => {
-            console.log('Annula clicked');
             this.showPrompt('Annulla');
           }
         }
