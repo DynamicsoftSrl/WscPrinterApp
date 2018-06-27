@@ -14,10 +14,6 @@ ion-list {
   max-width: 2rem;
 }
 
-.color-red {
-  color: red !important;
-}
-
 .popover-title-icon {
   max-width: 3rem !important;
   vertical-align: middle;
@@ -25,4 +21,29 @@ ion-list {
 
 .popover-title-text {
   margin-left: 5px !important;
+}
+
+button {
+  // setting color only for icons in action sheet
+  ion-icon[ng-reflect-name=play] {
+    @extend .color-incoda;
+  }
+  ion-icon[ng-reflect-name=pause] {
+    @extend .color-sospese;
+  }
+  ion-icon[ng-reflect-name=checkmark] {
+    @extend .color-terminate;
+  }
+  ion-icon[ng-reflect-name=swap] {
+    @extend .color-rispristina;
+  }
+  ion-icon[ng-reflect-name=alert] {
+    @extend .color-annulla;
+  }
+}
+
+.color-red {
+  span {
+    color: red !important;
+  }
 }

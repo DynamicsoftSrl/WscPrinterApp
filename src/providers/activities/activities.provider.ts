@@ -3,6 +3,7 @@ import { LocalStorageProvider } from './../local-storage/local-storage.provider'
 import { MappingProvider } from './../mapping/mapping.provider';
 import { Injectable } from '@angular/core';
 import { NewNote } from '../../models/new-note';
+import { AnnullaActivityModel } from '../../models/annulla-activity-model';
 
 @Injectable()
 export class ActivitiesProvider {
@@ -97,9 +98,20 @@ export class ActivitiesProvider {
     let url = domain + this.mapping.change_activity_state;
 
     url = url.replace('{userId}', userId.toString()).replace('{activityId}', activityId.toString())
-             .replace('{lavorazioneId}', lavorazioneId.toString()).replace('{processPosition}', processPosition.toString())
-             .replace('{operationType}', operationType);
+      .replace('{lavorazioneId}', lavorazioneId.toString()).replace('{processPosition}', processPosition.toString())
+      .replace('{operationType}', operationType);
 
     return this.api.getAuth(url);
+  }
+
+  async annullaActivity(data: AnnullaActivityModel) {
+    // getting domain from local storage
+    const domain = await this.localStorage.getItemFromLocalStorage(this.localStorage.domainNameInLocalStorage).then(domain => {
+      return domain;
+    });
+
+    let url = domain + this.mapping.annulla_activity;
+    
+    return this.api.postAuth(url, data);
   }
 }

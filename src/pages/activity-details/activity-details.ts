@@ -2,9 +2,10 @@ import { User } from './../../models/user-model';
 import { LocalStorageProvider } from './../../providers/local-storage/local-storage.provider';
 import { ActivitiesProvider } from './../../providers/activities/activities.provider';
 import { Component, OnInit } from '@angular/core';
-import { IonicPage, NavController, NavParams, PopoverController, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, PopoverController, AlertController, ActionSheetController } from 'ionic-angular';
 import { ActivityModel } from '../../models/activity-model';
 import { PopoverComponent } from '../../components/popover/popover';
+import { AnnullaActivityModel } from '../../models/annulla-activity-model';
 
 @IonicPage()
 @Component({
@@ -18,7 +19,8 @@ export class ActivityDetailsPage implements OnInit {
     private popoverCtrl: PopoverController,
     public alertCtrl: AlertController,
     private activityService: ActivitiesProvider,
-    private localStorage: LocalStorageProvider
+    private localStorage: LocalStorageProvider,
+    public actionSheetCtrl: ActionSheetController
   ) {
   }
 
@@ -33,29 +35,25 @@ export class ActivityDetailsPage implements OnInit {
     this.user = JSON.parse(userString);
   }
 
-  segmentChanged(ev: any) {
-    // console.log(ev);
-  }
+  // presentPopover(myEvent) {
+  //   // initializing data for feeding popover
+  //   const data = { 'popoverType': 'activity-details', 'allStates': ['Avvia', 'Sospendi', 'Termina', 'Ripristina', 'Annulla'] };
 
-  presentPopover(myEvent) {
-    // initializing data for feeding popover
-    const data = { 'popoverType': 'activity-details', 'allStates': ['Avvia', 'Sospendi', 'Termina', 'Ripristina', 'Annulla'] };
+  //   const popover = this.popoverCtrl.create(PopoverComponent, data);
 
-    const popover = this.popoverCtrl.create(PopoverComponent, data);
+  //   popover.present({
+  //     ev: myEvent
+  //   });
 
-    popover.present({
-      ev: myEvent
-    });
+  //   popover.onWillDismiss(selectedState => {
 
-    popover.onWillDismiss(selectedState => {
-
-      if (selectedState != null) {
-        // selected value from popover
-        const selectedOption = selectedState.explicitOriginalTarget.data;
-        this.showPrompt(selectedOption);
-      }
-    });
-  }
+  //     if (selectedState != null) {
+  //       // selected value from popover
+  //       const selectedOption = selectedState.explicitOriginalTarget.data;
+  //       this.showPrompt(selectedOption);
+  //     }
+  //   });
+  // }
 
   // configuring coresponding prompt depending on clicked item from popover
   showPrompt(data: string) {
@@ -140,22 +138,51 @@ export class ActivityDetailsPage implements OnInit {
           text: 'ANNULLA',
           cssClass: 'color-red',
           handler: data => {
-            console.log('Cancel clicked');
-            console.log(data);
+            console.log('cancel clicked' + selected);
           }
         },
         {
           text: 'CONFERMA',
           handler: data => {
-            if (data[inputname] != '') {
-              console.log(data[inputname]);
-              console.log('Saved clicked');
+            if (selected == 'Annulla') {
+              if (data[inputname] != '') {
+                this.annullaActivity(selected, data[inputname]);
+              }
+            }
+            else if (selected == 'Termina') {
+              // termina activity
             }
           }
         }
       ]
     });
+
     prompt.present();
+  }
+
+  async annullaActivity(type: string, note: string) {
+    const userId = this.user.UserId;
+    const activityId = this.infoData.Id_Processo_Lavorazione;
+    const lavorazioneId = this.infoData.Id_Order_Dettail;
+    const processPosition = this.infoData.PosizioneProcesso;
+
+    // creating object for sending in post method
+    var model = new AnnullaActivityModel();
+    model.UserId = userId;
+    model.ActivityId = activityId;
+    model.LavorazioneId = lavorazioneId;
+    model.ProcessPosition = processPosition;
+    model.Note = note;
+
+    if (type != '') {
+      model.OperationType = type.toLowerCase();
+    }
+
+    const response$ = await this.activityService.annullaActivity(model);
+
+    response$.subscribe(res => {
+      console.log(res);
+    });
   }
 
   async changeActivityState(data: string) {
@@ -163,7 +190,12 @@ export class ActivityDetailsPage implements OnInit {
     const activityId = this.infoData.Id_Processo_Lavorazione;
     const lavorazioneId = this.infoData.Id_Order_Dettail;
     const processPosition = this.infoData.PosizioneProcesso;
-    const operationType = data.toLowerCase();
+
+    let operationType = '';
+
+    if (data != '') {
+      operationType = data.toLowerCase();
+    }
 
     const activityState$ = await this.activityService.changeActivityState(userId, activityId, lavorazioneId, processPosition, operationType);
 
@@ -175,5 +207,55 @@ export class ActivityDetailsPage implements OnInit {
   // navigate to previous page
   goBack() {
     this.navCtrl.pop();
+  }
+
+  // show action sheet, and then after click on some item, show prompt, and if user confirm his decision, change state of activity
+  showActionSheet() {
+    const actionSheet = this.actionSheetCtrl.create({
+      title: 'Azioni',
+      buttons: [
+        {
+          text: 'Avvia',
+          icon: 'play',
+          handler: () => {
+            console.log('Avvia clicked');
+            this.showPrompt('Avvia');
+          }
+        },
+        {
+          text: 'Sospendi',
+          icon: 'pause',
+          handler: () => {
+            console.log('Sospendi clicked');
+            this.showPrompt('Sospendi');
+          }
+        },
+        {
+          text: 'Termina',
+          icon: 'checkmark',
+          handler: () => {
+            console.log('Termina clicked');
+            this.showPrompt('Termina');
+          }
+        },
+        {
+          text: 'Ripristina',
+          icon: 'swap',
+          handler: () => {
+            console.log('Rispristina clicked');
+            this.showPrompt('Ripristina');
+          }
+        }, {
+          text: 'Annulla',
+          icon: 'alert',
+          handler: () => {
+            console.log('Annula clicked');
+            this.showPrompt('Annulla');
+          }
+        }
+      ]
+    });
+
+    actionSheet.present();
   }
 }

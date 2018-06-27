@@ -3,9 +3,11 @@ import { CommonModule } from '@angular/common';
 import { SideMenuComponent } from './side-menu/side-menu';
 import { TabsMenuComponent } from './tabs-menu/tabs-menu';
 
-//it must be imported in every module
+// it must be imported in every module
 import { IonicModule } from 'ionic-angular';
 import { TranslateModule } from '@ngx-translate/core';
+
+// components
 import { PopoverComponent } from './popover/popover';
 import { InfoComponent } from './activity-widgets/info-tab/info';
 import { NoteTabComponent } from './activity-widgets/note-tab/note-tab';
@@ -37,7 +39,7 @@ import { JobInfoComponent } from './activity-widgets/job-info-tab/job-info';
 			InfoComponent,
 			JobInfoComponent,
 			NoteTabComponent,
-			OtherTabComponent
+			OtherTabComponent,
 		],
 	entryComponents:
 		[

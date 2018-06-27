@@ -17,8 +17,8 @@
           </ion-col>
           <ion-col>
             <ion-buttons end>
-              <button ion-button icon-only (click)="presentPopover($event)" style="font-size: 1.2rem">
-                <img src="assets/imgs/azione.png" style="max-height: 80%">
+              <button ion-button icon-only (click)="showActionSheet()" style="font-size: 1.2rem">
+                <img src="assets/imgs/azione.png" style="max-height: 80%" (click)="showActionSheet()">
               </button>
             </ion-buttons>
           </ion-col>
