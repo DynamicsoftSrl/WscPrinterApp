@@ -3,9 +3,8 @@ import { User } from './../../models/user-model';
 import { LocalStorageProvider } from './../../providers/local-storage/local-storage.provider';
 import { ActivitiesProvider } from './../../providers/activities/activities.provider';
 import { Component, OnInit } from '@angular/core';
-import { IonicPage, NavController, NavParams, PopoverController, AlertController, ActionSheetController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, ActionSheetController } from 'ionic-angular';
 import { ActivityModel } from '../../models/activity-model';
-import { PopoverComponent } from '../../components/popover/popover';
 import { AnnullaActivityModel } from '../../models/annulla-activity-model';
 
 @IonicPage()
@@ -21,7 +20,7 @@ export class ActivityDetailsPage implements OnInit {
     private activityService: ActivitiesProvider,
     private localStorage: LocalStorageProvider,
     public actionSheetCtrl: ActionSheetController,
-    private spinner: LoadingSpinnerProvider
+    private spinner: LoadingSpinnerProvider,
   ) {
   }
 
@@ -43,26 +42,6 @@ export class ActivityDetailsPage implements OnInit {
 
     this.userId = this.user.UserId;
   }
-
-  // presentPopover(myEvent) {
-  //   // initializing data for feeding popover
-  //   const data = { 'popoverType': 'activity-details', 'allStates': ['Avvia', 'Sospendi', 'Termina', 'Ripristina', 'Annulla'] };
-
-  //   const popover = this.popoverCtrl.create(PopoverComponent, data);
-
-  //   popover.present({
-  //     ev: myEvent
-  //   });
-
-  //   popover.onWillDismiss(selectedState => {
-
-  //     if (selectedState != null) {
-  //       // selected value from popover
-  //       const selectedOption = selectedState.explicitOriginalTarget.data;
-  //       this.showPrompt(selectedOption);
-  //     }
-  //   });
-  // }
 
   // configuring coresponding prompt depending on clicked item from popover
   showPrompt(data: string) {
@@ -107,6 +86,7 @@ export class ActivityDetailsPage implements OnInit {
     }
   }
 
+  // confirm alert for avvia, ripristina and sospendi actions
   confirmAlert(selected: string, title: string, message: string) {
     let alert = this.alertCtrl.create({
       title: title,
@@ -130,6 +110,7 @@ export class ActivityDetailsPage implements OnInit {
     alert.present();
   }
 
+  // confirm alert with aditional input field only for annulla and termina actions
   confirmTextAlert(selected: string, title: string, message: string, inputname: string, placeholder: string, type: string) {
     const prompt = this.alertCtrl.create({
       title: title,
@@ -191,8 +172,15 @@ export class ActivityDetailsPage implements OnInit {
 
     response$.subscribe(res => {
       console.log(res);
+      if (res) {
+        this.details = 'log';
+        this.spinner.hideLoadingSpinner();
 
-      this.spinner.hideLoadingSpinner();
+      }
+      else {
+        this.spinner.hideLoadingSpinner();
+        this.showAlert();
+      }
     });
   }
 
@@ -216,8 +204,16 @@ export class ActivityDetailsPage implements OnInit {
 
     response$.subscribe(res => {
       console.log(res);
+      if (res) {
+        this.details = 'log';
 
-      this.spinner.hideLoadingSpinner();
+        this.spinner.hideLoadingSpinner();
+      }
+      else {
+        this.spinner.hideLoadingSpinner();
+
+        this.showAlert();
+      }
     });
   }
 
@@ -240,7 +236,16 @@ export class ActivityDetailsPage implements OnInit {
 
     activityState$.subscribe(x => {
       console.log(x);
-      this.spinner.hideLoadingSpinner();
+      if (x) {
+        this.details = 'log';
+
+        this.spinner.hideLoadingSpinner();
+      }
+      else {
+        this.spinner.hideLoadingSpinner();
+
+        this.showAlert();
+      }
     });
   }
 
@@ -292,5 +297,15 @@ export class ActivityDetailsPage implements OnInit {
     });
 
     actionSheet.present();
+  }
+
+  // show alert if activity's state is not changed successfully
+  showAlert() {
+    const alert = this.alertCtrl.create({
+      title: 'Some error occured!',
+      subTitle: 'Your action is not successfully done. Please try later.',
+      buttons: ['OK']
+    });
+    alert.present();
   }
 }
