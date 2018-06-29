@@ -44,7 +44,11 @@
         <h6 padding text-left class="ion-col color-tutte" *ngIf="activeState === 5">Tutte</h6>
       </ion-col>
       <ion-col>
-        <h6 class="circle" style="float: right; margin-right: 16px">{{ activitiesLength }}</h6>
+        <h6 class="circle" style="float: right; margin-right: 16px">
+          <ion-col col-6>
+            <span>{{ activitiesLength }}</span>
+          </ion-col>
+        </h6>
       </ion-col>
       <h1>{{barcodeNumber}}</h1>
     </ion-row>

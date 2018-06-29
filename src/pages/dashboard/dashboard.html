@@ -23,19 +23,19 @@
     <ion-row>
       <ion-col col-4 text-center>
         <img src="assets/imgs/scanner_Spedizioni1.png" class="option-icon" (click)="navigateToBarcodeScanner()" />
-        <p text-center no-margin padding-left (click)="navigateToBarcodeScanner()">
+        <p text-center no-margin padding-left padding-right (click)="navigateToBarcodeScanner()">
           <b>Scanner spedizioni</b>
         </p>
       </ion-col>
       <ion-col col-4 text-center>
         <img src="assets/imgs/scanner_commessa.png" class="option-icon" />
-        <p text-center no-margin>
+        <p text-center no-margin padding-left padding-right>
           <b>Scanner commessa</b>
         </p>
       </ion-col>
       <ion-col col-4 text-center>
         <img src="assets/imgs/gestione_attività.png" class="option-icon" (click)="navigateToActivity()" />
-        <p text-center no-margin (click)="navigateToActivity()">
+        <p text-center no-margin padding-left padding-right (click)="navigateToActivity()">
           <b>Gestione attività</b>
         </p>
       </ion-col>
@@ -43,13 +43,13 @@
     <ion-row>
       <ion-col col-4 text-center>
         <img src="assets/imgs/setting_impostazioni.png" class="option-icon" (click)="navigateToImpostazioni()" />
-        <p text-center no-margin (click)="navigateToImpostazioni()">
+        <p text-center no-margin padding-left padding-right (click)="navigateToImpostazioni()">
           <b>Impostazioni</b>
         </p>
       </ion-col>
       <ion-col col-4 text-center>
         <img src="assets/imgs/logout.png" class="option-icon" (click)="logout()" />
-        <p text-center no-margin (click)="logout()">
+        <p text-center no-margin padding-left padding-right (click)="logout()">
           <b>Logout</b>
         </p>
       </ion-col>
