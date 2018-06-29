@@ -1,3 +1,4 @@
+import { GlobalErrorHandlerProvider } from './../../../providers/global-error-handler/global-error-handler';
 import { LoadingSpinnerProvider } from './../../../providers/loading-spinner/loading-spinner.provider';
 import { Notes } from './../../../models/notes-model';
 import { ActivitiesProvider } from './../../../providers/activities/activities.provider';
@@ -7,6 +8,7 @@ import { ActivityModel } from '../../../models/activity-model';
 import { User } from '../../../models/user-model';
 import { LavNote } from '../../../models/lav-note-model';
 import { NewNote } from '../../../models/new-note';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'note-tab',
@@ -20,7 +22,8 @@ export class NoteTabComponent implements OnInit {
   constructor(
     private localStorage: LocalStorageProvider,
     private activitiesService: ActivitiesProvider,
-    private spinner: LoadingSpinnerProvider
+    private spinner: LoadingSpinnerProvider,
+    private errHandler: GlobalErrorHandlerProvider
   ) {
   }
 
@@ -63,7 +66,12 @@ export class NoteTabComponent implements OnInit {
 
         // hide loading spinner
         this.spinner.hideLoadingSpinner();
-      });
+      },
+        (err: HttpErrorResponse) => {
+          this.spinner.hideLoadingSpinner();
+
+          this.errHandler.handleServerError(err);
+        });
   }
 
   // creating new note
@@ -95,6 +103,11 @@ export class NoteTabComponent implements OnInit {
       this.newNote = '';
 
       this.spinner.hideLoadingSpinner();
+    }, 
+    (err: HttpErrorResponse) => {
+      this.spinner.hideLoadingSpinner();
+
+      this.errHandler.handleServerError(err);
     });
   }
 }

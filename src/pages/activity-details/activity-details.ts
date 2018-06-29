@@ -1,11 +1,13 @@
+import { GlobalErrorHandlerProvider } from './../../providers/global-error-handler/global-error-handler';
 import { LoadingSpinnerProvider } from './../../providers/loading-spinner/loading-spinner.provider';
 import { User } from './../../models/user-model';
 import { LocalStorageProvider } from './../../providers/local-storage/local-storage.provider';
 import { ActivitiesProvider } from './../../providers/activities/activities.provider';
 import { Component, OnInit } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, ActionSheetController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ActionSheetController, AlertController } from 'ionic-angular';
 import { ActivityModel } from '../../models/activity-model';
 import { AnnullaActivityModel } from '../../models/annulla-activity-model';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @IonicPage()
 @Component({
@@ -16,11 +18,12 @@ export class ActivityDetailsPage implements OnInit {
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
-    public alertCtrl: AlertController,
     private activityService: ActivitiesProvider,
     private localStorage: LocalStorageProvider,
     public actionSheetCtrl: ActionSheetController,
     private spinner: LoadingSpinnerProvider,
+    private errHandler: GlobalErrorHandlerProvider,
+    private alertCtrl: AlertController
   ) {
   }
 
@@ -47,21 +50,21 @@ export class ActivityDetailsPage implements OnInit {
   showPrompt(data: string) {
     if (data == 'Avvia') {
       // adding image in title because alert controller is receiveing content as html
-      const title = '<img src="../../assets/imgs/avvia.png" class="popover-title-icon" /><span class="popover-title-text">Avvia attività</span>';
+      const title = '<img src="assets/imgs/avvia.png" class="popover-title-icon" /><span class="popover-title-text">Avvia attività</span>';
 
       const message = 'Vuoi avviare quest\'attività?';
 
       this.confirmAlert(data, title, message);
     }
     else if (data == 'Sospendi') {
-      const title = '<img src="../../assets/imgs/sospendi.png" class="popover-title-icon" /><span class="popover-title-text">Sospendi attività</span>';
+      const title = '<img src="assets/imgs/sospendi.png" class="popover-title-icon" /><span class="popover-title-text">Sospendi attività</span>';
 
       const message = 'Vuoi sospendere quest\'attività?';
 
       this.confirmAlert(data, title, message);
     }
     else if (data == 'Termina') {
-      const title = '<img src="../../assets/imgs/termina.png" class="popover-title-icon" /><span class="popover-title-text">Termina attività</span>';
+      const title = '<img src="assets/imgs/termina.png" class="popover-title-icon" /><span class="popover-title-text">Termina attività</span>';
       const message = 'Vuoi terminare quest\'attività?';
       const inputName = 'minutes';
       const placeholder = 'Totale minuti impiegati';
@@ -69,14 +72,14 @@ export class ActivityDetailsPage implements OnInit {
       this.confirmTextAlert(data, title, message, inputName, placeholder, 'number');
     }
     else if (data == 'Ripristina') {
-      const title = '<img src="../../assets/imgs/ripristina.png" class="popover-title-icon" /><span class="popover-title-text">Ripristina attività</span>';
+      const title = '<img src="assets/imgs/ripristina.png" class="popover-title-icon" /><span class="popover-title-text">Ripristina attività</span>';
 
       const message = 'Vuoi ripristinare quest\'attività?';
 
       this.confirmAlert(data, title, message);
     }
     else if (data == 'Annulla') {
-      const title = '<img src="../../assets/imgs/annulla.png" class="popover-title-icon" /><span class="popover-title-text">Annulla attività</span>';
+      const title = '<img src="assets/imgs/annulla.png" class="popover-title-icon" /><span class="popover-title-text">Annulla attività</span>';
 
       const message = 'Vuoi annullare quest\'attività?';
       const inputName = 'note';
@@ -181,7 +184,12 @@ export class ActivityDetailsPage implements OnInit {
         this.spinner.hideLoadingSpinner();
         this.showAlert();
       }
-    });
+    },
+      (err: HttpErrorResponse) => {
+        this.spinner.hideLoadingSpinner();
+
+        this.showAlert(err);
+      });
   }
 
   async annullaActivity(type: string, note: string) {
@@ -214,7 +222,12 @@ export class ActivityDetailsPage implements OnInit {
 
         this.showAlert();
       }
-    });
+    },
+      (err: HttpErrorResponse) => {
+        this.spinner.hideLoadingSpinner();
+
+        this.showAlert(err);
+      });
   }
 
   async changeActivityState(data: string) {
@@ -246,7 +259,12 @@ export class ActivityDetailsPage implements OnInit {
 
         this.showAlert();
       }
-    });
+    },
+      (err: HttpErrorResponse) => {
+        this.spinner.hideLoadingSpinner();
+
+        this.showAlert(err);
+      });
   }
 
   // navigate to previous page
@@ -300,12 +318,7 @@ export class ActivityDetailsPage implements OnInit {
   }
 
   // show alert if activity's state is not changed successfully
-  showAlert() {
-    const alert = this.alertCtrl.create({
-      title: 'Some error occured!',
-      subTitle: 'Your action is not successfully done. Please try later.',
-      buttons: ['OK']
-    });
-    alert.present();
+  showAlert(err?: HttpErrorResponse) {
+    this.errHandler.handleServerError(err);
   }
 }

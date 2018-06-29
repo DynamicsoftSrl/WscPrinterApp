@@ -1,3 +1,5 @@
+import { HttpErrorResponse } from '@angular/common/http';
+import { GlobalErrorHandlerProvider } from './../../providers/global-error-handler/global-error-handler';
 import { BarcodeScannerProvider } from '../../providers/barcode-scanner/barcode-scanner.provider';
 import { LocalStorageProvider } from '../../providers/local-storage/local-storage.provider';
 import { AuthProvider } from '../../providers/auth/auth.provider';
@@ -8,7 +10,6 @@ import { IonicPage, NavController, App } from 'ionic-angular';
 import { ShipmentProvider } from '../../providers/shipment/shipment.provider';
 import { ShipmentDetailsModel } from '../../models/shipment-details-model';
 import { AlertController } from 'ionic-angular';
-import { LoginComponent } from '../login/login';
 
 @IonicPage()
 @Component({
@@ -24,7 +25,8 @@ export class ShipmentPage implements OnDestroy {
     public alertCtrl: AlertController,
     public app: App,
     private localStorage: LocalStorageProvider,
-    private barcodeScanner: BarcodeScannerProvider) {
+    private barcodeScanner: BarcodeScannerProvider,
+    private errHandler: GlobalErrorHandlerProvider) {
   }
 
   public isScanned: boolean = false;
@@ -91,9 +93,8 @@ export class ShipmentPage implements OnDestroy {
 
           this.sub.add(shipmentDetailsSub);
         },
-          err => {
-            //if user token has expire, show alert and logout
-            this.showAlertAuthorization();
+          (err: HttpErrorResponse) => {
+            this.errHandler.handleServerError(err);
 
             this.controllErrorsLayout(true, true, true);
           });
@@ -116,27 +117,6 @@ export class ShipmentPage implements OnDestroy {
   deliverToCourier() {
     this.deliverConfirmationAlert();
   }
-
-  //if user token has expire, show alert and logout
-  showAlertAuthorization() {
-    const alert = this.alertCtrl.create({
-      title: 'Authorization error!',
-      subTitle: 'Your token has expired, please login and try again.',
-      buttons: [
-        {
-          text: 'OK',
-          handler: () => {
-            this.authProvider.logout();
-            //redirect to login page and remove tabs menu
-            this.app.getRootNav().push(LoginComponent);
-          }
-        }
-      ]
-    });
-
-    alert.present();
-  }
-
 
   deliverConfirmationAlert() {
     const alert = this.alertCtrl.create({

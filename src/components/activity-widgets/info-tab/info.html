@@ -33,7 +33,6 @@
           <p no-margin class="font-size-sector">{{ activityInfo.Id_Processo_Lavorazione }}</p>
         </ion-col>
 
-        <!-- ********************************************* -->
         <ion-col col-7 *ngIf="activityInfo.Stato_Processo === 2">
           <b>Totale tempo impiegato</b>
           <p no-margin class="font-size-sector" *ngIf="activityInfo.ConsuntivoTempoTotale">{{ activityInfo.ConsuntivoTempoTotale }}</p>
@@ -59,9 +58,9 @@
           <b>Cliente</b>
           <p no-margin text-wrap class="font-size-jobinfo">{{ orderData.RagSoc }}</p>
           <p no-margin text-wrap class="font-size-jobinfo">{{ orderData.IndirizzoU }}</p>
-          <p no-margin text-wrap class="font-size-jobinfo">{{ orderData.CapU }} - {{ orderData.CittaU }} ({{ orderData.ProvU }})</p>
-          <p no-margin text-wrap class="font-size-jobinfo">tel.{{ orderData.TelefonoU }}</p>
-          <p no-margin text-wrap class="font-size-jobinfo">email:
+          <p no-margin text-wrap class="font-size-jobinfo" *ngIf="orderData.CapU && orderData.CittaU">{{ orderData.CapU }} - {{ orderData.CittaU }} ({{ orderData.ProvU }})</p>
+          <p no-margin text-wrap class="font-size-jobinfo" *ngIf="orderData.TelefonoU">tel.{{ orderData.TelefonoU }}</p>
+          <p no-margin text-wrap class="font-size-jobinfo" *ngIf="orderData.EmailU">email:
             <span style="display: inline-block">{{ orderData.EmailU }}</span>
           </p>
           <ng-container *ngIf="orderData.SpedIndirizzo">

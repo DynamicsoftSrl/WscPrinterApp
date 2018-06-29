@@ -23,6 +23,12 @@ ion-list {
   margin-left: 5px !important;
 }
 
+.color-red {
+  span {
+    color: red !important;
+  }
+}
+
 button {
   // setting color only for icons in action sheet
   ion-icon[ng-reflect-name=play] {
@@ -39,11 +45,5 @@ button {
   }
   ion-icon[ng-reflect-name=alert] {
     @extend .color-annulla;
-  }
-}
-
-.color-red {
-  span {
-    color: red !important;
   }
 }

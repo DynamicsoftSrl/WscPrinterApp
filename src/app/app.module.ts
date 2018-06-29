@@ -26,6 +26,7 @@ import { ActivityPageModule } from './../pages/activity/activity.module';
 import { ShipmentModule } from './../pages/shipment/shipment-page.module';
 import { MyApp } from './app.component';
 import { ActivitiesProvider } from '../providers/activities/activities.provider';
+import { GlobalErrorHandlerProvider } from '../providers/global-error-handler/global-error-handler';
 
 // AoT requires an exported function for factories
 export function createTranslateLoader(http: HttpClient) {
@@ -76,7 +77,8 @@ export function createTranslateLoader(http: HttpClient) {
     ShipmentProvider,
     LoadingSpinnerProvider,
     BarcodeScannerProvider,
-    ActivitiesProvider
+    ActivitiesProvider,
+    GlobalErrorHandlerProvider
   ],
   exports: [
     //exported because of using of translation service in other modules

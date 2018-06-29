@@ -1,8 +1,10 @@
+import { GlobalErrorHandlerProvider } from './../../../providers/global-error-handler/global-error-handler';
 import { LoadingSpinnerProvider } from './../../../providers/loading-spinner/loading-spinner.provider';
 import { ActivitiesProvider } from './../../../providers/activities/activities.provider';
 import { Component, OnInit, Input } from '@angular/core';
 import { ActivityModel } from '../../../models/activity-model';
 import { ActivitiesViewModel } from '../../../models/activities-view-model';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'other-tab',
@@ -10,10 +12,10 @@ import { ActivitiesViewModel } from '../../../models/activities-view-model';
 })
 export class OtherTabComponent implements OnInit {
 
-
   constructor(
     private activitiesService: ActivitiesProvider,
-    private spinner: LoadingSpinnerProvider
+    private spinner: LoadingSpinnerProvider,
+    private errHandler: GlobalErrorHandlerProvider
   ) {
   }
 
@@ -34,6 +36,11 @@ export class OtherTabComponent implements OnInit {
       this.activities = res;
 
       this.spinner.hideLoadingSpinner();
+    }, 
+    (err: HttpErrorResponse) => {
+      this.spinner.hideLoadingSpinner();
+
+      this.errHandler.handleServerError(err);
     });
   }
 }

@@ -1,3 +1,4 @@
+import { GlobalErrorHandlerProvider } from './../../../providers/global-error-handler/global-error-handler';
 import { LoadingSpinnerProvider } from './../../../providers/loading-spinner/loading-spinner.provider';
 import { User } from './../../../models/user-model';
 import { LocalStorageProvider } from './../../../providers/local-storage/local-storage.provider';
@@ -5,6 +6,7 @@ import { ActivitiesProvider } from './../../../providers/activities/activities.p
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivityModel } from '../../../models/activity-model';
 import { OrderRowModel } from '../../../models/order-row-model';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'info',
@@ -16,10 +18,9 @@ export class InfoComponent implements OnInit {
   constructor(
     private activitiesService: ActivitiesProvider,
     private localStorage: LocalStorageProvider,
-    private spinner: LoadingSpinnerProvider
-  ) {
-
-  }
+    private spinner: LoadingSpinnerProvider,
+    private errHandler: GlobalErrorHandlerProvider
+  ) {}
 
   @Input('activityInfo') activityInfo: ActivityModel;
 
@@ -38,6 +39,12 @@ export class InfoComponent implements OnInit {
       this.orderData = res;
       // hide loading spinner
       this.spinner.hideLoadingSpinner();
+    }, 
+    (err: HttpErrorResponse) => {
+      this.spinner.hideLoadingSpinner();
+
+      // show error notification
+      this.errHandler.handleServerError(err);
     });
   }
 }

@@ -1,3 +1,4 @@
+import { GlobalErrorHandlerProvider } from './../../providers/global-error-handler/global-error-handler';
 import { LoadingSpinnerProvider } from './../../providers/loading-spinner/loading-spinner.provider';
 import { ActivityDetailsPage } from './../activity-details/activity-details';
 import { ActivityModel } from './../../models/activity-model';
@@ -10,6 +11,7 @@ import { IonicPage, NavController, NavParams, PopoverController, ViewController 
 import { User } from '../../models/user-model';
 import { ActivitiesViewModel } from '../../models/activities-view-model';
 import { Observable } from 'rxjs/Observable';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @IonicPage()
 @Component({
@@ -26,7 +28,8 @@ export class ActivityPage implements OnInit {
     public barcodeScanner: BarcodeScannerProvider,
     private activities: ActivitiesProvider,
     private localStorage: LocalStorageProvider,
-    private spinner: LoadingSpinnerProvider) {
+    private spinner: LoadingSpinnerProvider,
+    private errHandler: GlobalErrorHandlerProvider) {
   }
 
   public activeState: number = 0;
@@ -137,8 +140,9 @@ export class ActivityPage implements OnInit {
       this.activitiesList = activities.Activities;
       this.spinner.hideLoadingSpinner();
     },
-      err => {
-        console.log(err);
+      (err: HttpErrorResponse) => {
+        this.spinner.hideLoadingSpinner();
+        this.errHandler.handleServerError(err);
       });
   }
 
@@ -151,10 +155,11 @@ export class ActivityPage implements OnInit {
 
       infiniteScroll.complete();
     },
-      err => {
+      (err: HttpErrorResponse) => {
         console.log(err);
-
         infiniteScroll.complete();
+        this.spinner.hideLoadingSpinner();
+        this.errHandler.handleServerError(err);
       });
   }
 }

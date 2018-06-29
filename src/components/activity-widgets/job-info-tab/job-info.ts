@@ -1,8 +1,10 @@
+import { GlobalErrorHandlerProvider } from './../../../providers/global-error-handler/global-error-handler';
 import { LoadingSpinnerProvider } from './../../../providers/loading-spinner/loading-spinner.provider';
 import { ActivitiesProvider } from './../../../providers/activities/activities.provider';
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivityModel } from '../../../models/activity-model';
 import { TechnicalDataModel } from '../../../models/activity-technical-data-model';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'job-info',
@@ -15,10 +17,9 @@ export class JobInfoComponent implements OnInit {
 
   constructor(
     private activitiesProvider: ActivitiesProvider,
-    private spinner: LoadingSpinnerProvider
-  ) {
-
-  }
+    private spinner: LoadingSpinnerProvider,
+    private errHandler: GlobalErrorHandlerProvider
+  ) {}
 
   public technicalData: TechnicalDataModel[] = [new TechnicalDataModel()];
 
@@ -31,6 +32,11 @@ export class JobInfoComponent implements OnInit {
       this.technicalData = response;
 
       this.spinner.hideLoadingSpinner();
+    }, 
+    (err: HttpErrorResponse) => {
+      this.spinner.hideLoadingSpinner();
+
+      this.errHandler.handleServerError(err);
     });
   }
 }
