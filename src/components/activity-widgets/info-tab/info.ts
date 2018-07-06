@@ -26,7 +26,11 @@ export class InfoComponent implements OnInit {
 
   public orderData: OrderRowModel = new OrderRowModel();
 
-  async ngOnInit() {
+  ngOnInit() {
+    this.getInfoData();
+  }
+
+  async getInfoData() {
     // show loading spinner while waiting for response of server
     this.spinner.showLoadingSpinner();
 
@@ -39,12 +43,12 @@ export class InfoComponent implements OnInit {
       this.orderData = res;
       // hide loading spinner
       this.spinner.hideLoadingSpinner();
-    }, 
-    (err: HttpErrorResponse) => {
-      this.spinner.hideLoadingSpinner();
+    },
+      (err: HttpErrorResponse) => {
+        this.spinner.hideLoadingSpinner();
 
-      // show error notification
-      this.errHandler.handleServerError(err);
-    });
+        // show error notification
+        this.errHandler.handleServerError(err);
+      });
   }
 }

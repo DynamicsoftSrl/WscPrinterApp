@@ -17,6 +17,9 @@ export class OtherTabComponent implements OnInit {
     private spinner: LoadingSpinnerProvider,
     private errHandler: GlobalErrorHandlerProvider
   ) {
+    this.activitiesService.listenActivityListener().subscribe((data: any) => {
+      this.activities.OrderDetailsWorkflow = data;
+    });
   }
 
   @Input('activityInfo') activityInfo: ActivityModel;
@@ -34,13 +37,13 @@ export class OtherTabComponent implements OnInit {
 
     otherTabData$.subscribe((res: ActivitiesViewModel) => {
       this.activities = res;
-
+      console.log(this.activities.OrderDetailsWorkflow);
       this.spinner.hideLoadingSpinner();
-    }, 
-    (err: HttpErrorResponse) => {
-      this.spinner.hideLoadingSpinner();
+    },
+      (err: HttpErrorResponse) => {
+        this.spinner.hideLoadingSpinner();
 
-      this.errHandler.handleServerError(err);
-    });
+        this.errHandler.handleServerError(err);
+      });
   }
 }

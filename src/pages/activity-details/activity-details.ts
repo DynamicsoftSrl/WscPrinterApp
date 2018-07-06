@@ -46,6 +46,15 @@ export class ActivityDetailsPage implements OnInit {
     this.userId = this.user.UserId;
   }
 
+  async getActivityFromServer() {
+    const activity$ = await this.activityService.getActivityById(this.activityId);
+
+    activity$.subscribe((res: ActivityModel) => {
+      this.infoData = res;
+      this.activityService.setActivityListener(res);
+    });
+  }
+
   // configuring coresponding prompt depending on clicked item from popover
   showPrompt(data: string) {
     if (data == 'Avvia') {
@@ -175,6 +184,8 @@ export class ActivityDetailsPage implements OnInit {
 
     response$.subscribe(res => {
       console.log(res);
+      this.getActivityFromServer();
+
       if (res) {
         this.details = 'log';
         this.spinner.hideLoadingSpinner();
@@ -212,6 +223,8 @@ export class ActivityDetailsPage implements OnInit {
 
     response$.subscribe(res => {
       console.log(res);
+      this.getActivityFromServer();
+
       if (res) {
         this.details = 'log';
 
@@ -249,6 +262,7 @@ export class ActivityDetailsPage implements OnInit {
 
     activityState$.subscribe(x => {
       console.log(x);
+      this.getActivityFromServer();
       if (x) {
         this.details = 'log';
 

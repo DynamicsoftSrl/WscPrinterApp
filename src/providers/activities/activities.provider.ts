@@ -4,6 +4,9 @@ import { MappingProvider } from './../mapping/mapping.provider';
 import { Injectable } from '@angular/core';
 import { NewNote } from '../../models/new-note';
 import { AnnullaActivityModel } from '../../models/annulla-activity-model';
+import { Subject } from 'rxjs/Subject';
+import { Observable } from 'rxjs/Observable';
+import { ActivityModel } from '../../models/activity-model';
 
 @Injectable()
 export class ActivitiesProvider {
@@ -11,6 +14,16 @@ export class ActivitiesProvider {
   constructor(private api: ApiProvider,
     private mapping: MappingProvider,
     private localStorage: LocalStorageProvider) {
+  }
+  
+  private activityListener = new Subject<any>();
+
+  listenActivityListener(): Observable<any> {
+     return this.activityListener.asObservable();
+  }
+
+  setActivityListener(data: ActivityModel) {
+     this.activityListener.next(data);
   }
 
   async getAllActivities(startRowIndex: number, maximumRows: number, userId: number, stateNumber: number, period: string) {
@@ -27,6 +40,18 @@ export class ActivitiesProvider {
       .replace('{period}', period);
 
     return this.api.getAuth(url);
+  }
+
+  async getActivityById(id:number) {
+        // getting domain from local storage
+        const domain = await this.localStorage.getItemFromLocalStorage(this.localStorage.domainNameInLocalStorage).then(domain => {
+          return domain;
+        });
+    
+        let url = domain + this.mapping.get_activity_by_id;
+        url = url.replace('{id}', id.toString());
+    
+        return this.api.getAuth(url);
   }
 
   async getTechnicalData(orderId: number, lavorazioniId: number) {

@@ -27,6 +27,7 @@ export class MappingProvider {
   public get_shipment_details = '/ionbarcode/getshipmentdetails/{id}';
   public set_shipment_details = '/ionbarcode/setshipmentdetails';
   public get_all_activities = '/ionactivity/getallactivities/{startRowIndex}/{maximumRows}/{userId}/{activityState}/{period}';
+  public get_activity_by_id= '/ionactivity/getactivitybyid/{id}';
   public get_technical_data = '/ionactivity/gettechnicaldata/{orderId}/{lavorazioniId}';
   public get_order_row = '/ionactivity/getinfopagedata/{userId}/{orderId}';
   public get_notes = '/ionactivity/getnotes/{userId}/{orderId}/{lavorazioneId}';
