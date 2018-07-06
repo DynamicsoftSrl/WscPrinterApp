@@ -1,9 +1,24 @@
-note-tab {}
-
+// note-tab {}
 .note-icon {
   color: #838383 !important;
 }
 
 .input-note {
   font-size: 1.2rem !important;
+}
+
+#btn-send-note {
+  position: relative;
+  button {
+    background: white;
+    border: none;
+    vertical-align: center;
+    position: absolute;
+    top: 35%;
+    padding-left: 0;
+    padding-right: 0;
+    ion-icon {
+      color: #747474;
+    }
+  }
 }

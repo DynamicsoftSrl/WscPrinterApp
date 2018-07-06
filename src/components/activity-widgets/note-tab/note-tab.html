@@ -47,8 +47,19 @@
   </ion-list>
 </div>
 <div>
-  <ion-item color="none" inset>
-    <ion-input type="text" placeholder="Inserisci nuova nota" [(ngModel)]="newNote" class="input-note"></ion-input>
-    <ion-icon name="send" item-right (click)="submitNote()" class="note-icon"></ion-icon>
-  </ion-item>
+  <ion-grid>
+    <ion-row>
+      <ion-col col-10>
+        <ion-item color="none" inset>
+          <ion-input type="text" placeholder="Inserisci nuova nota" [(ngModel)]="newNote" class="input-note"></ion-input>
+        </ion-item>
+      </ion-col>
+
+      <ion-col col-2 id="btn-send-note">
+        <button icon-only (click)="submitNote()">
+          <ion-icon name="send"></ion-icon>
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </div>

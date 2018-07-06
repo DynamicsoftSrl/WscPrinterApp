@@ -84,7 +84,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.model.Domain = domainValue;
       }
 
-      this.model.Email = userDetails.Email;
+      this.model.Email = userDetails.Username;
     }
   }
 
