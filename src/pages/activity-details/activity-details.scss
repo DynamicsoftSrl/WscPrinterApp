@@ -47,3 +47,7 @@ button {
     @extend .color-annulla;
   }
 }
+
+.not-visible {
+  visibility: hidden;
+}

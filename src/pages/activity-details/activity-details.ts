@@ -261,7 +261,6 @@ export class ActivityDetailsPage implements OnInit {
     const activityState$ = await this.activityService.changeActivityState(userId, activityId, lavorazioneId, processPosition, operationType);
 
     activityState$.subscribe(x => {
-      console.log(x);
       this.getActivityFromServer();
       if (x) {
         this.details = 'log';
@@ -288,47 +287,70 @@ export class ActivityDetailsPage implements OnInit {
 
   // show action sheet, and then after click on some item, show prompt, and if user confirm his decision, change state of activity
   showActionSheet() {
+    const actionButtons = this.controllActions();
+
     const actionSheet = this.actionSheetCtrl.create({
       title: 'Azioni',
-      buttons: [
+      buttons: actionButtons
+    });
+
+    actionSheet.present();
+  }
+
+  // set all actions depending on Stato_Processo
+  controllActions() {
+    let actionButtons = [];
+    if (this.infoData.Stato_Processo === 0 || this.infoData.Stato_Processo === 4) {
+      actionButtons.push({
+        text: 'Avvia',
+        icon: 'play',
+        handler: () => {
+          this.showPrompt('Avvia');
+        }
+      });
+    }
+
+    if (this.infoData.Stato_Processo === 1) {
+      actionButtons.push({
+        text: 'Sospendi',
+        icon: 'pause',
+        handler: () => {
+          this.showPrompt('Sospendi');
+        }
+      }
+      );
+    }
+
+    if (this.infoData.Stato_Processo === 0 || this.infoData.Stato_Processo === 1) {
+      actionButtons.push({
+        text: 'Termina',
+        icon: 'checkmark',
+        handler: () => {
+          this.showPrompt('Termina');
+        }
+      },
         {
-          text: 'Avvia',
-          icon: 'play',
-          handler: () => {
-            this.showPrompt('Avvia');
-          }
-        },
-        {
-          text: 'Sospendi',
-          icon: 'pause',
-          handler: () => {
-            this.showPrompt('Sospendi');
-          }
-        },
-        {
-          text: 'Termina',
-          icon: 'checkmark',
-          handler: () => {
-            this.showPrompt('Termina');
-          }
-        },
-        {
-          text: 'Ripristina',
-          icon: 'swap',
-          handler: () => {
-            this.showPrompt('Ripristina');
-          }
-        }, {
           text: 'Annulla',
           icon: 'alert',
           handler: () => {
             this.showPrompt('Annulla');
           }
         }
-      ]
-    });
+      );
+    }
 
-    actionSheet.present();
+    if (this.infoData.Stato_Processo === 1 || this.infoData.Stato_Processo === 3) {
+      actionButtons.push({
+        text: 'Ripristina',
+        icon: 'swap',
+        handler: () => {
+          this.showPrompt('Ripristina');
+        }
+      }
+      );
+    }
+
+    return actionButtons;
   }
 
   // show alert if activity's state is not changed successfully

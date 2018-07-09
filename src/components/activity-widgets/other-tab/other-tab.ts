@@ -37,7 +37,6 @@ export class OtherTabComponent implements OnInit {
 
     otherTabData$.subscribe((res: ActivitiesViewModel) => {
       this.activities = res;
-      console.log(this.activities.OrderDetailsWorkflow);
       this.spinner.hideLoadingSpinner();
     },
       (err: HttpErrorResponse) => {
