@@ -16,7 +16,7 @@
             </ion-title>
           </ion-col>
           <ion-col>
-            <ion-buttons end [ngClass]="{'not-visible' : infoData.Stato_Processo === 2}">
+            <ion-buttons end [ngClass]="{'not-visible' : (infoData.Stato_Processo === 2 || infoData.statoProcesso === 'stop')}">
               <button ion-button icon-only (click)="showActionSheet()" style="font-size: 1.2rem">
                 <img src="assets/imgs/azione.png" style="max-height: 80%" (click)="showActionSheet()">
               </button>
