@@ -29,6 +29,7 @@ export class MappingProvider {
   public get_activity_by_id= '/ionactivity/getactivitybyid/{id}';
   public get_technical_data = '/ionactivity/gettechnicaldata/{orderId}/{lavorazioniId}';
   public get_order_row = '/ionactivity/getinfopagedata/{userId}/{orderId}';
+  public get_info_scanned_page_data = '/ionactivity/getinfoscannedpagedata/{userId}/{activityId}';
   public get_notes = '/ionactivity/getnotes/{userId}/{orderId}/{lavorazioneId}';
   public add_note = '/ionactivity/addlavnota';
   public get_other_tab_data = '/ionactivity/getothertabdata/{orderId}/{lavorazioneId}/{lavProcessId}';

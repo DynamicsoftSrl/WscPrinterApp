@@ -50,7 +50,7 @@
 
   <div [ngSwitch]="details">
     <ion-list *ngSwitchCase="'info'" style="margin-top:4px" class="list-selector">
-      <info [activityInfo]="infoData"></info>
+      <info [activityInfo]="infoData" [scannedId]="scannedActivityId"></info>
     </ion-list>
 
     <ion-list *ngSwitchCase="'dati-lavoro'" style="margin-top:4px" class="list-selector">

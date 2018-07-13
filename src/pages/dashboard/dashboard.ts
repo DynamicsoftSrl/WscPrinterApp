@@ -1,3 +1,4 @@
+import { ActivityDetailsPage } from './../activity-details/activity-details';
 import { ActivityModel } from './../../models/activity-model';
 import { ActivitiesProvider } from './../../providers/activities/activities.provider';
 import { GlobalErrorHandlerProvider } from './../../providers/global-error-handler/global-error-handler';
@@ -12,6 +13,7 @@ import { LoginComponent } from '../login/login';
 import { ShipmentPage } from '../shipment/shipment-page';
 import { ActivityPage } from '../activity/activity';
 import { ModuleConstants } from '../../assets/constants/constants';
+import { ParseError } from '../../../node_modules/@angular/compiler';
 
 @IonicPage()
 @Component({
@@ -65,9 +67,6 @@ export class DashboardPage implements OnInit {
       }
     }
     else {
-      // const qr = 'A0693';
-      // this.getActivitiesAndRedirectToActivityList(qr);
-
       this.globalErrorHandler.showServerErrorAlert();
     }
   }
@@ -103,7 +102,8 @@ export class DashboardPage implements OnInit {
         qrCode = qrCode.slice(1, qrCode.length);
       }
 
-      this.navigateToActivity(qrCode, ModuleConstants.ACTIVITY);
+      // private scannedActivityId: number = this.navParams.data.activityId;
+      this.navigateToActivityDetailsPage(Number(qrCode));
     }
     else {
       this.globalErrorHandler.showServerErrorAlert();
@@ -119,6 +119,12 @@ export class DashboardPage implements OnInit {
 
   navigateToBarcodeScannerPage() {
     this.navCtrl.push(ShipmentPage);
+  }
+
+  navigateToActivityDetailsPage(activityId: number) {
+    this.navCtrl.push(ActivityDetailsPage, {
+      activityId: activityId
+    });
   }
 
   navigateToActivity(qrCode, scannerType) {

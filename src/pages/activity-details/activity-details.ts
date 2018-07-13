@@ -33,21 +33,29 @@ export class ActivityDetailsPage implements OnInit {
   public infoData: ActivityModel = this.navParams.data;
   private user: User;
 
+  public scannedActivityId: number = this.navParams.data.activityId;
+
   // details that we need for changing activity state, we need them in multiple methods, so they are created globally
   private userId: number;
   private activityId: number = this.infoData.Id_Processo_Lavorazione;
   private lavorazioneId: number = this.infoData.Id_Order_Dettail;
   private processPosition: number = this.infoData.PosizioneProcesso;
 
-  async ngOnInit() {
+  async ngOnInit() {    
+    if(this.scannedActivityId) {
+      this.getActivityFromServer(this.scannedActivityId);
+    }
+
     const userString = await this.localStorage.getItemFromLocalStorage(this.localStorage.loggedUserLocalStorage);
     this.user = JSON.parse(userString);
 
     this.userId = this.user.UserId;
   }
 
-  async getActivityFromServer() {
-    const activity$ = await this.activityService.getActivityById(this.activityId);
+  async getActivityFromServer(activityId?: number) {
+    const id = activityId != undefined ? activityId: this.activityId; 
+
+    const activity$ = await this.activityService.getActivityById(id);
 
     activity$.subscribe((res: ActivityModel) => {
       this.infoData = res;

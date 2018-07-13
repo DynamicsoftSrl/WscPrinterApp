@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs/Observable';
 import { GlobalErrorHandlerProvider } from './../../../providers/global-error-handler/global-error-handler';
 import { LoadingSpinnerProvider } from './../../../providers/loading-spinner/loading-spinner.provider';
 import { User } from './../../../models/user-model';
@@ -20,9 +21,10 @@ export class InfoComponent implements OnInit {
     private localStorage: LocalStorageProvider,
     private spinner: LoadingSpinnerProvider,
     private errHandler: GlobalErrorHandlerProvider
-  ) {}
+  ) { }
 
   @Input('activityInfo') activityInfo: ActivityModel;
+  @Input('scannedId') scannedId: number;
 
   public orderData: OrderRowModel = new OrderRowModel();
 
@@ -37,7 +39,17 @@ export class InfoComponent implements OnInit {
     const userStr = await this.localStorage.getItemFromLocalStorage(this.localStorage.loggedUserLocalStorage);
 
     const user: User = JSON.parse(userStr);
-    const infoData = await this.activitiesService.getInfoPageData(this.activityInfo.IdOrder, user.UserId);
+
+    let infoData: Observable<Object>;
+
+    // if we are redirected to this page from scanner commessa page, then we shoud first get orderId and then get all details of order, 
+    // else we can immediately call getInfoPageData method
+    if (!this.scannedId) {
+      infoData = await this.activitiesService.getInfoPageData(this.activityInfo.IdOrder, user.UserId);
+    }
+    else {
+      infoData = await this.activitiesService.getInfoScannedPageData(user.UserId, this.scannedId);
+    }
 
     infoData.subscribe((res: OrderRowModel) => {
       this.orderData = res;
