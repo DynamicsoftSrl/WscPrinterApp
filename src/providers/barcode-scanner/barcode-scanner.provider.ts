@@ -1,14 +1,12 @@
+import { AlertController } from 'ionic-angular';
 import { BarcodeScanner, BarcodeScanResult } from '@ionic-native/barcode-scanner';
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 @Injectable()
 export class BarcodeScannerProvider {
 
-  constructor(public http: HttpClient,
-    private barcodeScanner: BarcodeScanner
-  ) {
-  }
+  constructor (private barcodeScanner: BarcodeScanner,
+  private alertCtrl: AlertController) { }
 
   scanBarcode() {
     const retVal$ = this.barcodeScanner.scan()
@@ -16,7 +14,7 @@ export class BarcodeScannerProvider {
         // this.controllErrorsLayout(false, true, false);
 
         const scannedBarcode = barcodeData.text;
-
+        this.showAlert(scannedBarcode);
         return scannedBarcode;
       },
         err => {
@@ -24,6 +22,15 @@ export class BarcodeScannerProvider {
         });
 
     return retVal$;
+  }
+
+  showAlert(scannedBarcode) {
+    const alert = this.alertCtrl.create({
+      title: 'scannedBarcode',
+      subTitle: scannedBarcode,
+      buttons: ['OK']
+    });
+    alert.present();
   }
 
 }

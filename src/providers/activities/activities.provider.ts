@@ -15,43 +15,43 @@ export class ActivitiesProvider {
     private mapping: MappingProvider,
     private localStorage: LocalStorageProvider) {
   }
-  
+
   private activityListener = new Subject<any>();
 
   listenActivityListener(): Observable<any> {
-     return this.activityListener.asObservable();
+    return this.activityListener.asObservable();
   }
 
   setActivityListener(data: ActivityModel) {
-     this.activityListener.next(data);
+    this.activityListener.next(data);
   }
 
-  async getAllActivities(startRowIndex: number, maximumRows: number, userId: number, stateNumber: number, period: string) {
+  // async getAllActivities(startRowIndex: number, maximumRows: number, userId: number, stateNumber: number, period: string) {
+  //   // getting domain from local storage
+  //   const domain = await this.localStorage.getItemFromLocalStorage(this.localStorage.domainNameInLocalStorage).then(domain => {
+  //     return domain;
+  //   });
+
+  //   let url = domain + this.mapping.get_all_activities;
+  //   url = url.replace('{startRowIndex}', startRowIndex.toString())
+  //     .replace('{maximumRows}', maximumRows.toString())
+  //     .replace('{userId}', userId.toString())
+  //     .replace('{activityState}', stateNumber.toString())
+  //     .replace('{period}', period);
+
+  //   return this.api.getAuth(url);
+  // }
+
+  async getActivityById(id: number) {
     // getting domain from local storage
     const domain = await this.localStorage.getItemFromLocalStorage(this.localStorage.domainNameInLocalStorage).then(domain => {
       return domain;
     });
 
-    let url = domain + this.mapping.get_all_activities;
-    url = url.replace('{startRowIndex}', startRowIndex.toString())
-      .replace('{maximumRows}', maximumRows.toString())
-      .replace('{userId}', userId.toString())
-      .replace('{activityState}', stateNumber.toString())
-      .replace('{period}', period);
+    let url = domain + this.mapping.get_activity_by_id;
+    url = url.replace('{id}', id.toString());
 
     return this.api.getAuth(url);
-  }
-
-  async getActivityById(id:number) {
-        // getting domain from local storage
-        const domain = await this.localStorage.getItemFromLocalStorage(this.localStorage.domainNameInLocalStorage).then(domain => {
-          return domain;
-        });
-    
-        let url = domain + this.mapping.get_activity_by_id;
-        url = url.replace('{id}', id.toString());
-    
-        return this.api.getAuth(url);
   }
 
   async getTechnicalData(orderId: number, lavorazioniId: number) {
@@ -140,5 +140,22 @@ export class ActivitiesProvider {
     let url = domain + this.mapping.change_activity_state_annulla_and_termina;
 
     return this.api.postAuth(url, data);
+  }
+
+  // getting activities for scanned qr code of order, lavorazione or activity
+  async getAllActivities(startRowIndex: number, maximumRows: number, userId: number, activityState: number, period: string, scannedId: string, scannerType: string) {
+    // getting domain from local storage
+    const domain = await this.localStorage.getItemFromLocalStorage(this.localStorage.domainNameInLocalStorage).then(domain => {
+      return domain;
+    });
+
+    let url = domain + this.mapping.get_all_activities;
+
+    url = url.replace('{startRowIndex}', startRowIndex.toString()).replace('{maximumRows}', maximumRows.toString())
+             .replace('{userId}', userId.toString()).replace('{activityState}', activityState.toString())
+             .replace('{period}', period).replace('{scannedId}', scannedId)
+             .replace('{scannerType}', scannerType);
+             
+    return this.api.getAuth(url);
   }
 }

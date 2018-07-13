@@ -22,14 +22,14 @@
     </ion-row>
     <ion-row>
       <ion-col col-4 text-center>
-        <img src="assets/imgs/scanner_Spedizioni1.png" class="option-icon" (click)="navigateToBarcodeScanner()" />
-        <p text-center no-margin padding-left padding-right (click)="navigateToBarcodeScanner()">
+        <img src="assets/imgs/scanner_Spedizioni1.png" class="option-icon" (click)="navigateToBarcodeScannerPage()" />
+        <p text-center no-margin padding-left padding-right (click)="navigateToBarcodeScannerPage()">
           <b>Scanner spedizioni</b>
         </p>
       </ion-col>
       <ion-col col-4 text-center>
-        <img src="assets/imgs/scanner_commessa.png" class="option-icon" />
-        <p text-center no-margin padding-left padding-right>
+        <img src="assets/imgs/scanner_commessa.png" class="option-icon" (click)="runQRScanner()" />
+        <p text-center no-margin padding-left padding-right (click)="runQRScanner()">
           <b>Scanner commessa</b>
         </p>
       </ion-col>

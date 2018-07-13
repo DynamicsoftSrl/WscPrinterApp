@@ -40,12 +40,16 @@ export class ActivityPage implements OnInit {
 
   public period: string = 'today';
   public activitiesList: ActivityModel[];
+  // if we are redirected here from scanner commessa page, we sent activities list to this page
+  private scannedId = this.navParams.get('qrCode');
+  private scannerType = this.navParams.get('scannerType');
 
   async ngOnInit() {
     let activities$ = await this.getActivities();
 
     this.setStartActivities(activities$);
   }
+
 
   private async getActivities(isInfinite?: boolean) {
     if (!isInfinite) {
@@ -58,7 +62,10 @@ export class ActivityPage implements OnInit {
     const startRows = this.counter * 10;
     const maximumRows = 10;
 
-    const response$ = await this.activities.getAllActivities(startRows, maximumRows, this.userObj.UserId, this.activeState, this.period);
+    const scanId = this.scannedId != undefined ? this.scannedId : 0;
+    const scanType = this.scannerType != undefined ? this.scannerType : 'none';
+
+    const response$ = await this.activities.getAllActivities(startRows, maximumRows, this.userObj.UserId, this.activeState, this.period, scanId, scanType);
 
     return response$;
   }

@@ -26,7 +26,6 @@ export class MappingProvider {
   public post_login = '/ionaccount/login';
   public get_shipment_details = '/ionbarcode/getshipmentdetails/{id}';
   public set_shipment_details = '/ionbarcode/setshipmentdetails';
-  public get_all_activities = '/ionactivity/getallactivities/{startRowIndex}/{maximumRows}/{userId}/{activityState}/{period}';
   public get_activity_by_id= '/ionactivity/getactivitybyid/{id}';
   public get_technical_data = '/ionactivity/gettechnicaldata/{orderId}/{lavorazioniId}';
   public get_order_row = '/ionactivity/getinfopagedata/{userId}/{orderId}';
@@ -35,4 +34,5 @@ export class MappingProvider {
   public get_other_tab_data = '/ionactivity/getothertabdata/{orderId}/{lavorazioneId}/{lavProcessId}';
   public change_activity_state = '/ionactivity/changeactivitystate/{userId}/{activityId}/{lavorazioneId}/{processPosition}/{operationType}';
   public change_activity_state_annulla_and_termina = '/ionactivity/changeactivitystate';
+  public get_all_activities = '/ionactivity/getactivitiesforscannedpage/{startRowIndex}/{maximumRows}/{userId}/{activityState}/{period}/{scannedId}/{scannerType}';
 }

@@ -1,3 +1,7 @@
+import { ActivityModel } from './../../models/activity-model';
+import { ActivitiesProvider } from './../../providers/activities/activities.provider';
+import { GlobalErrorHandlerProvider } from './../../providers/global-error-handler/global-error-handler';
+import { BarcodeScannerProvider } from './../../providers/barcode-scanner/barcode-scanner.provider';
 import { HomePage } from './../home/home';
 import { LocalStorageProvider } from './../../providers/local-storage/local-storage.provider';
 import { AuthProvider } from './../../providers/auth/auth.provider';
@@ -7,6 +11,7 @@ import { User } from '../../models/user-model';
 import { LoginComponent } from '../login/login';
 import { ShipmentPage } from '../shipment/shipment-page';
 import { ActivityPage } from '../activity/activity';
+import { ModuleConstants } from '../../assets/constants/constants';
 
 @IonicPage()
 @Component({
@@ -19,6 +24,9 @@ export class DashboardPage implements OnInit {
     public navParams: NavParams,
     private authProvider: AuthProvider,
     private localStorage: LocalStorageProvider,
+    private scannerService: BarcodeScannerProvider,
+    private globalErrorHandler: GlobalErrorHandlerProvider,
+    private activitiesService: ActivitiesProvider,
     public appCtrl: App) {
   }
 
@@ -44,6 +52,64 @@ export class DashboardPage implements OnInit {
       });
   }
 
+  async runQRScanner() {
+    let qrCode = await this.scannerService.scanBarcode().catch(err => console.log('err' + err));
+
+    if (qrCode != undefined && typeof qrCode == 'string') {
+      if (qrCode != (undefined && null && '')) {
+
+        this.getActivitiesAndRedirectToActivityList(qrCode);
+      }
+      else {
+        this.globalErrorHandler.showServerErrorAlert();
+      }
+    }
+    else {
+      // const qr = 'A0693';
+      // this.getActivitiesAndRedirectToActivityList(qr);
+
+      this.globalErrorHandler.showServerErrorAlert();
+    }
+  }
+
+  async getActivitiesAndRedirectToActivityList(qrCode: string) {
+    // if first character is 'o', it means we scanned order
+    if (qrCode.charAt(0).toLowerCase() === 'o') {
+      qrCode = qrCode.slice(1, qrCode.length);
+      // if first character is 0, we should remove it
+      if (qrCode.charAt(0) === '0') {
+        // removing last 8 characters because they represend date of order, so later we can get orderId
+        qrCode = qrCode.slice(1, qrCode.length - 8);
+      }
+
+      this.navigateToActivity(qrCode, ModuleConstants.ORDER);
+    }
+    // if first character is 'l', it means we scanned lavorazzione
+    else if (qrCode.charAt(0).toLowerCase() === 'l') {
+      qrCode = qrCode.slice(1, qrCode.length);
+      // if first character is 0, we should remove it
+      if (qrCode.charAt(0) === '0') {
+        qrCode = qrCode.slice(1, qrCode.length);
+      }
+
+      this.navigateToActivity(qrCode, ModuleConstants.LAVORAZIONE);
+    }
+    // if first character is 'a', it means we scanned activity
+    else if (qrCode.charAt(0).toLowerCase() === 'a') {
+      qrCode = qrCode.slice(1, qrCode.length);
+
+      // if first character is 0, we should remove it
+      if (qrCode.charAt(0) === '0') {
+        qrCode = qrCode.slice(1, qrCode.length);
+      }
+
+      this.navigateToActivity(qrCode, ModuleConstants.ACTIVITY);
+    }
+    else {
+      this.globalErrorHandler.showServerErrorAlert();
+    }
+  }
+
   logout() {
     this.authProvider.logout();
 
@@ -51,12 +117,20 @@ export class DashboardPage implements OnInit {
     this.appCtrl.getRootNav().setRoot(LoginComponent);
   }
 
-  navigateToBarcodeScanner() {
+  navigateToBarcodeScannerPage() {
     this.navCtrl.push(ShipmentPage);
   }
 
-  navigateToActivity() {
-    this.navCtrl.push(ActivityPage);
+  navigateToActivity(qrCode, scannerType) {
+    if (!qrCode && !scannerType) {
+      this.navCtrl.push(ActivityPage);
+    }
+    else {
+      this.navCtrl.push(ActivityPage, {
+        qrCode: qrCode,
+        scannerType: scannerType
+      });
+    }
   }
 
   navigateToImpostazioni() {
