@@ -34,6 +34,8 @@ export class DashboardPage implements OnInit {
 
   public loggedInUser: User = new User();
 
+  // getRootNav() is deprecated, so we need to use getRootNavById() for redirection on homepage
+  private nav;
 
   //Nav Guard which is controlling login page, if user is logged in, he can't enter the login page until he logout
   async ionViewCanEnter() {
@@ -80,6 +82,9 @@ export class DashboardPage implements OnInit {
         // removing last 8 characters because they represend date of order, so later we can get orderId
         qrCode = qrCode.slice(1, qrCode.length - 8);
       }
+      else {
+        qrCode = qrCode.slice(0, qrCode.length - 8);
+      }
 
       this.navigateToActivity(qrCode, ModuleConstants.ORDER);
     }
@@ -114,7 +119,9 @@ export class DashboardPage implements OnInit {
     this.authProvider.logout();
 
     // this will remove tabs menu from layout after we logout and redirect to login page
-    this.appCtrl.getRootNav().setRoot(LoginComponent);
+    // this.appCtrl.getRootNav().setRoot(LoginComponent);       -- this method is deprecated, so we should use methods above
+    this.nav = this.appCtrl.getRootNavById('n4');
+    this.nav.setRoot(LoginComponent);
   }
 
   navigateToBarcodeScannerPage() {

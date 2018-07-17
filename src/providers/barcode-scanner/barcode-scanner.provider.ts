@@ -5,8 +5,8 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class BarcodeScannerProvider {
 
-  constructor (private barcodeScanner: BarcodeScanner,
-  private alertCtrl: AlertController) { }
+  constructor(private barcodeScanner: BarcodeScanner,
+    private alertCtrl: AlertController) { }
 
   scanBarcode() {
     const retVal$ = this.barcodeScanner.scan()
@@ -14,7 +14,6 @@ export class BarcodeScannerProvider {
         // this.controllErrorsLayout(false, true, false);
 
         const scannedBarcode = barcodeData.text;
-        this.showAlert(scannedBarcode);
         return scannedBarcode;
       },
         err => {
@@ -22,15 +21,6 @@ export class BarcodeScannerProvider {
         });
 
     return retVal$;
-  }
-
-  showAlert(scannedBarcode) {
-    const alert = this.alertCtrl.create({
-      title: 'scannedBarcode',
-      subTitle: scannedBarcode,
-      buttons: ['OK']
-    });
-    alert.present();
   }
 
 }

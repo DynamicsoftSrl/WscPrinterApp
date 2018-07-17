@@ -13,6 +13,8 @@ export class GlobalErrorHandlerProvider {
     private app: App
   ) { }
 
+  private nav;
+
   // show alert if activity's state is not changed successfully
   handleServerError(err?: HttpErrorResponse) {
     if (err) {
@@ -48,7 +50,9 @@ export class GlobalErrorHandlerProvider {
           handler: () => {
             this.authProvider.logout();
             //redirect to login page and remove tabs menu
-            this.app.getRootNav().push(LoginComponent);
+            // this.app.getRootNav().push(LoginComponent);
+            this.nav = this.app.getRootNavById('n4');
+            this.nav.setRoot(LoginComponent);
           }
         }
       ]
