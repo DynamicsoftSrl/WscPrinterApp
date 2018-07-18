@@ -12,6 +12,7 @@ import { User } from '../../models/user-model';
 import { ActivitiesViewModel } from '../../models/activities-view-model';
 import { Observable } from 'rxjs/Observable';
 import { HttpErrorResponse } from '@angular/common/http';
+import { ModuleConstants } from '../../assets/constants/constants';
 
 @IonicPage()
 @Component({
@@ -99,15 +100,43 @@ export class ActivityPage implements OnInit {
     }
   }
 
-  async scan() {
-    let id = await this.barcodeScanner.scanBarcode();
+  async runQRScanner() {
+    let qrCode = await this.barcodeScanner.scanBarcode().catch(err => console.log('err' + err));
 
-    // if first character is 0, we should remove it
-    if (typeof (id) == 'string') {
-      if (id.charAt(0) == '0') {
-        this.barcodeNumber = id.slice(1, id.length);
+    if (qrCode != undefined && typeof qrCode == 'string') {
+      if (qrCode != (undefined && null && '')) {
+
+        const qrAndType = await this.activities.getScannedIdAndType(qrCode);
+        const qr = qrAndType.qr;
+        const type = qrAndType.scannerType;
+        if (type === ModuleConstants.ORDER || type === ModuleConstants.LAVORAZIONE) {
+          this.navigateToActivity(qr, type);
+        }
+        else {
+          this.navigateToActivityDetailsPage(Number(qr));
+        }
+      }
+      else {
+        this.errHandler.showServerErrorAlert();
       }
     }
+    else {
+      this.errHandler.showServerErrorAlert();
+    }
+  }
+
+  navigateToActivityDetailsPage(activityId: number) {
+    this.navCtrl.push(ActivityDetailsPage, {
+      activityId: activityId
+    });
+  }
+
+  async navigateToActivity(qrCode, scannerType) {
+    this.scannedId = qrCode;
+    this.scannerType = scannerType;
+    let activities$ = await this.getActivities();
+
+    this.setStartActivities(activities$);
   }
 
   // loading more acitivities on infinite scroll

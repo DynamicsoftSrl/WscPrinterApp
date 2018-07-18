@@ -62,7 +62,15 @@ export class DashboardPage implements OnInit {
     if (qrCode != undefined && typeof qrCode == 'string') {
       if (qrCode != (undefined && null && '')) {
 
-        this.getActivitiesAndRedirectToActivityList(qrCode);
+        const qrAndType = await this.activitiesService.getScannedIdAndType(qrCode);
+        const qr = qrAndType.qr;
+        const type = qrAndType.scannerType;
+        if (type === ModuleConstants.ORDER || type === ModuleConstants.LAVORAZIONE) {
+          this.navigateToActivity(qr, type);
+        }
+        else {
+          this.navigateToActivityDetailsPage(Number(qr));
+        }
       }
       else {
         this.globalErrorHandler.showServerErrorAlert();
@@ -73,47 +81,6 @@ export class DashboardPage implements OnInit {
     }
   }
 
-  async getActivitiesAndRedirectToActivityList(qrCode: string) {
-    // if first character is 'o', it means we scanned order
-    if (qrCode.charAt(0).toLowerCase() === 'o') {
-      qrCode = qrCode.slice(1, qrCode.length);
-      // if first character is 0, we should remove it
-      if (qrCode.charAt(0) === '0') {
-        // removing last 8 characters because they represend date of order, so later we can get orderId
-        qrCode = qrCode.slice(1, qrCode.length - 8);
-      }
-      else {
-        qrCode = qrCode.slice(0, qrCode.length - 8);
-      }
-
-      this.navigateToActivity(qrCode, ModuleConstants.ORDER);
-    }
-    // if first character is 'l', it means we scanned lavorazzione
-    else if (qrCode.charAt(0).toLowerCase() === 'l') {
-      qrCode = qrCode.slice(1, qrCode.length);
-      // if first character is 0, we should remove it
-      if (qrCode.charAt(0) === '0') {
-        qrCode = qrCode.slice(1, qrCode.length);
-      }
-
-      this.navigateToActivity(qrCode, ModuleConstants.LAVORAZIONE);
-    }
-    // if first character is 'a', it means we scanned activity
-    else if (qrCode.charAt(0).toLowerCase() === 'a') {
-      qrCode = qrCode.slice(1, qrCode.length);
-
-      // if first character is 0, we should remove it
-      if (qrCode.charAt(0) === '0') {
-        qrCode = qrCode.slice(1, qrCode.length);
-      }
-
-      // private scannedActivityId: number = this.navParams.data.activityId;
-      this.navigateToActivityDetailsPage(Number(qrCode));
-    }
-    else {
-      this.globalErrorHandler.showServerErrorAlert();
-    }
-  }
 
   logout() {
     this.authProvider.logout();

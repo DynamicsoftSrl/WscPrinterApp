@@ -7,6 +7,7 @@ import { AnnullaActivityModel } from '../../models/annulla-activity-model';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
 import { ActivityModel } from '../../models/activity-model';
+import { ModuleConstants } from '../../assets/constants/constants';
 
 @Injectable()
 export class ActivitiesProvider {
@@ -148,10 +149,49 @@ export class ActivitiesProvider {
     let url = domain + this.mapping.get_all_activities;
 
     url = url.replace('{startRowIndex}', startRowIndex.toString()).replace('{maximumRows}', maximumRows.toString())
-             .replace('{userId}', userId.toString()).replace('{activityState}', activityState.toString())
-             .replace('{period}', period).replace('{scannedId}', scannedId)
-             .replace('{scannerType}', scannerType);
-             
+      .replace('{userId}', userId.toString()).replace('{activityState}', activityState.toString())
+      .replace('{period}', period).replace('{scannedId}', scannedId)
+      .replace('{scannerType}', scannerType);
+
     return this.api.getAuth(url);
+  }
+
+  // reusable method for getting of order id, lavorazione id or activity id
+  async getScannedIdAndType(qrCode: string) {
+    // if first character is 'o', it means we scanned order
+    if (qrCode.charAt(0).toLowerCase() === 'o') {
+      qrCode = qrCode.slice(1, qrCode.length);
+      // if first character is 0, we should remove it
+      if (qrCode.charAt(0) === '0') {
+        // removing last 8 characters because they represend date of order, so later we can get orderId
+        qrCode = qrCode.slice(1, qrCode.length - 8);
+      }
+      else {
+        qrCode = qrCode.slice(0, qrCode.length - 8);
+      }
+
+      return { qr: qrCode, scannerType: ModuleConstants.ORDER };
+    }
+    // if first character is 'l', it means we scanned lavorazzione
+    else if (qrCode.charAt(0).toLowerCase() === 'l') {
+      qrCode = qrCode.slice(1, qrCode.length);
+      // if first character is 0, we should remove it
+      if (qrCode.charAt(0) === '0') {
+        qrCode = qrCode.slice(1, qrCode.length);
+      }
+
+      return { qr: qrCode, scannerType: ModuleConstants.LAVORAZIONE };
+    }
+    // if first character is 'a', it means we scanned activity
+    else if (qrCode.charAt(0).toLowerCase() === 'a') {
+      qrCode = qrCode.slice(1, qrCode.length);
+
+      // if first character is 0, we should remove it
+      if (qrCode.charAt(0) === '0') {
+        qrCode = qrCode.slice(1, qrCode.length);
+      }
+
+      return { qr: qrCode, scannerType: ModuleConstants.ACTIVITY };
+    }
   }
 }
