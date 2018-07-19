@@ -41,8 +41,8 @@ export class ActivityDetailsPage implements OnInit {
   private lavorazioneId: number = this.infoData.Id_Order_Dettail;
   private processPosition: number = this.infoData.PosizioneProcesso;
 
-  async ngOnInit() {    
-    if(this.scannedActivityId) {
+  async ngOnInit() {
+    if (this.scannedActivityId) {
       this.getActivityFromServer(this.scannedActivityId);
     }
 
@@ -53,7 +53,7 @@ export class ActivityDetailsPage implements OnInit {
   }
 
   async getActivityFromServer(activityId?: number) {
-    const id = activityId != undefined ? activityId: this.activityId; 
+    const id = activityId != undefined ? activityId : this.activityId;
 
     const activity$ = await this.activityService.getActivityById(id);
 
@@ -77,8 +77,10 @@ export class ActivityDetailsPage implements OnInit {
       const title = '<img src="assets/imgs/sospendi.png" class="popover-title-icon" /><span class="popover-title-text">Sospendi attività</span>';
 
       const message = 'Vuoi sospendere quest\'attività?';
+      const inputName = 'note';
+      const placeholder = 'Note';
 
-      this.confirmAlert(data, title, message);
+      this.confirmTextAlert(data, title, message, inputName, placeholder, 'text');
     }
     else if (data == 'Termina') {
       const title = '<img src="assets/imgs/termina.png" class="popover-title-icon" /><span class="popover-title-text">Termina attività</span>';
@@ -164,6 +166,12 @@ export class ActivityDetailsPage implements OnInit {
                 this.terminaActivity(selected, data[inputname]);
               }
             }
+            else if (selected == 'Sospendi') {
+              // sospendi activity
+              if (data[inputname] != '') {
+                this.sospendiActivity(selected, data[inputname]);
+              }
+            }
           }
         }
       ]
@@ -188,7 +196,7 @@ export class ActivityDetailsPage implements OnInit {
       model.OperationType = type.toLowerCase();
     }
 
-    const response$ = await this.activityService.changeActivityStateTerminaAndAnnulla(model);
+    const response$ = await this.activityService.changeActivityStateTerminaSospendiAndAnnulla(model);
 
     response$.subscribe(res => {
       console.log(res);
@@ -227,7 +235,7 @@ export class ActivityDetailsPage implements OnInit {
       model.OperationType = type.toLowerCase();
     }
 
-    const response$ = await this.activityService.changeActivityStateTerminaAndAnnulla(model);
+    const response$ = await this.activityService.changeActivityStateTerminaSospendiAndAnnulla(model);
 
     response$.subscribe(res => {
       console.log(res);
@@ -241,6 +249,45 @@ export class ActivityDetailsPage implements OnInit {
       else {
         this.spinner.hideLoadingSpinner();
 
+        this.showAlert();
+      }
+    },
+      (err: HttpErrorResponse) => {
+        this.spinner.hideLoadingSpinner();
+
+        this.showAlert(err);
+      });
+  }
+
+  async sospendiActivity(type: string, note: string) {
+    // show loading spinner while waiting for response of server
+    this.spinner.showLoadingSpinner();
+
+    // creating object for sending in post method
+    var model = new AnnullaActivityModel();
+    model.UserId = this.userId;
+    model.ActivityId = this.activityId;
+    model.LavorazioneId = this.lavorazioneId;
+    model.ProcessPosition = this.processPosition;
+    model.Note = note;
+
+    if (type != '') {
+      model.OperationType = type.toLowerCase();
+    }
+
+    const response$ = await this.activityService.changeActivityStateTerminaSospendiAndAnnulla(model);
+
+    response$.subscribe(res => {
+      console.log(res);
+      this.getActivityFromServer();
+
+      if (res) {
+        this.details = 'log';
+        this.spinner.hideLoadingSpinner();
+
+      }
+      else {
+        this.spinner.hideLoadingSpinner();
         this.showAlert();
       }
     },
