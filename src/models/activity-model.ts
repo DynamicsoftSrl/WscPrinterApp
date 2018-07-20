@@ -41,7 +41,6 @@ export class ActivityModel {
     public flagPermesso: boolean;
     public flag_assegnazione: string;
     public idAssociazioneWorkflow: string;
-    public idOperatori: string;
     public idOperatoriAttivita: string;
     public isOperatorePresent: boolean;
     public jobname: string;

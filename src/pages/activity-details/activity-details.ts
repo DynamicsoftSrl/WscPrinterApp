@@ -1,3 +1,4 @@
+import { DashboardPage } from './../dashboard/dashboard';
 import { GlobalErrorHandlerProvider } from './../../providers/global-error-handler/global-error-handler';
 import { LoadingSpinnerProvider } from './../../providers/loading-spinner/loading-spinner.provider';
 import { User } from './../../models/user-model';
@@ -42,14 +43,14 @@ export class ActivityDetailsPage implements OnInit {
   private processPosition: number = this.infoData.PosizioneProcesso;
 
   async ngOnInit() {
-    if (this.scannedActivityId) {
-      this.getActivityFromServer(this.scannedActivityId);
-    }
-
     const userString = await this.localStorage.getItemFromLocalStorage(this.localStorage.loggedUserLocalStorage);
     this.user = JSON.parse(userString);
 
     this.userId = this.user.UserId;
+
+    if (this.scannedActivityId) {
+      this.getActivityFromServer(this.scannedActivityId);
+    }
   }
 
   async getActivityFromServer(activityId?: number) {
@@ -60,6 +61,16 @@ export class ActivityDetailsPage implements OnInit {
     activity$.subscribe((res: ActivityModel) => {
       this.infoData = res;
       this.activityService.setActivityListener(res);
+
+      // if scanned activity is not assigned to logged in user, show alert and redirect him to homepage
+      if (this.infoData.IdOperatori != null && this.infoData.IdOperatori != undefined) {
+        if (!this.infoData.IdOperatori.includes(this.userId.toString())) {
+          this.activityNotAssignedToLoggedClientAlert();
+        }
+      }
+      else {
+        this.activityNotAssignedToLoggedClientAlert();
+      }
     });
   }
 
@@ -106,6 +117,21 @@ export class ActivityDetailsPage implements OnInit {
 
       this.confirmTextAlert(data, title, message, inputName, placeholder, 'text');
     }
+  }
+
+  activityNotAssignedToLoggedClientAlert() {
+    const alert = this.alertCtrl.create({
+      title: 'Warning!',
+      message: 'Non puoi avviare o terminare un\'attività se quella precedente è in corso, in lavorazione o in sospensione!',
+      buttons: [
+        {
+          text: 'OK',
+          handler: () => {
+            this.navCtrl.push(DashboardPage);
+          }
+        }]
+    });
+    alert.present();
   }
 
   // confirm alert for avvia, ripristina and sospendi actions
