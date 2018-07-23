@@ -122,7 +122,7 @@ export class ActivityDetailsPage implements OnInit {
   activityNotAssignedToLoggedClientAlert() {
     const alert = this.alertCtrl.create({
       title: 'Warning!',
-      message: 'Non puoi avviare o terminare un\'attività se quella precedente è in corso, in lavorazione o in sospensione!',
+      message: 'Non è possibile visualizzare il dettaglio dell\'attività poiché non è stata assegnata a te. Si prega di contattare l\'amministratore.',
       buttons: [
         {
           text: 'OK',
