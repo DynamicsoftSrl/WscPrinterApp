@@ -5,4 +5,5 @@ export class User {
     UserGroup: string;
     Email: string;
     ListOfActiveModules: number[];
+    isActiveIonicAppModule: boolean;
 }

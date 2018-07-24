@@ -21,26 +21,24 @@
       </ion-col>
     </ion-row>
     <ion-row>
-      <ion-col col-4 text-center>
+      <ion-col col-4 text-center *ngIf="isActiveMultipleShipment">
         <img src="assets/imgs/scanner_Spedizioni1.png" class="option-icon" (click)="navigateToBarcodeScannerPage()" />
         <p text-center no-margin padding-left padding-right (click)="navigateToBarcodeScannerPage()">
           <b>Scanner spedizioni</b>
         </p>
       </ion-col>
-      <ion-col col-4 text-center>
+      <ion-col col-4 text-center *ngIf="isActiveActivityModule">
         <img src="assets/imgs/scanner_commessa.png" class="option-icon" (click)="runQRScanner()" />
         <p text-center no-margin padding-left padding-right (click)="runQRScanner()">
           <b>Scanner commessa</b>
         </p>
       </ion-col>
-      <ion-col col-4 text-center>
+      <ion-col col-4 text-center *ngIf="isActiveActivityModule">
         <img src="assets/imgs/gestione_attività.png" class="option-icon" (click)="navigateToActivity()" />
         <p text-center no-margin padding-left padding-right (click)="navigateToActivity()">
           <b>Gestione attività</b>
         </p>
       </ion-col>
-    </ion-row>
-    <ion-row>
       <ion-col col-4 text-center>
         <img src="assets/imgs/setting_impostazioni.png" class="option-icon" (click)="navigateToImpostazioni()" />
         <p text-center no-margin padding-left padding-right (click)="navigateToImpostazioni()">

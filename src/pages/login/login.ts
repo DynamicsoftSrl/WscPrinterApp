@@ -36,6 +36,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   public isLoginError: boolean = false;
   public isDomainError: boolean = false;
   public isTokenCredentialsError: boolean = false;
+  public isActiveIonicAppModule: boolean = true;
 
   private defaultProtocol: string = 'http://';
   private completeUrl: string = '';
@@ -199,15 +200,26 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.hideSpinnerLoader();
 
         if (response != null) {
-          this.isLoginError = false;
+          if (response.isActiveIonicAppModule) {
+            this.isActiveIonicAppModule = true;
+            this.isLoginError = false;
 
-          const stringAdminUserObject = JSON.stringify(response);
-          this.localStorage.saveToLocalStorage(this.localStorage.loggedUserLocalStorage, stringAdminUserObject).then(user => {
-            this.navigateToCorrespondingPage(response);
-          });
+            const stringAdminUserObject = JSON.stringify(response);
+            this.localStorage.saveToLocalStorage(this.localStorage.loggedUserLocalStorage, stringAdminUserObject).then(user => {
+              this.navigateToCorrespondingPage(response);
+            });
+          }
+          else {
+            this.isActiveIonicAppModule = false;
+            this.isLoginError = false;
+            // if ionic app moduel is not active, remove token we get from server from local storage
+            this.localStorage.removeItemFromLocalStorage(this.localStorage.tokenNameInLocalStorage);
+          }
         }
         else {
           this.isLoginError = true;
+          this.isActiveIonicAppModule = false;
+          this.localStorage.removeItemFromLocalStorage(this.localStorage.tokenNameInLocalStorage);
         }
       }, (err: HttpErrorResponse) => {
         //handle if token has expired

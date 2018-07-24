@@ -36,6 +36,8 @@ export class DashboardPage implements OnInit {
 
   // getRootNav() is deprecated, so we need to use getRootNavById() for redirection on homepage
   private nav;
+  public isActiveMultipleShipment = false;
+  public isActiveActivityModule = false;
 
   //Nav Guard which is controlling login page, if user is logged in, he can't enter the login page until he logout
   async ionViewCanEnter() {
@@ -49,6 +51,22 @@ export class DashboardPage implements OnInit {
       .then(user => {
         if (user != null) {
           this.loggedInUser = JSON.parse(user);
+          //checking if multiple shipment is active
+          if (this.loggedInUser.ListOfActiveModules.find(x => x === ModuleConstants.ID_MODULO_SPEDIZIONI_MULTIPLE)) {
+            this.isActiveMultipleShipment = true;
+          }
+          else {
+            this.isActiveMultipleShipment = false;
+          }
+
+          //checking if activity is active
+          if (this.loggedInUser.ListOfActiveModules.find(x => x === ModuleConstants.ID_MODULO_ATTIVITA)) {
+            this.isActiveActivityModule = true;
+          }
+          else {
+            this.isActiveActivityModule = false;
+          }
+
         }
         else {
           this.logout();

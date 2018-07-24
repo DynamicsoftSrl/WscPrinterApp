@@ -63,6 +63,11 @@
     <strong>Username or Password are not valid. Please enter correct credentials.</strong>
   </div>
 
+  <div class="alert" *ngIf="isActiveIonicAppModule === false" text-center margin padding>
+    <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+    <strong>The module for Wsc App is not active!</strong>
+  </div>
+
   <div class="alert" *ngIf="isTokenCredentialsError" text-center margin padding>
     <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
     <strong>Token credentials are not valid. Please enter correct credentials.</strong>

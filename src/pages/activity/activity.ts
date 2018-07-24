@@ -19,7 +19,7 @@ import { ModuleConstants } from '../../assets/constants/constants';
   selector: 'page-activity',
   templateUrl: 'activity.html',
 })
-export class ActivityPage implements OnInit {
+export class ActivityPage {
 
 
   constructor(public navCtrl: NavController,
@@ -45,12 +45,11 @@ export class ActivityPage implements OnInit {
   private scannedId = this.navParams.get('qrCode');
   private scannerType = this.navParams.get('scannerType');
 
-  async ngOnInit() {
+  async ionViewWillEnter() {
     let activities$ = await this.getActivities();
 
     this.setStartActivities(activities$);
   }
-
 
   private async getActivities(isInfinite?: boolean) {
     if (!isInfinite) {
@@ -65,6 +64,10 @@ export class ActivityPage implements OnInit {
 
     const scanId = this.scannedId != undefined ? this.scannedId : 0;
     const scanType = this.scannerType != undefined ? this.scannerType : 'none';
+    // if we scanned barcode and then redirected to this page, set active state filter to 'tutte'
+    if (this.scannedId != undefined) {
+      this.activeState = 5;
+    }
 
     const response$ = await this.activities.getAllActivities(startRows, maximumRows, this.userObj.UserId, this.activeState, this.period, scanId, scanType);
 
