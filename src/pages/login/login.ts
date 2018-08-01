@@ -115,6 +115,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   onLogin() {
     this.showSpinnerLoader();
+    this.model.Domain = this.model.Domain.trim();
     this.checkDomain();
     this.setCompleteUrl();
 
