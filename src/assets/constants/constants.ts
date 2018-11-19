@@ -2,7 +2,7 @@ export class ModuleConstants {
     // module types
     public static ID_MODULO_SPEDIZIONI_MULTIPLE = 73;
     public static ID_MODULO_ATTIVITA = 49;
-    public static ID_MODULO_IONIC_APP = 86;
+    public static ID_MODULO_IONIC_APP = 87;
 
 
     // qr scanner types
