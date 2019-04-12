@@ -15,4 +15,11 @@ export class ShipmentDetailsModel {
     public UserId: string;
     public UserFirstName: string;
     public ShipmentOperator: string;
+    public SpedDestinatario: string;
+    public SpedIndirizzo: string;
+    public SpedCitta: string;
+    public SpedProvincia: string;
+    public SpedCap: string;
+    public SpedTelefono: string;
+    public SpedCellulare: string;
 }

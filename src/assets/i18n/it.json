@@ -29,7 +29,16 @@
   "NOTE": "NOTE",
   "LOG": "LOG",
   "OTHER": "ALTRO",
+  "RIEPILOGO":"RIEPILOGO",
+  "INDIRIZZO_DI_CONSEGNA": "INDIRIZZO DI CONSEGNA",
   "activity_info": "Informazioni attività",
   "order_info": "Informazioni ordine e lavorazione",
-  "job_description": "Descrizione lavorazione"
+  "job_description": "Descrizione lavorazione",
+  "destinatario": "Destinatario",
+  "indirizzo": "Indirizzo",
+  "citta": "Città",
+  "provincia": "Provincia",
+  "cap": "CAP",
+  "telefono": "Telefono",
+  "cellulare": "Cellulare"
 }

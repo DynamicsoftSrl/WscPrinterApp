@@ -26,6 +26,7 @@ export class MappingProvider {
   public post_login = '/ionaccount/login';
   public get_shipment_details = '/ionbarcode/getshipmentdetails/{id}';
   public set_shipment_details = '/ionbarcode/setshipmentdetails';
+  public update_shipment_details = '/ionbarcode/updateshipmentdetails/{id}/{attribute}/{value}';
   public get_activity_by_id= '/ionactivity/getactivitybyid/{id}';
   public get_technical_data = '/ionactivity/gettechnicaldata/{orderId}/{lavorazioniId}';
   public get_order_row = '/ionactivity/getinfopagedata/{userId}/{orderId}';

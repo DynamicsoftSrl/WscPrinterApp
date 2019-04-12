@@ -35,6 +35,7 @@ export class ShipmentPage implements OnDestroy {
   public changingStateError: boolean = false;
   public hideCourierButton: boolean = false;
   public model: ShipmentDetailsModel = new ShipmentDetailsModel();
+  public details: string = 'riepilogo';
 
   private sub: Subscription = new Subscription();
 
@@ -66,7 +67,8 @@ export class ShipmentPage implements OnDestroy {
       }
     }
     else {
-      this.controllErrorsLayout(true, true, true);
+      this.getShipmentDetails('2');
+      // this.controllErrorsLayout(true, true, true);
     }
   }
 
@@ -167,6 +169,36 @@ export class ShipmentPage implements OnDestroy {
         this.changingStateError = true;
         this.spinner.hideLoadingSpinner();
       });
+  }
+
+  shipmentStateChanged() {
+    const attribute = 'stato';
+    // when change shipment state, if it is not consegnata after change, show button
+    if(this.model.StatoSpedizione != 4)
+    {
+      this.hideCourierButton = false;
+    }
+    else {
+      this.hideCourierButton = true;
+    }
+
+    if (this.model.StatoSpedizione && this.model.RowId) {
+      this.shipment.updateShipmentDetails(this.model.RowId.toString(), attribute, this.model.StatoSpedizione.toString())
+        .then(response => {
+          response.subscribe(x => x);
+        });
+    }
+  }
+
+  updateShipmentNote() {
+    const attribute = 'spedizioneNote';
+
+    if (this.model.NoteSpedizione && this.model.RowId) {
+      this.shipment.updateShipmentDetails(this.model.RowId.toString(), attribute, this.model.NoteSpedizione)
+        .then(response => {
+          response.subscribe(x => x);
+        });
+    }
   }
 
   ngOnDestroy(): void {

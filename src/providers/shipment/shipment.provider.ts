@@ -30,4 +30,11 @@ export class ShipmentProvider {
     return this.api.postAuth(url, shipmentDetails);
   }
 
+  async updateShipmentDetails(shipmentId: string, attribute: string, shipmentStateId: string ) {
+    const domain = await this.localStorage.getDomain();
+    const url = domain + this.mapping.update_shipment_details.replace('{id}', shipmentId).replace('{attribute}', attribute).replace('{value}', shipmentStateId);
+    
+    return this.api.getAuth(url);
+  }
+
 }
