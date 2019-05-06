@@ -91,11 +91,11 @@ export class DashboardPage implements OnInit {
         }
       }
       else {
-        this.globalErrorHandler.showServerErrorAlert();
+        this.globalErrorHandler.showBarcodeErrorAlert();
       }
     }
     else {
-      this.globalErrorHandler.showServerErrorAlert();
+      this.globalErrorHandler.showBarcodeErrorAlert();
     }
   }
 

@@ -33,17 +33,25 @@ export class GlobalErrorHandlerProvider {
 
   showServerErrorAlert() {
     const alert = this.alertCtrl.create({
-      title: 'Some error occured!',
-      subTitle: 'Your action is not successfully done. Please try later.',
+      title: 'Errore imprevisto!',
+      subTitle: 'Azione non corretta. Riprova.',
       buttons: ['OK']
     });
     alert.present();
   }
 
+  showBarcodeErrorAlert() {
+    const alert = this.alertCtrl.create({
+      title: 'Errore imprevisto!',
+      subTitle: 'Il barcode scanzionato non è esistente',
+      buttons: ['OK']
+    });
+    alert.present();
+  }
   showUnouthorizedAlert() {
     const alert = this.alertCtrl.create({
-      title: 'Authorization error!',
-      subTitle: 'Your token has expired, please login and try again.',
+      title: 'Non hai le autorizzazioni necessarie!',
+      subTitle: 'Non hai le autorizzazioni necessarie per accedere!',
       buttons: [
         {
           text: 'OK',

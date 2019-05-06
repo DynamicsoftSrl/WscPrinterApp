@@ -34,7 +34,7 @@
       {{'scan_new_barcode' | translate}}
 
     </button>
-    <div>
+    <div *ngIf="!changingStateError && !scanError">
       <ion-segment style="background-color: #EE9649" [(ngModel)]="details">
         <ion-segment-button value="riepilogo">
           {{ "RIEPILOGO" | translate}}
@@ -45,7 +45,7 @@
       </ion-segment>
     </div>
   
-    <div [ngSwitch]="details">
+    <div [ngSwitch]="details" *ngIf="!changingStateError && !scanError">
       <ion-list *ngSwitchCase="'riepilogo'" style="margin-top:4px" class="list-selector">
         <ng-container #noScanError *ngIf="!scanError && model">
           <ion-list id="spedizioneBarcodeScannerInfo-list6" class="mt16">
@@ -147,13 +147,13 @@
 
   <div class="alert" *ngIf="changingStateError" text-center margin padding>
     <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
-    <strong>Some error occured. Please try later!</strong>
+    <strong>Errore durante la scansione. Riprova!</strong>
   </div>
 
   <ng-container *ngIf="scanError">
     <div class="alert" text-center padding>
       <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
-      <strong>Barcode id is not recognized. Please try again!</strong>
+      <strong>Barcode non valido. Riprova!</strong>
     </div>
   </ng-container>
 </ion-content>
