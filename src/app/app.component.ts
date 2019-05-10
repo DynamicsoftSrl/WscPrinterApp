@@ -49,15 +49,26 @@ export class MyApp implements OnInit, OnDestroy {
         this.closeApplication(title, message, text);
       }
 
+      let isClosed = false;
       // watch for a connection network, if the device lose a internet connection, 
       let disconnectSubscription$ = this.network.onDisconnect().subscribe(() => {
-        alert('network was disconnected :-(');
-        this.closeApplication(title, message, text);
+        /* check if phone has internet connection, here we check again if phone is connected to internet because it is possible that user turn of wifi 
+           but leave 3g/4g connection, so only if both internet connections are not active, close the app */
+
+        //we need to wait for phone to switch from wi fi to a 3g/4g network, if it is turned on
+        setTimeout(() => {
+          const isConnected = this.isConnected();
+          if (!isConnected && !isClosed) {
+            this.closeApplication(title, message, text);
+
+            isClosed = true;
+          }
+        }, 2000);
       });
 
       this.sub.add(disconnectSubscription$);
 
-      // this.getAppVersionNumber();
+      this.getAppVersionNumber();
     });
   }
 
@@ -77,6 +88,7 @@ export class MyApp implements OnInit, OnDestroy {
   // check if user's phone has internet connection
   isConnected(): boolean {
     let conntype = this.network.type;
+
     return conntype && conntype !== 'unknown' && conntype !== 'none';
   }
 
