@@ -20,7 +20,7 @@ export class GlobalErrorHandlerProvider {
     if (err) {
       // checking if error is about authorization, if it is, we logout a user
       if (err.status === 401) {
-        this.showUnouthorizedAlert();
+        this.showUnauthorizedAlert();
       }
       else {
         this.showServerErrorAlert();
@@ -49,7 +49,7 @@ export class GlobalErrorHandlerProvider {
     alert.present();
   }
   
-  showUnouthorizedAlert() {
+  showUnauthorizedAlert() {
     const alert = this.alertCtrl.create({
       title: 'Non hai le autorizzazioni necessarie!',
       subTitle: 'Non hai le autorizzazioni necessarie per accedere!',

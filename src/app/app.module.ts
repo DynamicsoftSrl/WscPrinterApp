@@ -29,6 +29,7 @@ import { ActivitiesProvider } from '../providers/activities/activities.provider'
 import { GlobalErrorHandlerProvider } from '../providers/global-error-handler/global-error-handler';
 import { AppVersion } from '@ionic-native/app-version';
 import { ConfigProvider } from '../providers/config/config.provider';
+import { Network } from '@ionic-native/network';
 
 // AoT requires an exported function for factories
 export function createTranslateLoader(http: HttpClient) {
@@ -82,7 +83,8 @@ export function createTranslateLoader(http: HttpClient) {
     ActivitiesProvider,
     GlobalErrorHandlerProvider,
     AppVersion,
-    ConfigProvider
+    ConfigProvider,
+    Network
   ],
   exports: [
     //exported because of using of translation service in other modules
