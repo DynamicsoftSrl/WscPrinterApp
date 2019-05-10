@@ -67,8 +67,7 @@ export class ShipmentPage implements OnDestroy {
       }
     }
     else {
-      this.getShipmentDetails('2');
-      // this.controllErrorsLayout(true, true, true);
+      this.controllErrorsLayout(true, true, true);
     }
   }
 
@@ -122,13 +121,13 @@ export class ShipmentPage implements OnDestroy {
 
   deliverConfirmationAlert() {
     const alert = this.alertCtrl.create({
-      title: 'Are you sure you want to delivery order?',
+      title: 'Confermi la consegna al corriere?',
       buttons: [
         {
-          text: 'Cancel'
+          text: 'No'
         },
         {
-          text: 'Ok',
+          text: 'Si',
           handler: () => {
             this.setShipmentInfo();
           }

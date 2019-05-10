@@ -48,6 +48,7 @@ export class GlobalErrorHandlerProvider {
     });
     alert.present();
   }
+  
   showUnouthorizedAlert() {
     const alert = this.alertCtrl.create({
       title: 'Non hai le autorizzazioni necessarie!',

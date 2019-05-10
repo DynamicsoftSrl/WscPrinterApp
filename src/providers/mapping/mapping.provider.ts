@@ -37,4 +37,5 @@ export class MappingProvider {
   public change_activity_state = '/ionactivity/changeactivitystate/{userId}/{activityId}/{lavorazioneId}/{processPosition}/{operationType}';
   public change_activity_state_annulla_and_termina = '/ionactivity/changeactivitystate';
   public get_all_activities = '/ionactivity/getactivities/{startRowIndex}/{maximumRows}/{userId}/{activityState}/{period}/{scannedId}/{scannerType}';
+  public get_last_version_of_app = '/ionconfig/getionicappversion';
 }

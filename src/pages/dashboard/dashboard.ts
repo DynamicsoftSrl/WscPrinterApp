@@ -13,7 +13,6 @@ import { LoginComponent } from '../login/login';
 import { ShipmentPage } from '../shipment/shipment-page';
 import { ActivityPage } from '../activity/activity';
 import { ModuleConstants } from '../../assets/constants/constants';
-import { ParseError } from '../../../node_modules/@angular/compiler';
 
 @IonicPage()
 @Component({

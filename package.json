@@ -1,6 +1,6 @@
 {
   "name": "WscPrinterApp",
-  "version": "0.0.1",
+  "version": "2.2.0",
   "author": "Ionic Framework",
   "homepage": "http://ionicframework.com/",
   "private": true,
@@ -21,6 +21,8 @@
     "@angular/http": "5.2.9",
     "@angular/platform-browser": "5.2.9",
     "@angular/platform-browser-dynamic": "5.2.9",
+    "@ionic-native/app-update": "^4.20.0",
+    "@ionic-native/app-version": "^4.20.0",
     "@ionic-native/barcode-scanner": "^4.7.0",
     "@ionic-native/core": "4.6.0",
     "@ionic-native/splash-screen": "4.6.0",
@@ -59,7 +61,9 @@
       "cordova-sqlite-storage": {},
       "phonegap-plugin-barcodescanner": {
         "ANDROID_SUPPORT_V4_VERSION": "27.+"
-      }
+      },
+      "cordova-plugin-app-version": {},
+      "cordova-plugin-app-update": {}
     },
     "platforms": [
       "android"
