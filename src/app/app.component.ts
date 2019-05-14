@@ -2,7 +2,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { LoginComponent } from './../pages/login/login';
 import { AuthProvider } from '../providers/auth/auth.provider';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Platform, AlertController } from 'ionic-angular';
+import { Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { TabsMenuComponent } from './../components/tabs-menu/tabs-menu';
@@ -25,7 +25,6 @@ export class MyApp implements OnInit, OnDestroy {
     public translate: TranslateService,
     private appVersion: AppVersion,
     private configProvider: ConfigProvider,
-    private alertCtrl: AlertController,
     private errorService: GlobalErrorHandlerProvider,
     private network: Network) {
     platform.ready().then(() => {
@@ -38,37 +37,16 @@ export class MyApp implements OnInit, OnDestroy {
       // the lang to use, if the lang isn't available, it will use the current loader to get them
       translate.use('it');
 
-      // text for showing alert notification that internet connection is not available
-      const title = 'Avvertimento!';
-      const message = 'Si prega di accendere la connessione internet per utilizzare l\'applicazione!';
-      const text = 'OK';
-
       // check if phone has internet connection
-      const isConnected = this.isConnected();
+      const isConnected = this.configProvider.isConnected();
       if (!isConnected) {
-        this.closeApplication(title, message, text);
+        this.errorService.showNotificationAlert(this.errorService.title, this.errorService.message, this.errorService.text);
+      }
+      else {
+        this.getAppVersionNumber();
       }
 
-      let isClosed = false;
-      // watch for a connection network, if the device lose a internet connection, 
-      let disconnectSubscription$ = this.network.onDisconnect().subscribe(() => {
-        /* check if phone has internet connection, here we check again if phone is connected to internet because it is possible that user turn of wifi 
-           but leave 3g/4g connection, so only if both internet connections are not active, close the app */
-
-        //we need to wait for phone to switch from wi fi to a 3g/4g network, if it is turned on
-        setTimeout(() => {
-          const isConnected = this.isConnected();
-          if (!isConnected && !isClosed) {
-            this.closeApplication(title, message, text);
-
-            isClosed = true;
-          }
-        }, 2000);
-      });
-
-      this.sub.add(disconnectSubscription$);
-
-      this.getAppVersionNumber();
+      this.subscribeToConnectionState();
     });
   }
 
@@ -85,11 +63,22 @@ export class MyApp implements OnInit, OnDestroy {
     });
   }
 
-  // check if user's phone has internet connection
-  isConnected(): boolean {
-    let conntype = this.network.type;
+  subscribeToConnectionState() {
+    // watch for a connection network, if the device lose a internet connection, 
+    let disconnectSubscription$ = this.network.onDisconnect().subscribe(() => {
+      /* check if phone has internet connection, here we check again if phone is connected to internet because it is possible that user turn of wifi 
+         but leave 3g/4g connection, so only if both internet connections are not active, close the app */
 
-    return conntype && conntype !== 'unknown' && conntype !== 'none';
+      //we need to wait for phone to switch from wi fi to a 3g/4g network, if it is turned on
+      setTimeout(() => {
+        const isConnected = this.configProvider.isConnected();
+        if (!isConnected) {
+          this.errorService.showNotificationAlert(this.errorService.title, this.errorService.message, this.errorService.text);
+        }
+      }, 2000);
+    });
+
+    this.sub.add(disconnectSubscription$);
   }
 
   // checking which is version of this app and comparing it to a last version on google play
@@ -103,40 +92,21 @@ export class MyApp implements OnInit, OnDestroy {
   /* get version of app which is active on google play,
      if the user doesn't have a latest update, we are showing an alert and closing application */
   getIonicAppNewestVersion(version: string) {
-    this.configProvider.getIonicAppVersion().then($res => {
-      $res.subscribe(response => {
-        if (response !== version) {
-          const title = 'Avvertimento!';
-          const message = 'Si prega di aggiornare l\'app per continuare a utilizzare!';
-          const text = 'OK';
+    this.configProvider.getIonicAppVersion().subscribe(response => {
+      if (response !== version) {
+        const title = 'Avvertimento!';
+        const message = 'Si prega di aggiornare l\'app per continuare a utilizzare!';
+        const text = 'OK';
 
-          this.closeApplication(title, message, text);
-        }
-      },
-        err => {
-          this.errorService.showServerErrorAlert();
-        });
-    });
-  }
-
-  // showing a notification that user should get last version of app and closing application
-  closeApplication(title, message, text) {
-    const alert = this.alertCtrl.create({
-      title: title,
-      message: message,
-      buttons: [
-        {
-          text: text,
-          handler: () => {
-            this.platform.exitApp();
-          }
-        }]
-    });
-    alert.present();
+        this.errorService.showNotificationAlert(title, message, text);
+      }
+    },
+      err => {
+        this.errorService.showServerErrorAlert();
+      });
   }
 
   ngOnDestroy(): void {
-    // stop disconnect watch
     this.sub.unsubscribe();
   }
 }

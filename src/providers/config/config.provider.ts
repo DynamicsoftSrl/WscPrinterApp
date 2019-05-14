@@ -1,24 +1,26 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { MappingProvider } from '../mapping/mapping.provider';
-import { LocalStorageProvider } from '../local-storage/local-storage.provider';
+import { Network } from '@ionic-native/network';
 
 @Injectable()
 export class ConfigProvider {
 
   constructor(public http: HttpClient,
     private mapping: MappingProvider,
-    private localStorage: LocalStorageProvider) {
+    private network: Network) {
   }
 
-  async getIonicAppVersion() {
-    // getting domain from local storage
-    const domain = await this.localStorage.getItemFromLocalStorage(this.localStorage.domainNameInLocalStorage).then(domain => {
-      return domain;
-    });
-
-    let url = domain + this.mapping.get_last_version_of_app;
+  getIonicAppVersion() {
+    let url = this.mapping.get_last_version_of_app_absolute_url;
 
     return this.http.get(url);
+  }
+
+  // check if user's phone has internet connection
+  isConnected(): boolean {
+    let conntype = this.network.type;
+
+    return conntype && conntype !== 'unknown' && conntype !== 'none';
   }
 }

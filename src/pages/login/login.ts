@@ -1,8 +1,9 @@
+import { ConfigProvider } from './../../providers/config/config.provider';
 import { LoadingSpinnerProvider } from '../../providers/loading-spinner/loading-spinner.provider';
 import { TabsMenuComponent } from './../../components/tabs-menu/tabs-menu';
 import { User } from './../../models/user-model';
 import { LocalStorageProvider } from '../../providers/local-storage/local-storage.provider';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
 
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 
@@ -11,7 +12,7 @@ import { AuthProvider } from '../../providers/auth/auth.provider';
 import { TokenModel } from '../../models/token-model';
 import { Subscription } from 'rxjs/Subscription';
 import { HttpErrorResponse } from '@angular/common/http';
-import { NavController } from 'ionic-angular';
+import { NavController, AlertController } from 'ionic-angular';
 import { MappingProvider } from '../../providers/mapping/mapping.provider';
 
 @Component({
@@ -26,6 +27,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     private localStorage: LocalStorageProvider,
     private mapping: MappingProvider,
     private spinner: LoadingSpinnerProvider,
+    private configProvider: ConfigProvider,
+    private alertCtrl: AlertController
   ) {
   }
 
@@ -168,20 +171,32 @@ export class LoginComponent implements OnInit, OnDestroy {
                 .then(token => {
                   this.login();
                 });
-            }, (err: HttpErrorResponse ) => {
-              console.log(err.message);
-              if (err.status == 400) {
-                this.isTokenCredentialsError = true;
-                console.log('Wrong credentials');
-              }
-              else if (err.status == 0) {
-                this.isDomainError = true;
-                console.log('Wrong domain');
+            }, (err: HttpErrorResponse) => {
+              const isConnectedToInternet = this.configProvider.isConnected();
+              if (isConnectedToInternet) {
+                console.log(err.message);
+                if (err.status == 400) {
+                  this.isTokenCredentialsError = true;
+                  console.log('Wrong credentials');
+                }
+                else if (err.status == 0) {
+                  this.isDomainError = true;
+                  console.log('Wrong domain');
+                }
+                else {
+                  this.isDomainError = true;
+                  console.log('Wrong domain test');
+                }
               }
               else {
-                this.isDomainError = true;
-                console.log('Wrong domain test');
+                // text for showing alert notification that internet connection is not available
+                const title: string = 'Avvertimento!';
+                const message: string = 'Si prega di accendere la connessione internet per utilizzare l\'applicazione!';
+                const text: string = 'OK';
+
+                this.showNotificationAlert(title, message, text);
               }
+
 
               this.sub.add(tokenSub);
 
@@ -274,6 +289,19 @@ export class LoginComponent implements OnInit, OnDestroy {
     else {
       this.completeUrl = this.defaultProtocol + this.model.Domain + this.mapping.api;
     }
+  }
+
+  // showing a notification alert with title, message and text sent from a component
+  showNotificationAlert(title, message, text) {
+    const alert = this.alertCtrl.create({
+      title: title,
+      message: message,
+      buttons: [
+        {
+          text: text
+        }]
+    });
+    alert.present();
   }
 
   ngOnDestroy(): void {
