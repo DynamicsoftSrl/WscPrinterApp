@@ -93,7 +93,7 @@ export class MyApp implements OnInit, OnDestroy {
      if the user doesn't have a latest update, we are showing an alert and closing application */
   getIonicAppNewestVersion(version: string) {
     this.configProvider.getIonicAppVersion().subscribe(response => {
-      if (response !== version) {
+      if (response && response['latestVersion'] !== version) {
         const title = 'Avvertimento!';
         const message = 'Si prega di aggiornare l\'app per continuare a utilizzare!';
         const text = 'OK';
