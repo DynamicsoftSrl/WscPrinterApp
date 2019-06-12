@@ -30,6 +30,7 @@ import { GlobalErrorHandlerProvider } from '../providers/global-error-handler/gl
 import { AppVersion } from '@ionic-native/app-version';
 import { ConfigProvider } from '../providers/config/config.provider';
 import { Network } from '@ionic-native/network';
+import { LavorazioniListPageModule } from '../pages/lavorazioni-list/lavorazioni-list.module';
 
 // AoT requires an exported function for factories
 export function createTranslateLoader(http: HttpClient) {
@@ -59,7 +60,8 @@ export function createTranslateLoader(http: HttpClient) {
     ShipmentModule,
     ActivityPageModule,
     ActivityDetailsPageModule,
-    DashboardPageModule
+    DashboardPageModule,
+    LavorazioniListPageModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [

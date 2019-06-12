@@ -39,6 +39,12 @@
           <b>Gestione attività</b>
         </p>
       </ion-col>
+      <ion-col col-4 text-center *ngIf="isActiveLavorazioniModule">
+        <img src="assets/imgs/gestione_attività.png" class="option-icon" (click)="navigateToLavorazioniPage()" />
+        <p text-center no-margin padding-left padding-right (click)="navigateToLavorazioniPage()">
+          <b>Lista Lavorazioni</b>
+        </p>
+      </ion-col>
       <ion-col col-4 text-center>
         <img src="assets/imgs/setting_impostazioni.png" class="option-icon" (click)="navigateToImpostazioni()" />
         <p text-center no-margin padding-left padding-right (click)="navigateToImpostazioni()">

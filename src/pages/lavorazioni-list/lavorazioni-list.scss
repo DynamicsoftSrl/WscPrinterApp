@@ -1,0 +1,53 @@
+.bck-orange {
+  background-color: #EE9649;
+}
+
+.status-bck {
+  background-color: white;
+}
+
+.segment-md .segment-button {
+  color: whitesmoke;
+}
+
+.segment-md .segment-button.activated,
+.segment-md .segment-button.segment-activated {
+  border-color: white;
+  opacity: 1;
+  color: white;
+}
+
+.list-md .item-block .item-inner {
+  border: 0px
+}
+
+ion-item.item-md {
+  border-bottom: 1px solid #dedede
+}
+
+.dateP {
+  p {
+    font-size: 1rem;
+    line-height: 2rem;
+  }
+}
+
+#lav-description {
+  p {
+    font-size: 1.2rem;
+  }
+}
+
+ion-item {
+  img {
+    cursor: pointer;
+  }
+
+  ion-icon {
+    cursor: pointer;
+  }
+}
+
+ion-item.item-md {
+  border-bottom: 1px solid #dedede !important;
+}

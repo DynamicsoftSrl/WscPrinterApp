@@ -34,4 +34,19 @@
       <span style="margin-left: 2px">{{ item }}</span>
     </ion-item>
   </div>
+
+  <ion-list radio-group [(ngModel)]="selection">
+    <ion-list-header *ngIf="popoverType == 'lavorazioni'">Filtra</ion-list-header>
+    <!-- If we are using popover for filtering of lavorazioni -->
+    <div *ngIf="popoverType == 'lavorazioni'">
+      <ion-item *ngFor="let item of data; let i = index;">
+        <ion-label *ngIf="item === 0" class="color-incoda">In coda</ion-label>
+        <ion-label *ngIf="item === 1" class="color-inlav">In lavorazione</ion-label>
+        <ion-label *ngIf="item === 2" class="color-terminate">Terminati</ion-label>
+        <ion-label *ngIf="item === 3" class="color-annullate">Annullati</ion-label>
+        <ion-label *ngIf="item === 4" class="color-tutte">Tutti</ion-label>
+        <ion-radio [checked]="item === selection ? true : false" [value]="item" (ionSelect)="radioChanged($event)"></ion-radio>
+      </ion-item>
+    </div>
+
 </ion-list>

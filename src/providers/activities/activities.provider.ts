@@ -156,6 +156,21 @@ export class ActivitiesProvider {
     return this.api.getAuth(url);
   }
 
+   // getting all lavorazini
+   async getAllLavorazioni(startRowIndex: number, maximumRows: number, userId: number, lavState: number, period: string) {
+    // getting domain from local storage
+    const domain = await this.localStorage.getItemFromLocalStorage(this.localStorage.domainNameInLocalStorage).then(domain => {
+      return domain;
+    });
+
+    let url = domain + this.mapping.get_lav_list;
+
+    url = url.replace('{startRowIndex}', startRowIndex.toString()).replace('{maximumRows}', maximumRows.toString())
+      .replace('{userId}', userId.toString()).replace('{lavorazioniState}', lavState.toString()).replace('{period}', period);
+
+    return this.api.getAuth(url);
+  }
+
   // reusable method for getting of order id, lavorazione id or activity id
   async getScannedIdAndType(qrCode: string) {
     // if first character is 'o', it means we scanned order

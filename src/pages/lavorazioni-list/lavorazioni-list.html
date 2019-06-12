@@ -1,0 +1,170 @@
+<ion-header>
+  <ion-navbar hideBackButton>
+    <ion-toolbar style="padding: 0;">
+      <ion-grid style="padding: 0;">
+        <ion-row>
+          <ion-col>
+          </ion-col>
+          <ion-col>
+            <ion-title text-center id="activityTitle">
+              <!-- {{ 'activity' | translate }} -->
+              Lavorazioni
+            </ion-title>
+          </ion-col>
+          <ion-col>
+            <ion-buttons end>
+              <button ion-button icon-only (click)="presentPopover($event)"
+                style="font-size: 1.2rem; text-transform: none;">
+                Filtra
+                <ion-icon name="options"></ion-icon>
+              </button>
+            </ion-buttons>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-toolbar>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="bck-orange">
+  <img src="assets/img/wscprinter-logo.png" padding
+    style="display:block;width:50%;height:auto;margin-left:auto;margin-right:auto;" />
+  <ion-grid no-padding>
+    <ion-row class="status-bck">
+      <ion-col>
+        <h6 padding text-left class="ion-col color-incoda" *ngIf="activeState === 0">In coda</h6>
+        <h6 padding text-left class="ion-col color-inlav" *ngIf="activeState === 1">In lavorazione</h6>
+        <h6 padding text-left class="ion-col color-terminate" *ngIf="activeState === 2">Terminati</h6>
+        <h6 padding text-left class="ion-col color-annullate" *ngIf="activeState === 3">Annullati</h6>
+        <h6 padding text-left class="ion-col color-tutte" *ngIf="activeState === 4">Tutti</h6>
+      </ion-col>
+      <ion-col>
+        <h6 class="circle" style="float: right; margin-right: 16px">
+          <ion-col col-6>
+            <span>{{ lavorazioniLength }}</span>
+          </ion-col>
+        </h6>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <div padding>
+    <ion-segment style="background-color: #EE9649" [(ngModel)]="period" (ionChange)="segmentChanged($event)">
+      <ion-segment-button value="today">
+        OGGI
+      </ion-segment-button>
+      <ion-segment-button value="tommorow">
+        DOMANI
+      </ion-segment-button>
+      <ion-segment-button value="all">
+        TUTTE
+      </ion-segment-button>
+    </ion-segment>
+  </div>
+
+  <div [ngSwitch]="period">
+    <ion-list *ngSwitchCase="'today'">
+      <ng-container *ngFor="let item of lavorazioniList">
+        <ion-item (click)="clicked(item)">
+          <ion-grid no-padding>
+            <ion-row class="status-bck">
+              <ion-col col-9>
+                <h3>
+                  <b>{{item.jobname | slice: 0 : 22}}
+                    <span *ngIf="item.jobname.length > 22">...</span>
+                  </b>
+                </h3>
+              </ion-col>
+              <ion-col col-3 text-right class="dateP">
+                <p>
+                  <b>{{item.dataScadenzaOrdine | date:'dd/MM/y'}}</b>
+                </p>
+              </ion-col>
+              <ion-col col-9 id="lav-description">
+                <p>Quantità: {{item.quantita}}</p>
+                <p>Ordine n.{{item.numeroOrdine}}</p>
+                <p>Lavorazione id: {{item.id}}</p>
+                <p>Cliente: {{item.cliente}}</p>
+              </ion-col>
+              <ion-col col-3 text-right>
+                <br>
+                <ion-icon name="arrow-round-forward"></ion-icon>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-item>
+      </ng-container>
+    </ion-list>
+
+    <ion-list *ngSwitchCase="'tommorow'">
+      <ng-container *ngFor="let item of lavorazioniList">
+        <ion-item (click)="clicked(item)">
+          <ion-grid no-padding>
+            <ion-row class="status-bck">
+              <ion-col col-9>
+                <h3>
+                  <b>{{item.jobname | slice: 0 : 22}}
+                    <span *ngIf="item.jobname.length > 22">...</span>
+                  </b>
+                </h3>
+              </ion-col>
+              <ion-col col-3 text-right class="dateP">
+                <p>
+                  <b>{{item.dataScadenzaOrdine | date:'dd/MM/y'}}</b>
+                </p>
+              </ion-col>
+              <ion-col col-9 id="lav-description">
+                <p>Quantità: {{item.quantita}}</p>
+                <p>Ordine n.{{item.numeroOrdine}}</p>
+                <p>Lavorazione id: {{item.id}}</p>
+                <p>Cliente: {{item.cliente}}</p>
+              </ion-col>
+              <ion-col col-3 text-right>
+                <br>
+                <ion-icon name="arrow-round-forward"></ion-icon>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-item>
+      </ng-container>
+    </ion-list>
+
+    <ion-list *ngSwitchCase="'all'">
+      <ng-container *ngFor="let item of lavorazioniList">
+        <ion-item (click)="clicked(item)">
+          <ion-grid no-padding>
+            <ion-row class="status-bck">
+              <ion-col col-9>
+                <h3>
+                  <b>{{item.jobname | slice: 0 : 22}}
+                    <span *ngIf="item.jobname.length > 22">...</span>
+                  </b>
+                </h3>
+              </ion-col>
+              <ion-col col-3 text-right class="dateP">
+                <p>
+                  <b>{{item.dataScadenzaOrdine | date:'dd/MM/y'}}</b>
+                </p>
+              </ion-col>
+              <ion-col col-9 id="lav-description">
+                <p>Quantità: {{item.quantita}}</p>
+                <p>Ordine n.{{item.numeroOrdine}}</p>
+                <p>Lavorazione id: {{item.id}}</p>
+                <p>Cliente: {{item.cliente}}</p>
+              </ion-col>
+              <ion-col col-3 text-right>
+                <br>
+                <ion-icon name="arrow-round-forward"></ion-icon>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-item>
+      </ng-container>
+    </ion-list>
+  </div>
+
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+
+</ion-content>

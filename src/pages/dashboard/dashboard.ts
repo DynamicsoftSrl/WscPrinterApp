@@ -13,6 +13,7 @@ import { LoginComponent } from '../login/login';
 import { ShipmentPage } from '../shipment/shipment-page';
 import { ActivityPage } from '../activity/activity';
 import { ModuleConstants } from '../../assets/constants/constants';
+import { LavorazioniListPage } from '../lavorazioni-list/lavorazioni-list';
 
 @IonicPage()
 @Component({
@@ -37,6 +38,7 @@ export class DashboardPage implements OnInit {
   private nav;
   public isActiveMultipleShipment = false;
   public isActiveActivityModule = false;
+  public isActiveLavorazioniModule = false;
 
   //Nav Guard which is controlling login page, if user is logged in, he can't enter the login page until he logout
   async ionViewCanEnter() {
@@ -50,27 +52,32 @@ export class DashboardPage implements OnInit {
       .then(user => {
         if (user != null) {
           this.loggedInUser = JSON.parse(user);
+
           //checking if multiple shipment is active
-          if (this.loggedInUser.ListOfActiveModules.find(x => x === ModuleConstants.ID_MODULO_SPEDIZIONI_MULTIPLE)) {
-            this.isActiveMultipleShipment = true;
-          }
-          else {
-            this.isActiveMultipleShipment = false;
-          }
+          this.isActiveMultipleShipment = this.checkIfModuleIsActive(this.loggedInUser.ListOfActiveModules, ModuleConstants.ID_MODULO_SPEDIZIONI_MULTIPLE);
 
           //checking if activity is active
-          if (this.loggedInUser.ListOfActiveModules.find(x => x === ModuleConstants.ID_MODULO_ATTIVITA)) {
-            this.isActiveActivityModule = true;
-          }
-          else {
-            this.isActiveActivityModule = false;
-          }
+          this.isActiveActivityModule = this.checkIfModuleIsActive(this.loggedInUser.ListOfActiveModules, ModuleConstants.ID_MODULO_ATTIVITA);
 
+          //checking if lavorazioni module is active
+          this.isActiveLavorazioniModule = this.checkIfModuleIsActive(this.loggedInUser.ListOfActiveModules, ModuleConstants.ID_MODULO_LAVORAZIONE);
         }
         else {
           this.logout();
         }
       });
+  }
+
+  private checkIfModuleIsActive(moduleList: number[], moduleId: number)
+  {
+    let isActiveModule = false;
+
+    if(moduleList.find(x => x === moduleId))
+    {
+      isActiveModule = true;
+    }
+
+    return isActiveModule;
   }
 
   async runQRScanner() {
@@ -116,6 +123,10 @@ export class DashboardPage implements OnInit {
     this.navCtrl.push(ActivityDetailsPage, {
       activityId: activityId
     });
+  }
+
+  navigateToLavorazioniPage(activityId: number) {
+    this.navCtrl.push(LavorazioniListPage);
   }
 
   navigateToActivity(qrCode, scannerType) {
