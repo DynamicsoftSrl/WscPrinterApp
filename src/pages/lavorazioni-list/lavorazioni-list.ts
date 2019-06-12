@@ -25,7 +25,7 @@ export class LavorazioniListPage {
     public popoverCtrl: PopoverController,
     public viewCtrl: ViewController,
     public barcodeScanner: BarcodeScannerProvider,
-    private activities: ActivitiesProvider,
+    private activitiesService: ActivitiesProvider,
     private localStorage: LocalStorageProvider,
     private spinner: LoadingSpinnerProvider,
     private errHandler: GlobalErrorHandlerProvider) {
@@ -57,14 +57,14 @@ export class LavorazioniListPage {
     const startRows = this.counter * 10;
     const maximumRows = 10;
 
-    const response$ = await this.activities.getAllLavorazioni(startRows, maximumRows, this.userObj.UserId, this.activeState, this.period);
+    const response$ = await this.activitiesService.getAllLavorazioni(startRows, maximumRows, this.userObj.UserId, this.activeState, this.period);
 
     return response$;
   }
 
-  // seting activites value when we get first page of any data
-  private setStartLavorazioni(activities$: Observable<Object>) {
-    activities$.subscribe((lavorazioni: LavorazioniViewModel) => {
+  // seting lavorazioni value when we get first page of any data
+  private setStartLavorazioni(lavorazioni$: Observable<Object>) {
+    lavorazioni$.subscribe((lavorazioni: LavorazioniViewModel) => {
       this.lavorazioniLength = lavorazioni.CountLavorazioni;
       this.lavorazioniList = lavorazioni.LavorazioniList;
       this.spinner.hideLoadingSpinner();
@@ -112,15 +112,15 @@ export class LavorazioniListPage {
       this.counter++;
 
       const isInfinite = true;
-      let activities$ = await this.getLavorazioni(isInfinite);
-      this.appendNewLavorazioni(activities$, infiniteScroll);
+      let lavorazioni$ = await this.getLavorazioni(isInfinite);
+      this.appendNewLavorazioni(lavorazioni$, infiniteScroll);
     }
     else {
       infiniteScroll.complete();
     }
   }
 
-  // on change of period (today, tommorow, all), send request and get activities list
+  // on change of period (today, tommorow, all), send request and get lavorazioni list
   async segmentChanged(ev) {
     this.period = ev._value;
     this.counter = 0;
@@ -130,12 +130,12 @@ export class LavorazioniListPage {
     this.setStartLavorazioni(lavorazioni$);
   }
 
-  // seting activites value when we get new activities data, then append it to existing.
+  // seting lavorazioni value when we get new lavorazioni data, then append it to existing.
   private appendNewLavorazioni(lavorazioni$: Observable<Object>, infiniteScroll: any) {
-    lavorazioni$.subscribe((activities: LavorazioniViewModel) => {
-      this.lavorazioniLength = activities.CountLavorazioni;
+    lavorazioni$.subscribe((lavorazioni: LavorazioniViewModel) => {
+      this.lavorazioniLength = lavorazioni.CountLavorazioni;
       // adding more data to list after scroll
-      this.lavorazioniList.push.apply(this.lavorazioniList, activities.LavorazioniList);
+      this.lavorazioniList.push.apply(this.lavorazioniList, lavorazioni.LavorazioniList);
 
       infiniteScroll.complete();
     },
@@ -147,7 +147,8 @@ export class LavorazioniListPage {
       });
   }
 
-  clicked(item: any) {
-    this.navCtrl.push(ActivityDetailsPage, item);
+  clicked(item: LavorazioniModel) {
+    alert(item.jobname);
+    // this.navCtrl.push(ActivityDetailsPage, item);
   }
 }
