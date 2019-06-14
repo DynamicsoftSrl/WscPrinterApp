@@ -92,13 +92,13 @@
           </ion-col>
           <ion-col col-12>
             <b>Stato approvazione file</b>
-            <p *ngIf="lavInfo.stato_file != (1 || 2)" class="font-size-jobinfo" >Non Ricevuto</p>
+            <p *ngIf="lavInfo.stato_file != 1 && lavInfo.stato_file != 2" class="font-size-jobinfo" >Non Ricevuto</p>
             <p *ngIf="lavInfo.stato_file == 1" class="font-size-jobinfo">Ricevuto</p>
             <p *ngIf="lavInfo.stato_file == 2" class="font-size-jobinfo">Verificato</p>
           </ion-col>
           <ion-col col-12>
             <b>Stato approvazione grafica</b>
-            <p *ngIf="lavInfo.StatoApprovazioneGrafica != (1 || 2 || 3)" class="font-size-jobinfo">
+            <p *ngIf="lavInfo.StatoApprovazioneGrafica != 1 && lavInfo.StatoApprovazioneGrafica != 2 && lavInfo.StatoApprovazioneGrafica != 3" class="font-size-jobinfo">
               Non inviato</p>
             <p *ngIf="lavInfo.StatoApprovazioneGrafica == 1" class="font-size-jobinfo">In attesa di approvazione</p>
             <p *ngIf="lavInfo.StatoApprovazioneGrafica == 2" class="font-size-jobinfo">Approvato</p>

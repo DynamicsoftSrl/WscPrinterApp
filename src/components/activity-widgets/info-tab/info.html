@@ -133,7 +133,6 @@
             <p no-margin text-wrap class="font-size-sector" *ngIf="lavInfo.dataScadenzaOrdine">
               {{ lavInfo.dataScadenzaOrdine | date:'dd/MM/y' }}</p>
             <p class="font-size-sector" *ngIf="!lavInfo.dataScadenzaOrdine"> - </p>
-
           </ion-col>
           <ion-col col-5>
             <b>Stato</b>
@@ -190,7 +189,7 @@
               <p no-margin class="font-size-jobinfo" *ngIf="orderData.ConsegnaDestinatario">{{ orderData.ConsegnaDestinatario }}</p>
               <p no-margin class="font-size-jobinfo" *ngIf="orderData.ConsegnaIndirizzo">{{ orderData.ConsegnaIndirizzo }}</p>
               <p no-margin class="font-size-jobinfo">{{orderData.ConsegnaCap}} - {{ orderData.ConsegnaCitta }} ({{orderData.ConsegnaProvincia}})</p>
-              <p no-margin class="font-size-jobinfo" *ngIf="orderData.ConsegnaCellulare">tel. {{ orderData.ConsegnaCellulare }}</p>
+              <p no-margin class="font-size-jobinfo" *ngIf="orderData.ConsegnaTelefono">tel. {{ orderData.ConsegnaTelefono }}</p>
             </ng-container>
           </ion-col>
           <ion-col col-7>
