@@ -1,4 +1,4 @@
-export class ModuleConstants {
+export class Constants {
     // module types
     public static ID_MODULO_SPEDIZIONI_MULTIPLE = 73;
     public static ID_MODULO_ATTIVITA = 49;

@@ -12,7 +12,7 @@ import { User } from '../../models/user-model';
 import { ActivitiesViewModel } from '../../models/activities-view-model';
 import { Observable } from 'rxjs/Observable';
 import { HttpErrorResponse } from '@angular/common/http';
-import { ModuleConstants } from '../../assets/constants/constants';
+import { Constants } from '../../assets/constants/constants';
 
 @IonicPage()
 @Component({
@@ -117,7 +117,7 @@ export class ActivityPage implements OnInit {
         const qrAndType = await this.activities.getScannedIdAndType(qrCode);
         const qr = qrAndType.qr;
         const type = qrAndType.scannerType;
-        if (type === ModuleConstants.ORDER || type === ModuleConstants.LAVORAZIONE) {
+        if (type === Constants.ORDER || type === Constants.LAVORAZIONE) {
           this.navigateToActivity(qr, type);
         }
         else {

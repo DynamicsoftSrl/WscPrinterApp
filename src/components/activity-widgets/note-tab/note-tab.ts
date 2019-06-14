@@ -9,6 +9,8 @@ import { User } from '../../../models/user-model';
 import { LavNote } from '../../../models/lav-note-model';
 import { NewNote } from '../../../models/new-note';
 import { HttpErrorResponse } from '@angular/common/http';
+import { LavorazioniModel } from '../../../models/lavorazioni-model';
+import { Constants } from '../../../assets/constants/constants';
 
 @Component({
   selector: 'note-tab',
@@ -28,7 +30,9 @@ export class NoteTabComponent implements OnInit {
   }
 
   @Input('activityInfo') activityInfo: ActivityModel;
-
+  @Input('parentInfoType') parentInfoType: string;
+  @Input('lavInfo') lavInfo: LavorazioniModel;
+  
   public notes: Notes = new Notes([new LavNote()]);
 
   public newNote: string = '';
@@ -47,7 +51,18 @@ export class NoteTabComponent implements OnInit {
     const userStr = await this.localStorage.getItemFromLocalStorage(this.localStorage.loggedUserLocalStorage);
 
     this.user = JSON.parse(userStr);
-    const notes = await this.activitiesService.getNotes(this.activityInfo.IdOrder, this.activityInfo.Id_Order_Dettail, this.user.UserId);
+
+    let notes;
+    
+    if (this.parentInfoType == Constants.LAVORAZIONE) {
+      if(this.lavInfo && this.lavInfo.id && this.lavInfo.idPrev)
+      {
+        notes = await this.activitiesService.getNotes(this.lavInfo.idPrev, this.lavInfo.id, this.user.UserId);
+      }
+    }
+    else {
+      notes = await this.activitiesService.getNotes(this.activityInfo.IdOrder, this.activityInfo.Id_Order_Dettail, this.user.UserId);
+    }
 
     notes.map((notes: Notes) => {
       // splitting date and set its value without minutes and secunds, because pipe doesn't work on this string date
@@ -81,9 +96,7 @@ export class NoteTabComponent implements OnInit {
 
     var objectData = new NewNote();
 
-    objectData.LavorazioneId = this.activityInfo.Id_Order_Dettail;
-    objectData.UserId = this.user.UserId;
-    objectData.Note = this.newNote;
+    objectData = this.getNoteObjData();
 
     let note$ = await this.activitiesService.addNote(objectData);
 
@@ -109,5 +122,25 @@ export class NoteTabComponent implements OnInit {
 
       this.errHandler.handleServerError(err);
     });
+  }
+
+  getNoteObjData() {
+    var objectData = new NewNote();
+
+    // if parent component is lavorazione
+    if (this.parentInfoType == Constants.LAVORAZIONE) {
+      if(this.lavInfo && this.lavInfo.id && this.lavInfo.idPrev)
+      {
+        objectData.LavorazioneId = this.lavInfo.id;
+      }
+    }
+    else {
+      objectData.LavorazioneId = this.activityInfo.Id_Order_Dettail;
+    }
+
+    objectData.UserId = this.user.UserId;
+    objectData.Note = this.newNote;
+
+    return objectData;
   }
 }

@@ -1,97 +1,209 @@
-<div>
-  <ion-item style="color: orange">
-    <ion-icon name="ios-information-circle-outline" style="display: inline;"></ion-icon>
-    <h2 style="display: inline">
-      <b>{{ "activity_info" | translate}} {{activityInfo.Id_Attivita}}</b>
-    </h2>
-  </ion-item>
-</div>
-<div>
-  <ion-item class="font-size-sector">
-    <ion-grid>
-      <ion-row>
-        <ion-col col-7>
-          <b>Attivita</b>
-          <p no-margin text-wrap class="font-size-sector">{{ activityInfo.Nome_Processo }}</p>
-        </ion-col>
-        <ion-col col-5>
-          <b>Stato</b>
-          <p *ngIf="activityInfo.Stato_Processo === 0" no-margin class="font-size-sector color-incoda">In coda</p>
-          <p *ngIf="activityInfo.Stato_Processo === 1" no-margin class="font-size-sector color-inlav">In lavorazione</p>
-          <p *ngIf="activityInfo.Stato_Processo === 2" no-margin class="font-size-sector color-terminate">Terminate</p>
-          <p *ngIf="activityInfo.Stato_Processo === 3" no-margin class="font-size-sector color-annullate">Annullate</p>
-          <p *ngIf="activityInfo.Stato_Processo === 4" no-margin class="font-size-sector color-sospese">Sospese</p>
-        </ion-col>
+<ng-container *ngIf="parentInfoType != 'lavorazione'">
+  <div>
+    <ion-item style="color: orange">
+      <ion-icon name="ios-information-circle-outline" style="display: inline;"></ion-icon>
+      <h2 style="display: inline">
+        <b>{{ "activity_info" | translate}} {{activityInfo.Id_Attivita}}</b>
+      </h2>
+    </ion-item>
+  </div>
+  <div>
+    <ion-item class="font-size-sector">
+      <ion-grid>
+        <ion-row>
+          <ion-col col-7>
+            <b>Attivita</b>
+            <p no-margin text-wrap class="font-size-sector">{{ activityInfo.Nome_Processo }}</p>
+          </ion-col>
+          <ion-col col-5>
+            <b>Stato</b>
+            <p *ngIf="activityInfo.Stato_Processo === 0" no-margin class="font-size-sector color-incoda">In coda</p>
+            <p *ngIf="activityInfo.Stato_Processo === 1" no-margin class="font-size-sector color-inlav">In lavorazione
+            </p>
+            <p *ngIf="activityInfo.Stato_Processo === 2" no-margin class="font-size-sector color-terminate">Terminate
+            </p>
+            <p *ngIf="activityInfo.Stato_Processo === 3" no-margin class="font-size-sector color-annullate">Annullate
+            </p>
+            <p *ngIf="activityInfo.Stato_Processo === 4" no-margin class="font-size-sector color-sospese">Sospese</p>
+          </ion-col>
 
-        <ion-col col-7>
-          <b>Data scadenza</b>
-          <p no-margin class="font-size-sector" *ngIf="activityInfo.DataScadenzaOrdine">{{ activityInfo.DataScadenzaOrdine | date:'dd/MM/y' }}</p>
-          <p class="font-size-sector" *ngIf="!activityInfo.DataScadenzaOrdine"> - </p>
-        </ion-col>
-        <ion-col col-5>
-          <b>Id attivita</b>
-          <p no-margin class="font-size-sector">{{ activityInfo.Id_Processo_Lavorazione }}</p>
-        </ion-col>
+          <ion-col col-7>
+            <b>Data scadenza</b>
+            <p no-margin class="font-size-sector" *ngIf="activityInfo.DataScadenzaOrdine">
+              {{ activityInfo.DataScadenzaOrdine | date:'dd/MM/y' }}</p>
+            <p class="font-size-sector" *ngIf="!activityInfo.DataScadenzaOrdine"> - </p>
+          </ion-col>
+          <ion-col col-5>
+            <b>Id attivita</b>
+            <p no-margin class="font-size-sector">{{ activityInfo.Id_Processo_Lavorazione }}</p>
+          </ion-col>
 
-        <ion-col col-7 *ngIf="activityInfo.Stato_Processo === 2">
-          <b>Totale tempo impiegato</b>
-          <p no-margin class="font-size-sector" *ngIf="activityInfo.ConsuntivoTempoTotale">{{ activityInfo.ConsuntivoTempoTotale }}</p>
-          <p class="font-size-sector" *ngIf="!activityInfo.ConsuntivoTempoTotale"> - </p>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-  </ion-item>
-</div>
-<div>
-  <ion-item style="color: orange">
-    <ion-icon name="ios-information-circle-outline" style="display: inline"></ion-icon>
-    <h2 style="display: inline">
-      <b>{{ "order_info" | translate}}</b>
-    </h2>
-  </ion-item>
-</div>
-<div>
-  <ion-item class="font-size-sector">
-    <ion-grid>
-      <ion-row>
-        <ion-col col-7>
-          <b>Cliente</b>
-          <p no-margin text-wrap class="font-size-jobinfo">{{ orderData.RagSoc }}</p>
-          <p no-margin text-wrap class="font-size-jobinfo">{{ orderData.IndirizzoU }}</p>
-          <p no-margin text-wrap class="font-size-jobinfo" *ngIf="orderData.CapU && orderData.CittaU">{{ orderData.CapU }} - {{ orderData.CittaU }} ({{ orderData.ProvU }})</p>
-          <p no-margin text-wrap class="font-size-jobinfo" *ngIf="orderData.TelefonoU">tel.{{ orderData.TelefonoU }}</p>
-          <p no-margin text-wrap class="font-size-jobinfo" *ngIf="orderData.EmailU">email:
-            <span style="display: inline-block">{{ orderData.EmailU }}</span>
-          </p>
-          <ng-container *ngIf="orderData.SpedIndirizzo">
-            <b>Indirizzo di consegna</b>
-            <p no-margin class="font-size-jobinfo">{{ orderData.SpedIndirizzo }}</p>
-          </ng-container>
+          <ion-col col-7 *ngIf="activityInfo.Stato_Processo === 2">
+            <b>Totale tempo impiegato</b>
+            <p no-margin class="font-size-sector" *ngIf="activityInfo.ConsuntivoTempoTotale">
+              {{ activityInfo.ConsuntivoTempoTotale }}</p>
+            <p class="font-size-sector" *ngIf="!activityInfo.ConsuntivoTempoTotale"> - </p>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+  </div>
+  <div>
+    <ion-item style="color: orange">
+      <ion-icon name="ios-information-circle-outline" style="display: inline"></ion-icon>
+      <h2 style="display: inline">
+        <b>{{ "order_info" | translate}}</b>
+      </h2>
+    </ion-item>
+  </div>
+  <div>
+    <ion-item class="font-size-sector">
+      <ion-grid>
+        <ion-row>
+          <ion-col col-7>
+            <b>Cliente</b>
+            <p no-margin text-wrap class="font-size-jobinfo">{{ orderData.RagSoc }}</p>
+            <p no-margin text-wrap class="font-size-jobinfo">{{ orderData.IndirizzoU }}</p>
+            <p no-margin text-wrap class="font-size-jobinfo" *ngIf="orderData.CapU && orderData.CittaU">
+              {{ orderData.CapU }} - {{ orderData.CittaU }} ({{ orderData.ProvU }})</p>
+            <p no-margin text-wrap class="font-size-jobinfo" *ngIf="orderData.TelefonoU">tel.{{ orderData.TelefonoU }}
+            </p>
+            <p no-margin text-wrap class="font-size-jobinfo" *ngIf="orderData.EmailU">email:
+              <span style="display: inline-block">{{ orderData.EmailU }}</span>
+            </p>
+            <ng-container *ngIf="orderData.SpedIndirizzo">
+              <b>Indirizzo di consegna</b>
+              <p no-margin class="font-size-jobinfo">{{ orderData.SpedIndirizzo }}</p>
+            </ng-container>
 
-          <ng-container *ngIf="orderData.ReferenteId && orderData.ReferenteId != 0">
-            <b>Referente</b>
-            <p no-margin class="font-size-jobinfo" *ngIf="orderData.ReferenteTestuale">{{ orderData.ReferenteTestuale }}</p>
-            <p no-margin class="font-size-jobinfo" *ngIf="!orderData.ReferenteTestuale">{{ orderData.ReferenteNome }} {{orderData.ReferenteCognome }}</p>
-          </ng-container>
-        </ion-col>
+            <ng-container *ngIf="orderData.ReferenteId && orderData.ReferenteId != 0">
+              <b>Referente</b>
+              <p no-margin class="font-size-jobinfo" *ngIf="orderData.ReferenteTestuale">
+                {{ orderData.ReferenteTestuale }}</p>
+              <p no-margin class="font-size-jobinfo" *ngIf="!orderData.ReferenteTestuale">{{ orderData.ReferenteNome }}
+                {{orderData.ReferenteCognome }}</p>
+            </ng-container>
+          </ion-col>
 
-        <ion-col col-5>
-          <b>Numero ordine</b>
-          <p no-margin class="font-size-jobinfo">{{ activityInfo.NumeroOrdine }}</p>
+          <ion-col col-5>
+            <b>Numero ordine</b>
+            <p no-margin class="font-size-jobinfo">{{ activityInfo.NumeroOrdine }}</p>
 
-          <b>Lavorazione Id</b>
-          <p no-margin class="font-size-jobinfo">{{ activityInfo.Id_Order_Dettail }}</p>
+            <b>Lavorazione Id</b>
+            <p no-margin class="font-size-jobinfo">{{ activityInfo.Id_Order_Dettail }}</p>
 
-          <b>Jobname</b>
-          <p no-margin text-wrap class="font-size-jobinfo">{{ activityInfo.jobname }}</p>
+            <b>Jobname</b>
+            <p no-margin text-wrap class="font-size-jobinfo">{{ activityInfo.jobname }}</p>
 
-          <ng-container *ngIf="orderData.TipologiaSpedizione">
-            <b>Spedizione</b>
-            <p no-margin text-wrap class="font-size-jobinfo">{{ orderData.TipologiaSpedizione }}</p>
-          </ng-container>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-  </ion-item>
+            <ng-container *ngIf="orderData.TipologiaSpedizione">
+              <b>Spedizione</b>
+              <p no-margin text-wrap class="font-size-jobinfo">{{ orderData.TipologiaSpedizione }}</p>
+            </ng-container>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+  </div>
+</ng-container>
 
-</div>
+<ng-container *ngIf="parentInfoType === 'lavorazione'">
+  <div>
+    <ion-item style="color: orange">
+      <ion-icon name="ios-information-circle-outline" style="display: inline;"></ion-icon>
+      <h2 style="display: inline">
+        <b>Informazioni lavorazione</b>
+      </h2>
+    </ion-item>
+  </div>
+
+  <div>
+    <ion-item class="font-size-sector">
+      <ion-grid>
+        <ion-row>
+          <ion-col col-7>
+            <b>Jobname/Descrizione</b>
+            <p no-margin text-wrap class="font-size-sector">{{ lavInfo.jobname }}</p>
+          </ion-col>
+          <ion-col col-5>
+            <b>Quantità</b>
+            <p no-margin text-wrap class="font-size-sector">{{ lavInfo.quantita }}</p>
+          </ion-col>
+          <ion-col col-7>
+            <b>Data scadenza</b>
+            <p no-margin text-wrap class="font-size-sector" *ngIf="lavInfo.dataScadenzaOrdine">
+              {{ lavInfo.dataScadenzaOrdine | date:'dd/MM/y' }}</p>
+            <p class="font-size-sector" *ngIf="!lavInfo.dataScadenzaOrdine"> - </p>
+
+          </ion-col>
+          <ion-col col-5>
+            <b>Stato</b>
+            <p *ngIf="lavInfo.statoLavorazione === 0" no-margin class="font-size-sector color-incoda">In coda</p>
+            <p *ngIf="lavInfo.statoLavorazione === 1" no-margin class="font-size-sector color-inlav">In lavorazione
+            </p>
+            <p *ngIf="lavInfo.statoLavorazione === 2" no-margin class="font-size-sector color-terminate">Terminati
+            </p>
+            <p *ngIf="lavInfo.statoLavorazione === 3" no-margin class="font-size-sector color-annullate">Annullati
+            </p>
+          </ion-col>
+
+          <ion-col col-7>
+            <b>Numero ordine</b>
+            <p no-margin class="font-size-sector">{{ lavInfo.numeroOrdine}}</p>
+          </ion-col>
+          <ion-col col-5>
+            <b>Lavorazione id</b>
+            <p no-margin class="font-size-sector">{{ lavInfo.id }}</p>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+  </div>
+
+  <div>
+    <ion-item style="color: orange">
+      <ion-icon name="ios-information-circle-outline" style="display: inline"></ion-icon>
+      <h2 style="display: inline">
+        <b>Informazioni cliente</b>
+      </h2>
+    </ion-item>
+  </div>
+
+  <div>
+    <ion-item class="font-size-sector">
+      <ion-grid>
+        <ion-row>
+          <ion-col col-7>
+            <b>Cliente</b>
+            <p no-margin text-wrap class="font-size-jobinfo">{{ orderData.RagSoc }}</p>
+            <p no-margin text-wrap class="font-size-jobinfo">{{ orderData.IndirizzoU }}</p>
+            <p no-margin text-wrap class="font-size-jobinfo" *ngIf="orderData.CapU && orderData.CittaU">
+              {{ orderData.CapU }} - {{ orderData.CittaU }} ({{ orderData.ProvU }})</p>
+            <p no-margin text-wrap class="font-size-jobinfo" *ngIf="orderData.TelefonoU">tel.{{ orderData.TelefonoU }}
+            </p>
+            <p no-margin text-wrap class="font-size-jobinfo" *ngIf="orderData.EmailU">email:
+              <span style="display: inline-block">{{ orderData.EmailU }}</span>
+            </p>
+          </ion-col>
+          <ion-col col-5>
+            <ng-container *ngIf="orderData.ConsegnaIndirizzo">
+              <b>Indirizzo di consegna</b>
+              <p no-margin class="font-size-jobinfo" *ngIf="orderData.ConsegnaDestinatario">{{ orderData.ConsegnaDestinatario }}</p>
+              <p no-margin class="font-size-jobinfo" *ngIf="orderData.ConsegnaIndirizzo">{{ orderData.ConsegnaIndirizzo }}</p>
+              <p no-margin class="font-size-jobinfo">{{orderData.ConsegnaCap}} - {{ orderData.ConsegnaCitta }} ({{orderData.ConsegnaProvincia}})</p>
+              <p no-margin class="font-size-jobinfo" *ngIf="orderData.ConsegnaCellulare">tel. {{ orderData.ConsegnaCellulare }}</p>
+            </ng-container>
+          </ion-col>
+          <ion-col col-7>
+            <ng-container *ngIf="orderData.ReferenteId && orderData.ReferenteId != 0">
+              <b>Referente</b>
+              <p no-margin class="font-size-jobinfo" *ngIf="orderData.ReferenteTestuale">
+                {{ orderData.ReferenteTestuale }}</p>
+              <p no-margin class="font-size-jobinfo" *ngIf="!orderData.ReferenteTestuale">{{ orderData.ReferenteNome }}
+                {{orderData.ReferenteCognome }}</p>
+            </ng-container>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+  </div>
+</ng-container>

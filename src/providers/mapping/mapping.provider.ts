@@ -38,5 +38,6 @@ export class MappingProvider {
   public change_activity_state_annulla_and_termina = '/ionactivity/changeactivitystate';
   public get_all_activities = '/ionactivity/getactivities/{startRowIndex}/{maximumRows}/{userId}/{activityState}/{period}/{scannedId}/{scannerType}';
   public get_lav_list = '/ionlav/getlavorazionilist/{startRowIndex}/{maximumRows}/{userId}/{lavorazioniState}/{period}';
+  public get_lav_list_info = '/ionlav/getlavorazioniinfobyid/{userId}/{lavId}';
   public get_last_version_of_app_absolute_url = 'https://www.dynamicsoft.it/WscPrinterApp/version/app-latest-version.txt';
 }

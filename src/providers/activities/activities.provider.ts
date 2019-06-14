@@ -7,7 +7,7 @@ import { AnnullaActivityModel } from '../../models/annulla-activity-model';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
 import { ActivityModel } from '../../models/activity-model';
-import { ModuleConstants } from '../../assets/constants/constants';
+import { Constants } from '../../assets/constants/constants';
 
 @Injectable()
 export class ActivitiesProvider {
@@ -185,7 +185,7 @@ export class ActivitiesProvider {
         qrCode = qrCode.slice(0, qrCode.length - 8);
       }
 
-      return { qr: qrCode, scannerType: ModuleConstants.ORDER };
+      return { qr: qrCode, scannerType: Constants.ORDER };
     }
     // if first character is 'l', it means we scanned lavorazzione
     else if (qrCode.charAt(0).toLowerCase() === 'l') {
@@ -195,7 +195,7 @@ export class ActivitiesProvider {
         qrCode = qrCode.slice(1, qrCode.length);
       }
 
-      return { qr: qrCode, scannerType: ModuleConstants.LAVORAZIONE };
+      return { qr: qrCode, scannerType: Constants.LAVORAZIONE };
     }
     // if first character is 'a', it means we scanned activity
     else if (qrCode.charAt(0).toLowerCase() === 'a') {
@@ -206,7 +206,7 @@ export class ActivitiesProvider {
         qrCode = qrCode.slice(1, qrCode.length);
       }
 
-      return { qr: qrCode, scannerType: ModuleConstants.ACTIVITY };
+      return { qr: qrCode, scannerType: Constants.ACTIVITY };
     }
   }
 }

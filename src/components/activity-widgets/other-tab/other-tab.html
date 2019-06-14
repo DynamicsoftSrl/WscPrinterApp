@@ -1,54 +1,120 @@
+<ng-container *ngIf="parentInfoType != 'lavorazione'">
+  <div>
+    <ion-item style="color: orange">
+      <ion-icon name="ios-information-circle-outline" style="display: inline;"></ion-icon>
+      <h2 style="display: inline">
+        <b>Log attivita</b>
+      </h2>
+    </ion-item>
+  </div>
+  <div>
+    <ion-item class="font-size-sector" no-padding *ngIf="activities.OrderDetailsWorkflow">
+      <ion-grid>
+        <ion-row>
+          <ion-col col-6>
+            <b>Avviata da</b>
+            <p no-margin text-wrap class="font-size-jobinfo"
+              [innerText]="activities.OrderDetailsWorkflow.Inizio_Processo_Operatore ? activities.OrderDetailsWorkflow.Inizio_Processo_Operatore : '-' ">
+            </p>
+            <b>Terminata da</b>
+            <p no-margin text-wrap class="font-size-jobinfo"
+              [innerText]="activities.OrderDetailsWorkflow.Fine_Processo_Operatore ? activities.OrderDetailsWorkflow.Fine_Processo_Operatore : '-'">
+            </p>
+            <b>Annullata da</b>
+            <p no-margin text-wrap class="font-size-jobinfo"
+              [innerText]="activities.OrderDetailsWorkflow.Annulla_Processo_Operatore ? activities.OrderDetailsWorkflow.Annulla_Processo_Operatore : '-'">
+            </p>
+            <b
+              *ngIf="activities.OrderDetailsWorkflow.NoteAnnullamento_Processo != null && activities.OrderDetailsWorkflow.NoteAnnullamento_Processo != ''">Note
+              annullamento</b>
+            <p no-margin text-wrap class="font-size-jobinfo"
+              *ngIf="activities.OrderDetailsWorkflow.NoteAnnullamento_Processo != null && activities.OrderDetailsWorkflow.NoteAnnullamento_Processo != ''">
+              {{ activities.OrderDetailsWorkflow.NoteAnnullamento_Processo }}</p>
+            <b>Sospesa da</b>
+            <p no-margin text-wrap class="font-size-jobinfo"
+              [innerText]="activities.OrderDetailsWorkflow.Sospeso_Processo_Operatore ? activities.OrderDetailsWorkflow.Sospeso_Processo_Operatore : '-'">
+            </p>
+            <b
+              *ngIf="activities.OrderDetailsWorkflow.Note_Sospensione_Processo != null && activities.OrderDetailsWorkflow.Note_Sospensione_Processo != ''">Note
+              sospensione</b>
+            <p no-margin text-wrap class="font-size-jobinfo"
+              *ngIf="activities.OrderDetailsWorkflow.Note_Sospensione_Processo != null && activities.OrderDetailsWorkflow.Note_Sospensione_Processo != ''">
+              {{ activities.OrderDetailsWorkflow.Note_Sospensione_Processo }}</p>
+          </ion-col>
+          <ion-col col-6>
+            <b>Avviata il</b>
+            <p no-margin text-wrap class="font-size-jobinfo color-incoda"
+              *ngIf="activities.OrderDetailsWorkflow.DataInizio_Processo">
+              {{ activities.OrderDetailsWorkflow.DataInizio_Processo | date: 'dd/MM/y HH:mm' }}</p>
+            <p no-margin text-wrap class="font-size-jobinfo"
+              *ngIf="!activities.OrderDetailsWorkflow.DataInizio_Processo">
+              - </p>
+            <b>Terminata il</b>
+            <p no-margin text-wrap class="font-size-jobinfo color-terminate" text-wrap
+              *ngIf="activities.OrderDetailsWorkflow.DataFine_Processo">
+              {{ activities.OrderDetailsWorkflow.DataFine_Processo | date: 'dd/MM/y HH:mm'}}</p>
+            <p no-margin text-wrap class="font-size-jobinfo" *ngIf="!activities.OrderDetailsWorkflow.DataFine_Processo">
+              - </p>
+            <b>Annullata il</b>
+            <p no-margin text-wrap class="font-size-jobinfo"
+              *ngIf="activities.OrderDetailsWorkflow.DataAnnullamento_Processo">
+              {{ activities.OrderDetailsWorkflow.DataAnnullamento_Processo | date: 'dd/MM/y HH:mm'}}</p>
+            <p no-margin text-wrap class="font-size-jobinfo"
+              *ngIf="!activities.OrderDetailsWorkflow.DataAnnullamento_Processo">
+              - </p>
+            <!-- <b>Sospesa il</b> -->
+            <!-- <p no-margin text-wrap class="font-size-jobinfo" text-wrap>{{ activities.OrderDetailsWorkflow.Inizio_Processo_Operatore }}</p> -->
+            <!-- <p no-margin text-wrap class="font-size-jobinfo" text-wrap> - </p> -->
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="parentInfoType == 'lavorazione'">
+  <div>
+    <ion-item style="color: orange">
+      <ion-icon name="ios-information-circle-outline" style="display: inline;"></ion-icon>
+      <h2 style="display: inline">
+        <b>Info</b>
+      </h2>
+    </ion-item>
+  </div>
+  <div>
+    <ion-item class="font-size-sector">
+      <ion-grid>
+        <ion-row>
+          <ion-col col-12>
+            <b>Priorità</b>
+            <p no-margin text-wrap class="font-size-sector" *ngIf="lavInfo.namePriority">{{ lavInfo.namePriority }}</p>
+            <p no-margin text-wrap class="font-size-sector" *ngIf="!lavInfo.namePriority">-</p>
+          </ion-col>
+          <ion-col col-12>
+            <b>Stato approvazione file</b>
+            <p *ngIf="lavInfo.stato_file != (1 || 2)" class="font-size-jobinfo" >Non Ricevuto</p>
+            <p *ngIf="lavInfo.stato_file == 1" class="font-size-jobinfo">Ricevuto</p>
+            <p *ngIf="lavInfo.stato_file == 2" class="font-size-jobinfo">Verificato</p>
+          </ion-col>
+          <ion-col col-12>
+            <b>Stato approvazione grafica</b>
+            <p *ngIf="lavInfo.StatoApprovazioneGrafica != (1 || 2 || 3)" class="font-size-jobinfo">
+              Non inviato</p>
+            <p *ngIf="lavInfo.StatoApprovazioneGrafica == 1" class="font-size-jobinfo">In attesa di approvazione</p>
+            <p *ngIf="lavInfo.StatoApprovazioneGrafica == 2" class="font-size-jobinfo">Approvato</p>
+            <p *ngIf="lavInfo.StatoApprovazioneGrafica == 3" class="font-size-jobinfo">Rifiutato</p>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+  </div>
+</ng-container>
+
 <div>
   <ion-item style="color: orange">
     <ion-icon name="ios-information-circle-outline" style="display: inline;"></ion-icon>
     <h2 style="display: inline">
-      <b>Log attivita</b>
-    </h2>
-  </ion-item>
-</div>
-<div>
-  <ion-item class="font-size-sector" no-padding *ngIf="activities.OrderDetailsWorkflow">
-    <ion-grid>
-      <ion-row>
-        <ion-col col-6>
-          <b>Avviata da</b>
-          <p no-margin text-wrap class="font-size-jobinfo" [innerText]="activities.OrderDetailsWorkflow.Inizio_Processo_Operatore ? activities.OrderDetailsWorkflow.Inizio_Processo_Operatore : '-' "></p>
-          <b>Terminata da</b>
-          <p no-margin text-wrap class="font-size-jobinfo" [innerText]="activities.OrderDetailsWorkflow.Fine_Processo_Operatore ? activities.OrderDetailsWorkflow.Fine_Processo_Operatore : '-'"></p>
-          <b>Annullata da</b>
-          <p no-margin text-wrap class="font-size-jobinfo" [innerText]="activities.OrderDetailsWorkflow.Annulla_Processo_Operatore ? activities.OrderDetailsWorkflow.Annulla_Processo_Operatore : '-'"></p>
-          <b *ngIf="activities.OrderDetailsWorkflow.NoteAnnullamento_Processo != null && activities.OrderDetailsWorkflow.NoteAnnullamento_Processo != ''">Note annullamento</b>
-          <p no-margin text-wrap class="font-size-jobinfo" *ngIf="activities.OrderDetailsWorkflow.NoteAnnullamento_Processo != null && activities.OrderDetailsWorkflow.NoteAnnullamento_Processo != ''">{{ activities.OrderDetailsWorkflow.NoteAnnullamento_Processo }}</p>
-          <b>Sospesa da</b>
-          <p no-margin text-wrap class="font-size-jobinfo" [innerText]="activities.OrderDetailsWorkflow.Sospeso_Processo_Operatore ? activities.OrderDetailsWorkflow.Sospeso_Processo_Operatore : '-'"></p>
-          <b *ngIf="activities.OrderDetailsWorkflow.Note_Sospensione_Processo != null && activities.OrderDetailsWorkflow.Note_Sospensione_Processo != ''">Note sospensione</b>
-          <p no-margin text-wrap class="font-size-jobinfo" *ngIf="activities.OrderDetailsWorkflow.Note_Sospensione_Processo != null && activities.OrderDetailsWorkflow.Note_Sospensione_Processo != ''">{{ activities.OrderDetailsWorkflow.Note_Sospensione_Processo }}</p>
-        </ion-col>
-        <ion-col col-6>
-          <b>Avviata il</b>
-          <p no-margin text-wrap class="font-size-jobinfo color-incoda" *ngIf="activities.OrderDetailsWorkflow.DataInizio_Processo">{{ activities.OrderDetailsWorkflow.DataInizio_Processo | date: 'dd/MM/y HH:mm' }}</p>
-          <p no-margin text-wrap class="font-size-jobinfo" *ngIf="!activities.OrderDetailsWorkflow.DataInizio_Processo">
-            - </p>
-          <b>Terminata il</b>
-          <p no-margin text-wrap class="font-size-jobinfo color-terminate" text-wrap *ngIf="activities.OrderDetailsWorkflow.DataFine_Processo">{{ activities.OrderDetailsWorkflow.DataFine_Processo | date: 'dd/MM/y HH:mm'}}</p>
-          <p no-margin text-wrap class="font-size-jobinfo" *ngIf="!activities.OrderDetailsWorkflow.DataFine_Processo"> - </p>
-          <b>Annullata il</b>
-          <p no-margin text-wrap class="font-size-jobinfo" *ngIf="activities.OrderDetailsWorkflow.DataAnnullamento_Processo">{{ activities.OrderDetailsWorkflow.DataAnnullamento_Processo | date: 'dd/MM/y HH:mm'}}</p>
-          <p no-margin text-wrap class="font-size-jobinfo" *ngIf="!activities.OrderDetailsWorkflow.DataAnnullamento_Processo">
-            - </p>
-          <!-- <b>Sospesa il</b> -->
-          <!-- <p no-margin text-wrap class="font-size-jobinfo" text-wrap>{{ activities.OrderDetailsWorkflow.Inizio_Processo_Operatore }}</p> -->
-          <!-- <p no-margin text-wrap class="font-size-jobinfo" text-wrap> - </p> -->
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-  </ion-item>
-</div>
-<div>
-  <ion-item style="color: orange">
-    <ion-icon name="ios-information-circle-outline" style="display: inline;"></ion-icon>
-    <h2 style="display: inline">
-      <b>Attivita correlate</b>
+      <b>Attività correlate</b>
     </h2>
   </ion-item>
 </div>
@@ -67,12 +133,18 @@
             <p no-margin text-wrap class="font-size-jobinfo">{{ item.Nome_Processo }}</p>
           </ion-col>
           <ion-col col-2>
-            <p *ngIf="item.Stato_Processo == 0" class="font-size-jobinfo color-incoda" text-center no-margin text-wrap>In coda</p>
-            <p *ngIf="item.Stato_Processo == 1" class="font-size-jobinfo color-inlav" text-center no-margin text-wrap>In lavorazione</p>
-            <p *ngIf="item.Stato_Processo == 2" class="font-size-jobinfo color-terminate" text-center no-margin text-wrap>Terminate</p>
-            <p *ngIf="item.Stato_Processo == 3" class="font-size-jobinfo color-annullate" text-center no-margin text-wrap>Annullate</p>
-            <p *ngIf="item.Stato_Processo == 4" class="font-size-jobinfo color-sospese" text-center no-margin text-wrap>Sospese</p>
-            <p *ngIf="item.Stato_Processo == 5" class="font-size-jobinfo color-tutte" text-center no-margin text-wrap>Tutte</p>
+            <p *ngIf="item.Stato_Processo == 0" class="font-size-jobinfo color-incoda" text-center no-margin text-wrap>
+              In coda</p>
+            <p *ngIf="item.Stato_Processo == 1" class="font-size-jobinfo color-inlav" text-center no-margin text-wrap>In
+              lavorazione</p>
+            <p *ngIf="item.Stato_Processo == 2" class="font-size-jobinfo color-terminate" text-center no-margin
+              text-wrap>Terminate</p>
+            <p *ngIf="item.Stato_Processo == 3" class="font-size-jobinfo color-annullate" text-center no-margin
+              text-wrap>Annullate</p>
+            <p *ngIf="item.Stato_Processo == 4" class="font-size-jobinfo color-sospese" text-center no-margin text-wrap>
+              Sospese</p>
+            <p *ngIf="item.Stato_Processo == 5" class="font-size-jobinfo color-tutte" text-center no-margin text-wrap>
+              Tutte</p>
           </ion-col>
         </ng-container>
       </ion-row>

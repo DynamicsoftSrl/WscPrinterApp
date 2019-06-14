@@ -47,5 +47,11 @@ export class OrderRowModel {
     public TipoSpedizione: string; 
     public DataOrdCliente?: DateTime;
     public SpedIndirizzo: string;
-
+    public ConsegnaDestinatario: string;
+    public ConsegnaIndirizzo: string;
+    public ConsegnaCitta: string;
+    public ConsegnaProvincia: string;
+    public ConsegnaCap: string;
+    public ConsegnaTelefono: string;
+    public ConsegnaCellulare: string;
 }

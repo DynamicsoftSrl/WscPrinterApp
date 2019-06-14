@@ -1,0 +1,64 @@
+<ion-header>
+  <ion-navbar hideBackButton="true">
+    <ion-toolbar style="padding: 0;">
+      <ion-grid style="padding: 0;">
+        <ion-row>
+          <ion-col>
+            <ion-buttons start>
+              <button ion-button icon-only style="font-size: 1.2rem" (click)="goBack()">
+                <ion-icon name="menu"></ion-icon>
+              </button>
+            </ion-buttons>
+          </ion-col>
+          <ion-col>
+            <ion-title text-center id="activityTitle">
+              Lavorazione {{infoData.id}}
+            </ion-title>
+          </ion-col>
+          <ion-col>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-toolbar>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content class="bck-orange">
+  <img src="assets/img/wscprinter-logo.png" padding
+    style="display:block;width:50%;height:auto;margin-left:auto;margin-right:auto;" />
+  <div>
+    <ion-segment style="background-color: #EE9649" [(ngModel)]="details">
+      <ion-segment-button value="info">
+        {{ "INFO" | translate}}
+      </ion-segment-button>
+      <ion-segment-button value="dati-lavoro">
+        {{ "TECHNICAL_DATA" | translate}}
+      </ion-segment-button>
+      <ion-segment-button value="note">
+        {{ "NOTE" | translate}}
+      </ion-segment-button>
+      <ion-segment-button value="log">
+        {{ "ALTRO" | translate}}
+      </ion-segment-button>
+    </ion-segment>
+  </div>
+
+  <div [ngSwitch]="details">
+    <ion-list *ngSwitchCase="'info'" style="margin-top:4px" class="list-selector">
+      <info [lavInfo]="infoData" [parentInfoType]="parentInfoType"></info>
+    </ion-list>
+
+    <ion-list *ngSwitchCase="'dati-lavoro'" style="margin-top:4px" class="list-selector">
+      <job-info [lavInfo]="infoData" [parentInfoType]="parentInfoType"></job-info>
+    </ion-list>
+
+    <ion-list *ngSwitchCase="'note'" style="margin-top:4px" class="list-selector">
+      <note-tab [lavInfo]="infoData" [parentInfoType]="parentInfoType"></note-tab>
+    </ion-list>
+
+    <ion-list *ngSwitchCase="'log'" style="margin-top:4px" class="list-selector">
+      <other-tab [lavInfo]="infoData" [parentInfoType]="parentInfoType"></other-tab>
+    </ion-list>
+  </div>
+</ion-content>

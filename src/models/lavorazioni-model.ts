@@ -63,4 +63,5 @@ export class LavorazioniModel {
     public IdArticoloMagazzino?: number;
     public CodiceArticoloPadre: string;
     public REFFERER_NAME: string;
+    public StatoApprovazioneGrafica?: number;
 }

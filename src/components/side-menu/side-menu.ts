@@ -1,5 +1,5 @@
 import { ShipmentPage } from './../../pages/shipment/shipment-page';
-import { ModuleConstants } from './../../assets/constants/constants';
+import { Constants } from './../../assets/constants/constants';
 import { User } from './../../models/user-model';
 import { LocalStorageProvider } from '../../providers/local-storage/local-storage.provider';
 import { Component, Input, OnInit } from '@angular/core';
@@ -32,7 +32,7 @@ export class SideMenuComponent implements OnInit {
         if (this.loggedInUser.ListOfActiveModules) {
 
           //checking if multiple shipment is active
-          if (this.loggedInUser.ListOfActiveModules.find(x => x === ModuleConstants.ID_MODULO_SPEDIZIONI_MULTIPLE)) {
+          if (this.loggedInUser.ListOfActiveModules.find(x => x === Constants.ID_MODULO_SPEDIZIONI_MULTIPLE)) {
             this.isActiveMultipleShipment = true;
           }
           else {
@@ -40,7 +40,7 @@ export class SideMenuComponent implements OnInit {
           }
 
           //checking if activity is active
-          if (this.loggedInUser.ListOfActiveModules.find(x => x === ModuleConstants.ID_MODULO_ATTIVITA)) {
+          if (this.loggedInUser.ListOfActiveModules.find(x => x === Constants.ID_MODULO_ATTIVITA)) {
             this.isActiveActivity = true;
           }
           else {

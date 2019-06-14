@@ -1,3 +1,4 @@
+import { LavorazioniProvider } from './../../../providers/lavorazioni/lavorazioni.provider';
 import { Observable } from 'rxjs/Observable';
 import { GlobalErrorHandlerProvider } from './../../../providers/global-error-handler/global-error-handler';
 import { LoadingSpinnerProvider } from './../../../providers/loading-spinner/loading-spinner.provider';
@@ -8,6 +9,8 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ActivityModel } from '../../../models/activity-model';
 import { OrderRowModel } from '../../../models/order-row-model';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Constants } from '../../../assets/constants/constants';
+import { LavorazioniModel } from '../../../models/lavorazioni-model';
 
 @Component({
   selector: 'info',
@@ -20,19 +23,52 @@ export class InfoComponent implements OnInit {
     private activitiesService: ActivitiesProvider,
     private localStorage: LocalStorageProvider,
     private spinner: LoadingSpinnerProvider,
-    private errHandler: GlobalErrorHandlerProvider
+    private errHandler: GlobalErrorHandlerProvider,
+    private lavService: LavorazioniProvider
   ) { }
 
   @Input('activityInfo') activityInfo: ActivityModel;
   @Input('scannedId') scannedId: number;
+  @Input('parentInfoType') parentInfoType: string;
+  @Input('lavInfo') lavInfo: LavorazioniModel;
 
   public orderData: OrderRowModel = new OrderRowModel();
 
   ngOnInit() {
-    this.getInfoData();
+    if (this.parentInfoType == Constants.LAVORAZIONE) {
+      if(this.lavInfo && this.lavInfo.id)
+      {
+        this.getLavInfoData(this.lavInfo.id);
+      }
+    }
+    else {
+      this.getActivityInfoData();
+    }
   }
 
-  async getInfoData() {
+  async getLavInfoData(idLav: number) {
+    // show loading spinner while waiting for response of server
+    this.spinner.showLoadingSpinner();
+    const userStr = await this.localStorage.getItemFromLocalStorage(this.localStorage.loggedUserLocalStorage);
+
+    const user: User = JSON.parse(userStr);
+
+    if (user) {
+      this.lavService.getInfoPageData(idLav, user.UserId).then(x => {
+        x.subscribe((order: OrderRowModel) => {
+          this.orderData = order;
+          this.spinner.hideLoadingSpinner();
+        });
+      }).catch ((err: HttpErrorResponse) => {
+      this.spinner.hideLoadingSpinner();
+      // show error notification
+      this.errHandler.handleServerError(err);
+    });
+  }
+  }
+
+
+  async getActivityInfoData() {
     // show loading spinner while waiting for response of server
     this.spinner.showLoadingSpinner();
 

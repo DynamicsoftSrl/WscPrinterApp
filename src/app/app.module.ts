@@ -31,6 +31,8 @@ import { AppVersion } from '@ionic-native/app-version';
 import { ConfigProvider } from '../providers/config/config.provider';
 import { Network } from '@ionic-native/network';
 import { LavorazioniListPageModule } from '../pages/lavorazioni-list/lavorazioni-list.module';
+import { LavDetailsPageModule } from '../pages/lav-details/lav-details.module';
+import { LavorazioniProvider } from '../providers/lavorazioni/lavorazioni.provider';
 
 // AoT requires an exported function for factories
 export function createTranslateLoader(http: HttpClient) {
@@ -61,7 +63,8 @@ export function createTranslateLoader(http: HttpClient) {
     ActivityPageModule,
     ActivityDetailsPageModule,
     DashboardPageModule,
-    LavorazioniListPageModule
+    LavorazioniListPageModule,
+    LavDetailsPageModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -86,7 +89,8 @@ export function createTranslateLoader(http: HttpClient) {
     GlobalErrorHandlerProvider,
     AppVersion,
     ConfigProvider,
-    Network
+    Network,
+    LavorazioniProvider
   ],
   exports: [
     //exported because of using of translation service in other modules

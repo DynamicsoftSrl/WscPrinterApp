@@ -12,7 +12,7 @@ import { User } from '../../models/user-model';
 import { LoginComponent } from '../login/login';
 import { ShipmentPage } from '../shipment/shipment-page';
 import { ActivityPage } from '../activity/activity';
-import { ModuleConstants } from '../../assets/constants/constants';
+import { Constants } from '../../assets/constants/constants';
 import { LavorazioniListPage } from '../lavorazioni-list/lavorazioni-list';
 
 @IonicPage()
@@ -54,13 +54,13 @@ export class DashboardPage implements OnInit {
           this.loggedInUser = JSON.parse(user);
 
           //checking if multiple shipment is active
-          this.isActiveMultipleShipment = this.checkIfModuleIsActive(this.loggedInUser.ListOfActiveModules, ModuleConstants.ID_MODULO_SPEDIZIONI_MULTIPLE);
+          this.isActiveMultipleShipment = this.checkIfModuleIsActive(this.loggedInUser.ListOfActiveModules, Constants.ID_MODULO_SPEDIZIONI_MULTIPLE);
 
           //checking if activity is active
-          this.isActiveActivityModule = this.checkIfModuleIsActive(this.loggedInUser.ListOfActiveModules, ModuleConstants.ID_MODULO_ATTIVITA);
+          this.isActiveActivityModule = this.checkIfModuleIsActive(this.loggedInUser.ListOfActiveModules, Constants.ID_MODULO_ATTIVITA);
 
           //checking if lavorazioni module is active
-          this.isActiveLavorazioniModule = this.checkIfModuleIsActive(this.loggedInUser.ListOfActiveModules, ModuleConstants.ID_MODULO_LAVORAZIONE);
+          this.isActiveLavorazioniModule = this.checkIfModuleIsActive(this.loggedInUser.ListOfActiveModules, Constants.ID_MODULO_LAVORAZIONE);
         }
         else {
           this.logout();
@@ -89,7 +89,7 @@ export class DashboardPage implements OnInit {
         const qrAndType = await this.activitiesService.getScannedIdAndType(qrCode);
         const qr = qrAndType.qr;
         const type = qrAndType.scannerType;
-        if (type === ModuleConstants.ORDER || type === ModuleConstants.LAVORAZIONE) {
+        if (type === Constants.ORDER || type === Constants.LAVORAZIONE) {
           this.navigateToActivity(qr, type);
         }
         else {

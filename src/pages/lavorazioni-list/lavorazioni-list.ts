@@ -12,6 +12,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { LavorazioniViewModel } from '../../models/lavorazioni-view-model';
 import { PopoverComponent } from '../../components/popover/popover';
 import { ActivityDetailsPage } from '../activity-details/activity-details';
+import { LavDetailsPage } from '../lav-details/lav-details';
 
 @IonicPage()
 @Component({
@@ -148,7 +149,6 @@ export class LavorazioniListPage {
   }
 
   clicked(item: LavorazioniModel) {
-    alert(item.jobname);
-    // this.navCtrl.push(ActivityDetailsPage, item);
+    this.navCtrl.push(LavDetailsPage, item);
   }
 }
