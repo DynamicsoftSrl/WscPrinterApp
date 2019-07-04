@@ -11,7 +11,6 @@ import { Observable } from 'rxjs/Observable';
 import { HttpErrorResponse } from '@angular/common/http';
 import { LavorazioniViewModel } from '../../models/lavorazioni-view-model';
 import { PopoverComponent } from '../../components/popover/popover';
-import { ActivityDetailsPage } from '../activity-details/activity-details';
 import { LavDetailsPage } from '../lav-details/lav-details';
 
 @IonicPage()

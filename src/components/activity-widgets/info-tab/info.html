@@ -29,9 +29,9 @@
 
           <ion-col col-7>
             <b>Data scadenza</b>
-            <p no-margin class="font-size-sector" *ngIf="activityInfo.DataScadenzaOrdine">
-              {{ activityInfo.DataScadenzaOrdine | date:'dd/MM/y' }}</p>
-            <p class="font-size-sector" *ngIf="!activityInfo.DataScadenzaOrdine"> - </p>
+            <p no-margin class="font-size-sector" *ngIf="activityInfo.scadenzaAttivita">
+              {{ activityInfo.scadenzaAttivita | date:'dd/MM/y' }}</p>
+            <p class="font-size-sector" *ngIf="!activityInfo.scadenzaAttivita"> - </p>
           </ion-col>
           <ion-col col-5>
             <b>Id attivita</b>
@@ -130,9 +130,9 @@
           </ion-col>
           <ion-col col-7>
             <b>Data scadenza</b>
-            <p no-margin text-wrap class="font-size-sector" *ngIf="lavInfo.dataScadenzaOrdine">
-              {{ lavInfo.dataScadenzaOrdine | date:'dd/MM/y' }}</p>
-            <p class="font-size-sector" *ngIf="!lavInfo.dataScadenzaOrdine"> - </p>
+            <p no-margin text-wrap class="font-size-sector" *ngIf="lavInfo.data_consegna">
+              {{ lavInfo.data_consegna | date:'dd/MM/y' }}</p>
+            <p class="font-size-sector" *ngIf="!lavInfo.data_consegna"> - </p>
           </ion-col>
           <ion-col col-5>
             <b>Stato</b>

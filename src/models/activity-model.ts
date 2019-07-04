@@ -37,6 +37,7 @@ export class ActivityModel {
     public Tipo_Processo: string;
     public cliente: string;
     public data_scadenza_ordine?: Date;
+    public scadenzaAttivita?: Date;
     public descrizione: string;
     public flagPermesso: boolean;
     public flag_assegnazione: string;
