@@ -48,8 +48,11 @@ export class ActivityPage implements OnInit {
   // this lifecycle is runned only first time we come to this page
   ngOnInit(): void {
     // if we scanned barcode and then redirected to this page, set active state filter to 'tutte'
-    if (this.scannedId != undefined) {
+    if (this.scannedId) {
       this.activeState = 5;
+      if (this.scannerType === Constants.ORDER || this.scannerType === Constants.LAVORAZIONE) {
+        this.period = 'all';
+      }
     }
   }
 

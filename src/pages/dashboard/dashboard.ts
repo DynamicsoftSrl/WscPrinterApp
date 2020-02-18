@@ -84,8 +84,7 @@ export class DashboardPage implements OnInit {
     let qrCode = await this.scannerService.scanBarcode().catch(err => console.log('err' + err));
 
     if (qrCode != undefined && typeof qrCode == 'string') {
-      if (qrCode != (undefined && null && '')) {
-
+      if (qrCode) {
         const qrAndType = await this.activitiesService.getScannedIdAndType(qrCode);
         const qr = qrAndType.qr;
         const type = qrAndType.scannerType;

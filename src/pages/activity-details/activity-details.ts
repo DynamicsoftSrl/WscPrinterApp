@@ -38,32 +38,43 @@ export class ActivityDetailsPage implements OnInit {
 
   // details that we need for changing activity state, we need them in multiple methods, so they are created globally
   private userId: number;
-  private activityId: number = this.infoData.Id_Processo_Lavorazione;
-  private lavorazioneId: number = this.infoData.Id_Order_Dettail;
-  private processPosition: number = this.infoData.PosizioneProcesso;
+  private activityId: number;
+  private lavorazioneId: number;
+  private processPosition: number;
 
   async ngOnInit() {
-    const userString = await this.localStorage.getItemFromLocalStorage(this.localStorage.loggedUserLocalStorage);
-    this.user = JSON.parse(userString);
-
-    this.userId = this.user.UserId;
+    this.setInfoValues();
+    this.setUserInfo();
 
     if (this.scannedActivityId) {
       this.getActivityFromServer(this.scannedActivityId);
     }
   }
 
+  private async setUserInfo()
+  {
+    const userString = await this.localStorage.getItemFromLocalStorage(this.localStorage.loggedUserLocalStorage);
+    this.user = JSON.parse(userString);
+    this.userId = this.user.UserId;
+  }
+
+  private setInfoValues() {
+    this.activityId = this.scannedActivityId || this.infoData.Id_Processo_Lavorazione;
+    this.lavorazioneId = this.infoData.Id_Order_Dettail;
+    this.processPosition = this.infoData.PosizioneProcesso;
+  }
+
   async getActivityFromServer(activityId?: number) {
-    const id = activityId != undefined ? activityId : this.activityId;
+    const id = activityId ? activityId : this.activityId;
 
     const activity$ = await this.activityService.getActivityById(id);
-
     activity$.subscribe((res: ActivityModel) => {
       this.infoData = res;
-      this.activityService.setActivityListener(res);
+      this.setInfoValues();
 
+      this.activityService.setActivityListener(res);
       // if scanned activity is not assigned to logged in user, show alert and redirect him to homepage
-      if (this.infoData.IdOperatori != null && this.infoData.IdOperatori != undefined) {
+      if (this.infoData.IdOperatori  && this.infoData.IdOperatori) {
         if (!this.infoData.IdOperatori.includes(this.userId.toString())) {
           this.activityNotAssignedToLoggedClientAlert();
         }
@@ -81,7 +92,6 @@ export class ActivityDetailsPage implements OnInit {
       const title = '<img src="assets/imgs/avvia.png" class="popover-title-icon" /><span class="popover-title-text">Avvia attività</span>';
 
       const message = 'Vuoi avviare quest\'attività?';
-
       this.confirmAlert(data, title, message);
     }
     else if (data == 'Sospendi') {
@@ -213,9 +223,9 @@ export class ActivityDetailsPage implements OnInit {
     // creating object for sending in post method
     var model = new AnnullaActivityModel();
     model.UserId = this.userId;
-    model.ActivityId = this.activityId;
-    model.LavorazioneId = this.lavorazioneId;
-    model.ProcessPosition = this.processPosition;
+    model.ActivityId = this.activityId || 0;
+    model.LavorazioneId = this.lavorazioneId || 0;
+    model.ProcessPosition = this.processPosition || 0;
     model.ConsuntivoTempoTotale = minutes;
 
     if (type != '') {
@@ -225,7 +235,6 @@ export class ActivityDetailsPage implements OnInit {
     const response$ = await this.activityService.changeActivityStateTerminaSospendiAndAnnulla(model);
 
     response$.subscribe(res => {
-      console.log(res);
       this.getActivityFromServer();
 
       if (res) {
@@ -252,9 +261,9 @@ export class ActivityDetailsPage implements OnInit {
     // creating object for sending in post method
     var model = new AnnullaActivityModel();
     model.UserId = this.userId;
-    model.ActivityId = this.activityId;
-    model.LavorazioneId = this.lavorazioneId;
-    model.ProcessPosition = this.processPosition;
+    model.ActivityId = this.activityId || 0;
+    model.LavorazioneId = this.lavorazioneId || 0;
+    model.ProcessPosition = this.processPosition || 0;
     model.Note = note;
 
     if (type != '') {
@@ -288,23 +297,20 @@ export class ActivityDetailsPage implements OnInit {
   async sospendiActivity(type: string, note: string) {
     // show loading spinner while waiting for response of server
     this.spinner.showLoadingSpinner();
-
     // creating object for sending in post method
-    var model = new AnnullaActivityModel();
+    let model = new AnnullaActivityModel();
     model.UserId = this.userId;
-    model.ActivityId = this.activityId;
-    model.LavorazioneId = this.lavorazioneId;
-    model.ProcessPosition = this.processPosition;
+    model.ActivityId = this.activityId || 0;
+    model.LavorazioneId = this.lavorazioneId || 0;
+    model.ProcessPosition = this.processPosition || 0;
     model.Note = note;
 
     if (type != '') {
       model.OperationType = type.toLowerCase();
     }
-
     const response$ = await this.activityService.changeActivityStateTerminaSospendiAndAnnulla(model);
 
     response$.subscribe(res => {
-      console.log(res);
       this.getActivityFromServer();
 
       if (res) {
@@ -319,7 +325,7 @@ export class ActivityDetailsPage implements OnInit {
     },
       (err: HttpErrorResponse) => {
         this.spinner.hideLoadingSpinner();
-
+        
         this.showAlert(err);
       });
   }
@@ -334,13 +340,11 @@ export class ActivityDetailsPage implements OnInit {
     const processPosition = this.infoData.PosizioneProcesso;
 
     let operationType = '';
-
     if (data != '') {
       operationType = data.toLowerCase();
     }
 
     const activityState$ = await this.activityService.changeActivityState(userId, activityId, lavorazioneId, processPosition, operationType);
-
     activityState$.subscribe(x => {
       this.getActivityFromServer();
       if (x) {
@@ -369,7 +373,6 @@ export class ActivityDetailsPage implements OnInit {
   // show action sheet, and then after click on some item, show prompt, and if user confirm his decision, change state of activity
   showActionSheet() {
     const actionButtons = this.controllActions();
-
     const actionSheet = this.actionSheetCtrl.create({
       title: 'Azioni',
       buttons: actionButtons

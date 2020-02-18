@@ -37,16 +37,18 @@ export class MyApp implements OnInit, OnDestroy {
       // the lang to use, if the lang isn't available, it will use the current loader to get them
       translate.use('it');
 
-      // check if phone has internet connection
-      const isConnected = this.configProvider.isConnected();
-      if (!isConnected) {
-        this.errorService.showNotificationAlert(this.errorService.title, this.errorService.message, this.errorService.text);
-      }
-      else {
-        this.getAppVersionNumber();
-      }
+      if (this.platform.is('mobile')) { //-- Check if device have internet connection only on mobile devices
+        // check if phone has internet connection
+        const isConnected = this.configProvider.isConnected();
+        if (!isConnected) {
+          this.errorService.showNotificationAlert(this.errorService.title, this.errorService.message, this.errorService.text);
+        }
+        else {
+          this.getAppVersionNumber();
+        }
 
-      this.subscribeToConnectionState();
+        this.subscribeToConnectionState();
+      }
     });
   }
 
