@@ -39,7 +39,7 @@ export class ActivityPage implements OnInit {
   public userObj: User;
   private counter: number = 0;
 
-  public period: string = 'today';
+  public period: string = 'all';
   public activitiesList: ActivityModel[];
   // if we are redirected here from scanner commessa page, we sent activities list to this page
   private scannedId = this.navParams.get('qrCode');
@@ -50,9 +50,9 @@ export class ActivityPage implements OnInit {
     // if we scanned barcode and then redirected to this page, set active state filter to 'tutte'
     if (this.scannedId) {
       this.activeState = 5;
-      if (this.scannerType === Constants.ORDER || this.scannerType === Constants.LAVORAZIONE) {
-        this.period = 'all';
-      }
+      // if (this.scannerType === Constants.ORDER || this.scannerType === Constants.LAVORAZIONE) {
+      //   this.period = 'all';
+      // }
     }
   }
 

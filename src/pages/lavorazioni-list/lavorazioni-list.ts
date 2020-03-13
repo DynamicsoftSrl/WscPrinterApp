@@ -36,7 +36,7 @@ export class LavorazioniListPage {
   public userObj: User;
   private counter: number = 0;
 
-  public period: string = 'today';
+  public period: string = 'all';
   public lavorazioniList: LavorazioniModel[];
 
   // this lifecycle is runned every time we come to this page

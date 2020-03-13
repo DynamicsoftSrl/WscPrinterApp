@@ -62,74 +62,8 @@
     </ion-segment>
   </div>
 
-  <div [ngSwitch]="period">
-    <ion-list *ngSwitchCase="'today'">
-      <ng-container *ngFor="let item of lavorazioniList">
-        <ion-item (click)="clicked(item)">
-          <ion-grid no-padding>
-            <ion-row class="status-bck">
-              <ion-col col-9>
-                <h3>
-                  <b>{{item.jobname | slice: 0 : 22}}
-                    <span *ngIf="item.jobname.length > 22">...</span>
-                  </b>
-                </h3>
-              </ion-col>
-              <ion-col col-3 text-right class="dateP">
-                <p>
-                  <b>{{item.data_consegna | date:'dd/MM/y'}}</b>
-                </p>
-              </ion-col>
-              <ion-col col-9 id="lav-description">
-                <p>Quantità: {{item.quantita}}</p>
-                <p>Ordine n.{{item.numeroOrdine}}</p>
-                <p>Lavorazione id: {{item.id}}</p>
-                <p>Cliente: {{item.cliente}}</p>
-              </ion-col>
-              <ion-col col-3 text-right>
-                <br>
-                <ion-icon name="arrow-round-forward"></ion-icon>
-              </ion-col>
-            </ion-row>
-          </ion-grid>
-        </ion-item>
-      </ng-container>
-    </ion-list>
-
-    <ion-list *ngSwitchCase="'tommorow'">
-      <ng-container *ngFor="let item of lavorazioniList">
-        <ion-item (click)="clicked(item)">
-          <ion-grid no-padding>
-            <ion-row class="status-bck">
-              <ion-col col-9>
-                <h3>
-                  <b>{{item.jobname | slice: 0 : 22}}
-                    <span *ngIf="item.jobname.length > 22">...</span>
-                  </b>
-                </h3>
-              </ion-col>
-              <ion-col col-3 text-right class="dateP">
-                <p>
-                  <b>{{item.data_consegna | date:'dd/MM/y'}}</b>
-                </p>
-              </ion-col>
-              <ion-col col-9 id="lav-description">
-                <p>Quantità: {{item.quantita}}</p>
-                <p>Ordine n.{{item.numeroOrdine}}</p>
-                <p>Lavorazione id: {{item.id}}</p>
-                <p>Cliente: {{item.cliente}}</p>
-              </ion-col>
-              <ion-col col-3 text-right>
-                <br>
-                <ion-icon name="arrow-round-forward"></ion-icon>
-              </ion-col>
-            </ion-row>
-          </ion-grid>
-        </ion-item>
-      </ng-container>
-    </ion-list>
-
-    <ion-list *ngSwitchCase="'all'">
+  <div>
+    <ion-list>
       <ng-container *ngFor="let item of lavorazioniList">
         <ion-item (click)="clicked(item)">
           <ion-grid no-padding>
