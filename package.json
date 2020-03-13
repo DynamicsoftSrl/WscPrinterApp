@@ -21,6 +21,8 @@
     "@angular/http": "5.2.9",
     "@angular/platform-browser": "5.2.9",
     "@angular/platform-browser-dynamic": "5.2.9",
+    "@capacitor/android": "^1.5.1",
+    "@capacitor/core": "1.5.1",
     "@ionic-native/app-update": "^4.20.0",
     "@ionic-native/app-version": "^4.20.0",
     "@ionic-native/barcode-scanner": "^4.7.0",
@@ -53,6 +55,7 @@
     "zone.js": "0.8.26"
   },
   "devDependencies": {
+    "@capacitor/cli": "1.5.1",
     "@ionic/app-scripts": "^3.2.4",
     "node-sass": "^4.13.1",
     "typescript": "~2.6.2"
