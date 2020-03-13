@@ -1,6 +1,6 @@
 {
   "name": "WscPrinterApp",
-  "version": "2.2.0",
+  "version": "2.2.4",
   "author": "Ionic Framework",
   "homepage": "http://ionicframework.com/",
   "private": true,
@@ -15,7 +15,7 @@
     "@angular/animations": "5.2.9",
     "@angular/common": "5.2.9",
     "@angular/compiler": "5.2.9",
-    "@angular/compiler-cli": "^9.0.6",
+    "@angular/compiler-cli": "5.2.9",
     "@angular/core": "5.2.9",
     "@angular/forms": "5.2.9",
     "@angular/http": "5.2.9",
